@@ -202,8 +202,13 @@ export default class Login extends Component {
     if (!token) {
       return (
         <div>
+           {
+              (signInError) ? (
+                <p>{signInError}</p>
+              ) : (null)
+            }
           <h3>Sign In</h3>
-            <form onSubmit = {this.onSubmit}>
+            <form onSubmit = {this.onSignIn}>
               <div className="form-group">
                 <label>Email: </label>
                 <input type="email" 
@@ -230,7 +235,17 @@ export default class Login extends Component {
             </form>
         </div>
       )
-    }
+    } 
+    return (
+      <div>
+        <h3>Hi bitch</h3>
+          <form onSubmit = {this.logout}>
+          <div className="form-group">
+              <input type="Submit" value="Logout" className="btn btn-primary"/>
+          </div>
+        </form>
+      </div>
+    );
   }
 }
 

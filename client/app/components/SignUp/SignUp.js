@@ -23,7 +23,6 @@ export default class Login extends Component {
     this.onTextBoxChangeSignUpFirstName = this.onTextBoxChangeSignUpFirstName.bind(this);
     this.onTextBoxChangeSignUpLastName = this.onTextBoxChangeSignUpLastName.bind(this);
     this.onSignUp = this.onSignUp.bind(this)
-    this.logout = this.logout.bind(this)
   }
 
   componentDidMount() {
@@ -74,7 +73,10 @@ export default class Login extends Component {
     })
   }
 
-  onSignUp() {
+  onSignUp(e) {
+
+    e.preventDefault();
+
     const {
       signUpFirstName,
       signUpLastName,
@@ -117,34 +119,10 @@ export default class Login extends Component {
           })
         }
       });
+
+      // window.location = '/login'
   }
 
-  logout(){
-    this.setState({
-      isLoading: true,
-    })
-    const obj = getFromStorage('the_main_app');
-    if (obj && obj.token) {
-      const {token } = obj
-      fetch('/api/account/logout?token=' + token)
-        .then(res => res.json()).then(json => {
-          if (json.success) {
-            this.setState({
-              token: '',
-              isLoading: false,
-            })
-          } else {
-            this.setState({
-              isLoading: false,
-            })
-          }
-        })
-    } else {
-      this.setState({
-        isLoading: false,
-      })
-    }
-  }
 
   newCounter() {
     /*
@@ -222,8 +200,13 @@ export default class Login extends Component {
     if (!token) {
         return (
           <div>
+            {
+              (signUpError) ? (
+                <p>{signUpError}</p>
+              ) : (null)
+            }
             <h3>Sign Up</h3>
-              <form onSubmit = {this.onSubmit}>
+              <form onSubmit = {this.onSignUp}>
                 <div className="form-group">
                   <label>First Name: </label>
                   <input type="text" 
