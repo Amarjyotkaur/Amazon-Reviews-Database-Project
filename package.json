@@ -1,14 +1,8 @@
 {
-  "name": "MERN-boilerplate",
+  "name": "AmaNerdBook",
   "version": "1.0.0",
-  "description": "MERN stack project boilerplate",
-  "author": "Eugene Cheung",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/arkon/MERN-boilerplate.git"
-  },
-  "license": "MIT",
-  "private": true,
+  "description": "A Book Review Place",
+  "author": "TengFone",
   "scripts": {
     "start": "webpack -p --progress --profile --colors && node server",
     "start:dev": "node server"
