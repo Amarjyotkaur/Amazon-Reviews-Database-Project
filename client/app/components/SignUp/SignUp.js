@@ -194,7 +194,12 @@ export default class Login extends Component {
               </form>
           </div>
         )
-      }
+      } 
+      return (
+        <div>
+          <h3>Sign out to create a new account</h3>
+        </div>
+      );
   }
 }
 
