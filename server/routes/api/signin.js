@@ -125,6 +125,7 @@ module.exports = (app) => {
             // Current Session Go
             const userSession = new UserSession();
             userSession.userId = user._id;
+            
             userSession.save((err, doc) => {
                 if (err) {
                     return res.send({
@@ -136,7 +137,9 @@ module.exports = (app) => {
                 return res.send({
                     success: true,
                     message: "Valid Sign In",
-                    token: doc._id
+                    token: doc._id,
+                    firstName: user.firstName,
+                    lastName: user.lastName
                 })
             })
         })

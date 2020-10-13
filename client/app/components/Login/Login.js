@@ -11,7 +11,7 @@ export default class Login extends Component {
 
     this.state = {
       isLoading: true,
-      toke: '',
+      token: '',
       signUpError: '',
       signInError: '',
       signInEmail: '',
@@ -112,7 +112,7 @@ export default class Login extends Component {
       .then(res => res.json())
       .then(json => {
         if(json.success){
-          setInStorage('AmaNerdBook',{token: json.token})
+          setInStorage('AmaNerdBook',{token: json.token,firstName: json.firstName,lastName: json.lastName})
           this.setState({
             signInError: json.message,
             isLoading: false,
@@ -178,16 +178,9 @@ export default class Login extends Component {
             </form>
         </div>
       )
-    } 
+    }
     return (
-      <div>
-        <h3>Hi bitch</h3>
-          <form onSubmit = {this.logout}>
-          <div className="form-group">
-              <input type="Submit" value="Logout" className="btn btn-primary"/>
-          </div>
-        </form>
-      </div>
+      window.location.href = "./"
     );
   }
 }
