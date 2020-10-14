@@ -97,11 +97,11 @@ export default class Home extends Component {
     return (
       <div>
         <h3>SIGNED IN, Hello {firstName} {lastName}</h3>
-        <form onSubmit={this.logout}>
+        {/* <form onSubmit={this.logout}>
           <div className="form-group">
             <input type="Submit" value="Logout" className="btn btn-primary" />
           </div>
-        </form>
+        </form> */}
       </div>
     )
   }
