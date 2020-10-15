@@ -88,20 +88,17 @@ export default class Home extends Component {
       return (<div><p>Loading...</p></div>)
     }
 
+    // If not logged in
     if (!token) {
       return (
-        <h3>We can put the books here. NOT SIGNED IN</h3>
+        <p>Please register for an account and sign in before proceeding</p>
       );
     }
 
     return (
       <div>
         <h3>SIGNED IN, Hello {firstName} {lastName}</h3>
-        {/* <form onSubmit={this.logout}>
-          <div className="form-group">
-            <input type="Submit" value="Logout" className="btn btn-primary" />
-          </div>
-        </form> */}
+        <button class="btn btn-primary" type="submit" onClick={this.logout}>Logout</button>
       </div>
     )
   }
