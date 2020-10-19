@@ -147,8 +147,10 @@ export default class Home extends Component {
     
     return (
       <div>
-        <h3>SIGNED IN, Hello {firstName} {lastName}</h3>
-        <button class="btn btn-primary" type="submit" onClick={this.logout}>Logout</button>
+        <div class = "d-flex justify-content-between">
+          <h3>SIGNED IN, Hello {firstName} {lastName}</h3>
+          <button class="btn btn-primary" type="submit" onClick={this.logout}>Logout</button>
+        </div>
         <div>
         <div class="container-fluid">
         <div class = "row"> 
