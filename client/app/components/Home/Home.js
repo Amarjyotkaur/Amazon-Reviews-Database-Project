@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   getFromStorage,
   setInStorage,
@@ -6,7 +6,8 @@ import {
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import "./styles.css";
-
+import "mdbreact/dist/css/mdb.css";
+import { MDBMask, MDBView, MDBContainer, MDBRow, MDBCol } from "mdbreact";
 
 
 export default class Home extends Component {
@@ -58,29 +59,29 @@ export default class Home extends Component {
 
   receivedData() {
     axios
-        .get(`http://localhost:8080/api/book/getallbooks`)
-        .then(res => {
-            // const data = res.data;
-            const data = res.data;
-            const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
-            this.setState({
-                pageCount: Math.ceil(data.length / this.state.perPage),
-                book_data: slice
-            })
-        });
+      .get(`http://localhost:8080/api/book/getallbooks`)
+      .then(res => {
+        // const data = res.data;
+        const data = res.data;
+        const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
+        this.setState({
+          pageCount: Math.ceil(data.length / this.state.perPage),
+          book_data: slice
+        })
+      });
   }
   handlePageClick = (e) => {
     const selectedPage = e.selected;
     const offset = selectedPage * this.state.perPage;
 
     this.setState({
-        currentPage: selectedPage,
-        offset: offset
+      currentPage: selectedPage,
+      offset: offset
     }, () => {
-        this.receivedData()
+      this.receivedData()
     });
 
-};
+  };
 
   logout() {
     this.setState({
@@ -125,54 +126,54 @@ export default class Home extends Component {
     // If not logged in
     if (!token) {
       return (
-        <p>Please register for an account and sign in before proceeding</p>
+        <div>
+          <p>Please register for an account and sign in before proceeding</p>
+        </div>
       );
     }
 
     // const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
     let book = this.state.book_data.map(book => {
       return (
-          <div class="col-sm-3">
-           <div class="card">
-              <img class="card-img-top" src={book.imUrl} alt="Card image cap"/>
-                <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">example</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-        </div>
+        <MDBCol md="3">
+          <MDBView hover>
+            <img class="card-img-top" src={book.imUrl} alt="Card image cap" />
+            <MDBMask className="flex-center" overlay="red-light">
+              <p className="white-text">Light overlay</p>
+            </MDBMask>
+          </MDBView>
+        </MDBCol>
       )
     })
-    
+
     return (
       <div>
-        <div class = "d-flex justify-content-between">
+        <div class="d-flex justify-content-between">
           <h3>SIGNED IN, Hello {firstName} {lastName}</h3>
           <button class="btn btn-primary" type="submit" onClick={this.logout}>Logout</button>
         </div>
         <div>
-        <div class="container-fluid">
-        <div class = "row"> 
-          {book}
-          </div>
-        </div>
-          <ReactPaginate
-              previousLabel={"prev"}
-              nextLabel={"next"}
-              breakLabel={"..."}
-              breakClassName={"break-me"}
-              pageCount={this.state.pageCount}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={this.handlePageClick}
-              containerClassName={"pagination"}
-              subContainerClassName={"pages pagination"}
-              activeClassName={"active"}/>
+          <div class="container-fluid">
+            <div class="row">
+              {book}
             </div>
-      
+          </div>
+          <ReactPaginate
+            previousLabel={"prev"}
+            nextLabel={"next"}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={this.state.pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={this.handlePageClick}
+            containerClassName={"pagination"}
+            subContainerClassName={"pages pagination"}
+            activeClassName={"active"} />
+        </div>
+
       </div>
-        
+
     )
   }
 }

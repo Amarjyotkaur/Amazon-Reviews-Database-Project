@@ -36,10 +36,18 @@ module.exports = {
         include: helpers.root('client'),
         loader: 'babel-loader'
       },
-
-    {test: /\.css$/,
-      loaders: ["style-loader", "css-loader"]
-    },
+      // CSS files
+      {
+        test: /\.css$/,
+        loaders: ["style-loader", "css-loader"]
+      },
+      {
+        test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000
+        }
+      },
       // SCSS files
       {
         test: /\.scss$/,
