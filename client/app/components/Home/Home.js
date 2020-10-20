@@ -7,7 +7,7 @@ import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import "./styles.css";
 import "mdbreact/dist/css/mdb.css";
-import { MDBMask, MDBView, MDBContainer, MDBRow, MDBCol } from "mdbreact";
+import { MDBMask, MDBView, MDBContainer, MDBRow, MDBCol, MDBBtn } from "mdbreact";
 
 
 export default class Home extends Component {
@@ -137,9 +137,10 @@ export default class Home extends Component {
       return (
         <MDBCol md="3">
           <MDBView hover>
-            <img class="card-img-top" src={book.imUrl} alt="Card image cap" />
-            <MDBMask className="flex-center" overlay="red-light">
-              <p className="white-text">Light overlay</p>
+            <img class="card-img-top" src={book.imUrl} alt="Book Images" />
+            <MDBMask className="flex-column flex-center" overlay="cyan-strong">
+              <p className="text-white">Book Title</p>
+              <p className="text-dark">Book Description</p>
             </MDBMask>
           </MDBView>
         </MDBCol>
@@ -150,7 +151,7 @@ export default class Home extends Component {
       <div>
         <div class="d-flex justify-content-between">
           <h3>SIGNED IN, Hello {firstName} {lastName}</h3>
-          <button class="btn btn-primary" type="submit" onClick={this.logout}>Logout</button>
+          <MDBBtn gradient="aqua" type="submit" onClick={this.logout}>Logout</MDBBtn>
         </div>
         <div>
           <div class="container-fluid">
