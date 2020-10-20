@@ -7,10 +7,22 @@ import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import "./styles.css";
 import "mdbreact/dist/css/mdb.css";
-import { MDBMask, MDBView, MDBContainer, MDBRow, MDBCol, MDBBtn } from "mdbreact";
-
+import { MDBMask, MDBView, MDBContainer, MDBRow, MDBCol, MDBBtn} from "mdbreact";
+import { MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
 
 export default class Home extends Component {
+
+  state = {
+    modal8: false,
+    modal9: false
+  }
+
+  toggle = nr => () => {
+    let modalNumber = 'modal' + nr
+    this.setState({
+      [modalNumber]: !this.state[modalNumber]
+    });
+  }
 
   constructor(props) {
     super(props);
@@ -140,7 +152,10 @@ export default class Home extends Component {
             <img class="card-img-top" src={book.imUrl} alt="Book Images" />
             <MDBMask className="flex-column flex-center" overlay="cyan-strong">
               <p className="text-white">Book Title</p>
-              <p className="text-dark">Book Description</p>
+              {
+                book.description == null ? <p></p> : <p>{(book.description).slice(0, 20)}...</p>
+              }
+              <MDBBtn rounded color="info" type="submit">View Review</MDBBtn>
             </MDBMask>
           </MDBView>
         </MDBCol>
@@ -151,6 +166,38 @@ export default class Home extends Component {
       <div>
         <div class="d-flex justify-content-between">
           <h3>SIGNED IN, Hello {firstName} {lastName}</h3>
+          <MDBBtn gradient="peach" onClick={this.toggle(8)}>Add Book</MDBBtn>
+          <MDBModal isOpen={this.state.modal8} toggle={this.toggle(8)} fullHeight position="right">
+            <MDBModalHeader toggle={this.toggle(8)}>Add A Book</MDBModalHeader>
+            <MDBModalBody>
+              {
+                <div>
+                  <form>
+                    <label htmlFor="materialContactFormName" className="grey-text">Book Name</label>
+                    <input type="text" id="bookName" className="form-control" />
+                    <br />
+                    <label htmlFor="materialContactFormName" className="grey-text">Book Serial Number</label>
+                    <input type="text" id="bookName" className="form-control" />
+                    <br />
+                    <label htmlFor="defaultFormContactMessageEx" className="grey-text">Upload Book Image</label>
+                    <br />
+                    <label htmlFor="defaultFormContactMessageEx" className="grey-text">Book Description</label>
+                    <textarea type="text" id="defaultFormContactMessageEx" className="form-control" rows="3" />
+                    <br />
+                    <div className="text-center mt-4">
+                      <MDBBtn color="warning" outline type="submit">
+                        Add Book
+                      </MDBBtn>
+                    </div>
+                  </form>
+                </div>
+              }
+            </MDBModalBody>
+
+            <MDBModalFooter>
+              <MDBBtn color="secondary" onClick={this.toggle(8)}>Close</MDBBtn>
+            </MDBModalFooter>
+          </MDBModal>
           <MDBBtn gradient="aqua" type="submit" onClick={this.logout}>Logout</MDBBtn>
         </div>
         <div>
@@ -172,9 +219,7 @@ export default class Home extends Component {
             subContainerClassName={"pages pagination"}
             activeClassName={"active"} />
         </div>
-
       </div>
-
     )
   }
 }
