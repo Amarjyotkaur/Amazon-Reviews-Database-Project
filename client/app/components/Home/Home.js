@@ -5,9 +5,9 @@ import {
 } from '../../utils/storage';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
-import "./styles.css";
+import "../../index.css";
 import "mdbreact/dist/css/mdb.css";
-import { MDBMask, MDBView, MDBContainer, MDBRow, MDBCol, MDBBtn} from "mdbreact";
+import { MDBMask, MDBView, MDBContainer, MDBRow, MDBCol, MDBBtn } from "mdbreact";
 import { MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
 
 export default class Home extends Component {
@@ -147,18 +147,20 @@ export default class Home extends Component {
     // const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
     let book = this.state.book_data.map(book => {
       return (
-        <MDBCol md="3">
-          <MDBView hover>
-            <img class="card-img-top" src={book.imUrl} alt="Book Images" />
-            <MDBMask className="flex-column flex-center" overlay="cyan-strong">
-              <p className="text-white">Book Title</p>
-              {
-                book.description == null ? <p></p> : <p>{(book.description).slice(0, 20)}...</p>
-              }
-              <MDBBtn rounded color="info" type="submit">View Review</MDBBtn>
-            </MDBMask>
-          </MDBView>
-        </MDBCol>
+          <MDBCol md="3">
+            <div class = "hover">
+            <MDBView hover>
+              <img class="card-img-top" src={book.imUrl} alt="Book Images" />
+              <MDBMask className="flex-column flex-center" overlay="cyan-strong">
+                <p className="text-white">Book Title</p>
+                {
+                  book.description == null ? <p></p> : <p>{(book.description).slice(0, 20)}...</p>
+                }
+                <MDBBtn rounded color="info" type="submit">View Review</MDBBtn>
+              </MDBMask>
+            </MDBView>
+            </div>
+          </MDBCol>
       )
     })
 
@@ -166,7 +168,11 @@ export default class Home extends Component {
       <div>
         <div class="d-flex justify-content-between">
           <h3>SIGNED IN, Hello {firstName} {lastName}</h3>
-          <MDBBtn gradient="peach" onClick={this.toggle(8)}>Add Book</MDBBtn>
+          <div class="d-flex justify-content-end">
+            <MDBBtn gradient="peach" onClick={this.toggle(8)}>Add Book</MDBBtn>
+            <MDBBtn gradient="aqua" type="submit" onClick={this.logout}>Logout</MDBBtn>
+          </div>
+
           <MDBModal isOpen={this.state.modal8} toggle={this.toggle(8)} fullHeight position="right">
             <MDBModalHeader toggle={this.toggle(8)}>Add A Book</MDBModalHeader>
             <MDBModalBody>
@@ -198,7 +204,6 @@ export default class Home extends Component {
               <MDBBtn color="secondary" onClick={this.toggle(8)}>Close</MDBBtn>
             </MDBModalFooter>
           </MDBModal>
-          <MDBBtn gradient="aqua" type="submit" onClick={this.logout}>Logout</MDBBtn>
         </div>
         <div>
           <div class="container-fluid">

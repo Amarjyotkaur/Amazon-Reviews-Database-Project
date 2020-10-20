@@ -2,12 +2,12 @@ const sql = require("../db/db.js");
 
 module.exports = (app) => {
     // get reviews 50 for now -> need do pagination 
-    // app.get('/getAllReviews', (req, res) => {
-    //     sql.query(`select * from kindle_reviews limit 50`, (error, result) => {
-    //         if (error) throw error;
-    //         res.send(result);
-    //     })
-    // })
+    app.get('/getAllReviews', (req, res) => {
+        sql.query(`select * from kindle_reviews limit 50`, (error, result) => {
+            if (error) throw error;
+            res.send(result);
+        })
+    })
 
     // get book reviews of a particular book given asin
     app.get('/getBookReviews/:id', (req, res) => {

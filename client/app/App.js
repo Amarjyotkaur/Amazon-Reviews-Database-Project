@@ -14,7 +14,7 @@ import SignUp from "./components/SignUp/SignUp";
 function App() {
     return (
       <Router>
-        <div className="container">
+        <div className="navbar-nav nav-fill w-100">
           <Navbar /> 
           <br/> 
             <Route exact path="/" component={Home}/>
