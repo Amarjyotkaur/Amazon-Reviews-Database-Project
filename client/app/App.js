@@ -10,6 +10,7 @@ import Home from './components/Home/Home';
 import Navbar from "./components/NavBar/Navbar";
 import Login from "./components/Login/Login";
 import SignUp from "./components/SignUp/SignUp";
+import Book from "./components/Book/Book";
 
 function App() {
     return (
@@ -20,6 +21,8 @@ function App() {
             <Route exact path="/" component={Home}/>
             <Route path="/login" component={Login}/>
             <Route path="/signup" component={SignUp}/>
+            <Route exact path="/book" component={Book}/>
+            <Route path="/book/:asin" component={Book}/>
         </div>
       </Router>
     );

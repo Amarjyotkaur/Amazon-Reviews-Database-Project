@@ -1,14 +1,13 @@
-import React, { Component, Fragment } from 'react';
-import {
-  getFromStorage,
-  setInStorage,
-} from '../../utils/storage';
+import React, { Component } from 'react';
+import { getFromStorage } from '../../utils/storage';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import "../../index.css";
 import "mdbreact/dist/css/mdb.css";
 import { MDBMask, MDBView, MDBContainer, MDBRow, MDBCol, MDBBtn } from "mdbreact";
 import { MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
+import { Link, link } from 'react-router-dom';
+import AniLoading from '../../utils/aniloading';
 
 export default class Home extends Component {
 
@@ -34,9 +33,9 @@ export default class Home extends Component {
       offset: 0,
       book_data: [],
       perPage: 28,
-      currentPage: 0
+      currentPage: 0,
+      dbload: true,
     };
-    this.logout = this.logout.bind(this)
   }
 
   componentDidMount() {
@@ -78,7 +77,8 @@ export default class Home extends Component {
         const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
         this.setState({
           pageCount: Math.ceil(data.length / this.state.perPage),
-          book_data: slice
+          book_data: slice,
+          dbload: false,
         })
       });
   }
@@ -88,51 +88,25 @@ export default class Home extends Component {
 
     this.setState({
       currentPage: selectedPage,
-      offset: offset
+      offset: offset,
+      dbload: true,
     }, () => {
       this.receivedData()
     });
 
   };
 
-  logout() {
-    this.setState({
-      isLoading: true,
-    })
-    const obj = getFromStorage('AmaNerdBook');
-    if (obj && obj.token) {
-      const { token } = obj
-      fetch('/api/account/logout?token=' + token)
-        .then(res => res.json()).then(json => {
-          if (json.success) {
-            this.setState({
-              token: '',
-              isLoading: false,
-            })
-            localStorage.clear();
-          } else {
-            this.setState({
-              isLoading: false,
-            })
-          }
-        })
-    } else {
-      this.setState({
-        isLoading: false,
-      })
-    }
-  }
-
   render() {
     const {
       isLoading,
       token,
       firstName,
-      lastName
+      lastName,
+      dbload,
     } = this.state;
 
     if (isLoading) {
-      return (<div><p>Loading...</p></div>)
+      return (<div><AniLoading /></div>)
     }
 
     // If not logged in
@@ -145,32 +119,31 @@ export default class Home extends Component {
     }
 
     // const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
-    let book = this.state.book_data.map(book => {
+    let book = this.state.book_data.map((book, index) => {
       return (
-          <MDBCol md="3">
-            <div class = "hover">
+        <MDBCol md="3" key={index}>
+          <div className="hover">
             <MDBView hover>
-              <img class="card-img-top" src={book.imUrl} alt="Book Images" />
+              <img className="card-img-top" src={book.imUrl} alt="Book Images" />
               <MDBMask className="flex-column flex-center" overlay="cyan-strong">
                 <p className="text-white">Book Title</p>
                 {
                   book.description == null ? <p></p> : <p>{(book.description).slice(0, 20)}...</p>
                 }
-                <MDBBtn rounded color="info" type="submit">View Review</MDBBtn>
+                <Link to={`/book/${book.asin}`}>
+                  <MDBBtn rounded color="info" type="submit">View Review</MDBBtn>
+                </Link>
               </MDBMask>
             </MDBView>
-            </div>
-          </MDBCol>
+          </div>
+        </MDBCol>
       )
     })
 
     return (
       <div>
-        <div class="d-flex justify-content-between">
-          <h3>SIGNED IN, Hello {firstName} {lastName}</h3>
-          <div class="d-flex justify-content-end">
+          <div className="d-flex justify-content-end mr-5 mb-5">
             <MDBBtn gradient="peach" onClick={this.toggle(8)}>Add Book</MDBBtn>
-            <MDBBtn gradient="aqua" type="submit" onClick={this.logout}>Logout</MDBBtn>
           </div>
 
           <MDBModal isOpen={this.state.modal8} toggle={this.toggle(8)} fullHeight position="right">
@@ -204,13 +177,15 @@ export default class Home extends Component {
               <MDBBtn color="secondary" onClick={this.toggle(8)}>Close</MDBBtn>
             </MDBModalFooter>
           </MDBModal>
-        </div>
-        <div>
-          <div class="container-fluid">
-            <div class="row">
+        {
+          dbload == true ? <AniLoading /> : <div className="container-fluid">
+            <div className="row">
               {book}
             </div>
           </div>
+        }
+        <div>
+
           <ReactPaginate
             previousLabel={"prev"}
             nextLabel={"next"}

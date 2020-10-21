@@ -4,6 +4,8 @@ import {
   getFromStorage,
   setInStorage,
 } from '../../utils/storage'
+import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from 'mdbreact';
+import 'font-awesome/css/font-awesome.min.css';
 
 export default class Login extends Component {
   constructor(props) {
@@ -28,7 +30,7 @@ export default class Login extends Component {
   componentDidMount() {
     const obj = getFromStorage('AmaNerdBook');
     if (obj && obj.token) {
-      const {token } = obj
+      const { token } = obj
       fetch('/api/account/verify?token=' + token)
         .then(res => res.json()).then(json => {
           if (json.success) {
@@ -103,7 +105,7 @@ export default class Login extends Component {
       })
       .then(res => res.json())
       .then(json => {
-        if(json.success){
+        if (json.success) {
           this.setState({
             signUpError: json.message,
             isLoading: false,
@@ -120,7 +122,7 @@ export default class Login extends Component {
         }
       });
 
-      // window.location = '/login'
+    // window.location = '/login'
   }
 
   render() {
@@ -139,67 +141,43 @@ export default class Login extends Component {
     }
 
     if (!token) {
-        return (
-          <div>
-            {
-              (signUpError) ? (
-                <p>{signUpError}</p>
-              ) : (null)
-            }
-            <h3>Sign Up</h3>
-              <form onSubmit = {this.onSignUp}>
-                <div className="form-group">
-                  <label>First Name: </label>
-                  <input type="text" 
-                  placeholder="Adam"
-                  required
-                  className="form-control"
-                  value={signUpFirstName}
-                  onChange={this.onTextBoxChangeSignUpFirstName}
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Last Name: </label>
-                  <input type="text"
-                  placeholder="Quincy"
-                  required
-                  className="form-control"
-                  value={signUpLastName}
-                  onChange={this.onTextBoxChangeSignUpLastName}
-                  />
-                </div> 
-                <div className="form-group">
-                  <label>Email: </label>
-                  <input type="email"
-                  placeholder="bookreview@gmail.com"
-                  required
-                  className="form-control"
-                  value={signUpEmail}
-                  onChange={this.onTextBoxChangeSignUpEmail}
-                  />
-                </div> 
-                <div className="form-group">
-                  <label>Password: </label>
-                  <input type="password"
-                  placeholder="Password"
-                  required
-                  className="form-control"
-                  value={signUpPassword}
-                  onChange={this.onTextBoxChangeSignUpPassword}
-                  />
-                </div> 
-                <div className="form-group">
-                  <input type="submit" value="Sign Up" className="btn btn-primary"/>
-                </div>  
-              </form>
-          </div>
-        )
-      } 
       return (
         <div>
-          <h3>Sign out to create a new account</h3>
+          {
+            (signUpError) ? (
+              <p>{signUpError}</p>
+            ) : (null)
+          }
+
+          <MDBContainer>
+            <MDBRow>
+              <MDBCol md="6">
+                <form>
+                  <p className="h5 text-center mb-4">Sign up</p>
+                  <div className="grey-text">
+                    <MDBInput label="First Name" icon="user" group type="text" validate error="wrong"
+                      success="right" required value={signUpFirstName} onChange={this.onTextBoxChangeSignUpFirstName} />
+                    <MDBInput label="Last Name" icon="user" group type="text" validate error="wrong"
+                      success="right" required value={signUpLastName} onChange={this.onTextBoxChangeSignUpLastName} />
+                    <MDBInput label="Your email" icon="envelope" group type="email" validate error="wrong"
+                      success="right" required value={signUpEmail} onChange={this.onTextBoxChangeSignUpEmail}/>
+                    <MDBInput label="Your password" icon="lock" group type="password" validate required value={signUpPassword} onChange={this.onTextBoxChangeSignUpPassword} />
+                  </div>
+                  <div className="text-center">
+                    <MDBBtn onClick={this.onSignUp} color="primary">Register</MDBBtn>
+                  </div>
+                </form>
+              </MDBCol>
+            </MDBRow>
+          </MDBContainer>
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
         </div>
-      );
+      )
+    }
+    return (
+      <div>
+        <h3>Sign out to create a new account</h3>
+      </div>
+    );
   }
 }
-
