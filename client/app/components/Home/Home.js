@@ -126,7 +126,9 @@ export default class Home extends Component {
             <div className="header-content text-md-center">
               <h1 className="font-weight-bold h1-responsive">Have You Read A Book Today?</h1>
               <p className="yellow-text">With AmaNerd Book Review, You will always find the book that you will want to read!</p>
-              <p className="grey-text w-responsive mx-auto">Sign In To Get Started!</p>
+              <Link to="/login">
+                <MDBBtn rounded color="info" type="submit">Log In</MDBBtn>
+              </Link>
             </div>
           </header>
         </body>
