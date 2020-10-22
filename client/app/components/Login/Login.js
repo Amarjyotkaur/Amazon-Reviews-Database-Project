@@ -6,6 +6,7 @@ import {
 } from '../../utils/storage'
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from 'mdbreact';
 import 'font-awesome/css/font-awesome.min.css';
+import "../../index.css";
 
 export default class Login extends Component {
   constructor(props) {
@@ -152,6 +153,7 @@ export default class Login extends Component {
               <p>{signInError}</p>
             ) : (null)
           }
+          <br/>
           <MDBContainer>
             <MDBRow>
               <MDBCol md="6">

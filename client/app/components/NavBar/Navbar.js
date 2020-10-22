@@ -115,7 +115,6 @@ export class Navbar extends Component {
         <div className="collpase navbar-collapse">
           <ul className="navbar-nav mr-auto">
           </ul>
-
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
               <Link to="/" className="nav-link">{firstName} {lastName}</Link>

@@ -9,6 +9,7 @@ import { MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact
 import { Link, link } from 'react-router-dom';
 import AniLoading from '../../utils/aniloading';
 import 'font-awesome/css/font-awesome.min.css';
+import Video from "../../../public/assets/img/readingbook.mp4";
 
 export default class Home extends Component {
 
@@ -113,17 +114,19 @@ export default class Home extends Component {
     // If not logged in
     if (!token) {
       return (
-        <section className="text-center my-5">
-          <h2 className="h1-responsive font-weight-bold">
-            Have You Read A Book Today?
-      </h2>
-          <p className="grey-text w-responsive mx-auto">
-            With AmaNerd Book Review, You will always find the book that you will want to read
-      </p>
-          <p>
-            Sign In To find out more!
-      </p>
-        </section>
+        <body>
+          <header className="v-header vcontainer">
+            <div className="fullscreen-video-wrap">
+              <video src={Video} autoPlay={true} muted loop={true} />
+            </div>
+            <div className="header-overlay"></div>
+            <div className="header-content text-md-center">
+              <h1 className="font-weight-bold h1-responsive">Have You Read A Book Today?</h1>
+              <p className="yellow-text">With AmaNerd Book Review, You will always find the book that you will want to read!</p>
+              <p className="grey-text w-responsive mx-auto">Sign In To Get Started!</p>
+            </div>
+          </header>
+        </body>
       );
     }
 

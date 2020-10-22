@@ -148,7 +148,7 @@ export default class Login extends Component {
               <p>{signUpError}</p>
             ) : (null)
           }
-
+          <br/>
           <MDBContainer>
             <MDBRow>
               <MDBCol md="6">
