@@ -4,10 +4,11 @@ import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import "../../index.css";
 import "mdbreact/dist/css/mdb.css";
-import { MDBMask, MDBView, MDBContainer, MDBRow, MDBCol, MDBBtn } from "mdbreact";
+import { MDBMask, MDBView, MDBCardBody, MDBRow, MDBCol, MDBBtn, MDBIcon } from "mdbreact";
 import { MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
 import { Link, link } from 'react-router-dom';
 import AniLoading from '../../utils/aniloading';
+import 'font-awesome/css/font-awesome.min.css';
 
 export default class Home extends Component {
 
@@ -112,9 +113,17 @@ export default class Home extends Component {
     // If not logged in
     if (!token) {
       return (
-        <div>
-          <p>Please register for an account and sign in before proceeding</p>
-        </div>
+        <section className="text-center my-5">
+          <h2 className="h1-responsive font-weight-bold">
+            Have You Read A Book Today?
+      </h2>
+          <p className="grey-text w-responsive mx-auto">
+            With AmaNerd Book Review, You will always find the book that you will want to read
+      </p>
+          <p>
+            Sign In To find out more!
+      </p>
+        </section>
       );
     }
 
@@ -142,41 +151,41 @@ export default class Home extends Component {
 
     return (
       <div>
-          <div className="d-flex justify-content-end mr-5 mb-5">
-            <MDBBtn gradient="peach" onClick={this.toggle(8)}>Add Book</MDBBtn>
-          </div>
+        <div className="d-flex justify-content-end mr-5 mb-5">
+          <MDBBtn gradient="peach" onClick={this.toggle(8)}>Add Book</MDBBtn>
+        </div>
 
-          <MDBModal isOpen={this.state.modal8} toggle={this.toggle(8)} fullHeight position="right">
-            <MDBModalHeader toggle={this.toggle(8)}>Add A Book</MDBModalHeader>
-            <MDBModalBody>
-              {
-                <div>
-                  <form>
-                    <label htmlFor="materialContactFormName" className="grey-text">Book Name</label>
-                    <input type="text" id="bookName" className="form-control" />
-                    <br />
-                    <label htmlFor="materialContactFormName" className="grey-text">Book Serial Number</label>
-                    <input type="text" id="bookName" className="form-control" />
-                    <br />
-                    <label htmlFor="defaultFormContactMessageEx" className="grey-text">Upload Book Image</label>
-                    <br />
-                    <label htmlFor="defaultFormContactMessageEx" className="grey-text">Book Description</label>
-                    <textarea type="text" id="defaultFormContactMessageEx" className="form-control" rows="3" />
-                    <br />
-                    <div className="text-center mt-4">
-                      <MDBBtn color="warning" outline type="submit">
-                        Add Book
+        <MDBModal isOpen={this.state.modal8} toggle={this.toggle(8)} fullHeight position="right">
+          <MDBModalHeader toggle={this.toggle(8)}>Add A Book</MDBModalHeader>
+          <MDBModalBody>
+            {
+              <div>
+                <form>
+                  <label htmlFor="materialContactFormName" className="grey-text">Book Name</label>
+                  <input type="text" id="bookName" className="form-control" />
+                  <br />
+                  <label htmlFor="materialContactFormName" className="grey-text">Book Serial Number</label>
+                  <input type="text" id="bookName" className="form-control" />
+                  <br />
+                  <label htmlFor="defaultFormContactMessageEx" className="grey-text">Upload Book Image</label>
+                  <br />
+                  <label htmlFor="defaultFormContactMessageEx" className="grey-text">Book Description</label>
+                  <textarea type="text" id="defaultFormContactMessageEx" className="form-control" rows="3" />
+                  <br />
+                  <div className="text-center mt-4">
+                    <MDBBtn color="warning" outline type="submit">
+                      Add Book
                       </MDBBtn>
-                    </div>
-                  </form>
-                </div>
-              }
-            </MDBModalBody>
+                  </div>
+                </form>
+              </div>
+            }
+          </MDBModalBody>
 
-            <MDBModalFooter>
-              <MDBBtn color="secondary" onClick={this.toggle(8)}>Close</MDBBtn>
-            </MDBModalFooter>
-          </MDBModal>
+          <MDBModalFooter>
+            <MDBBtn color="secondary" onClick={this.toggle(8)}>Close</MDBBtn>
+          </MDBModalFooter>
+        </MDBModal>
         {
           dbload == true ? <AniLoading /> : <div className="container-fluid">
             <div className="row">
