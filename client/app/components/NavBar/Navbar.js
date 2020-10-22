@@ -99,8 +99,8 @@ export class Navbar extends Component {
               <li className="nav-item px-2">
                 <Link to="/Signup" className="nav-link">Sign up</Link>
               </li>
-              <form className="form-inline mt-2 mt-md-0 px-1">
-                <input className="form-control form-control-sm mr-sm-2" type="text" placeholder="Search" aria-label="Search" />
+              <form className="form-inline mt-2 mt-md-0 px-1" >
+                <input className="form-control form-control-sm mr-sm-2" type="text" placeholder="Log In To Search" aria-label="Search" disabled/>
                 <button className="btn btn-outline-success btn-sm my-2 my-sm-0" type="submit">Search</button>
               </form>
             </ul>
