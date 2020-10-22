@@ -85,16 +85,6 @@
   box-sizing: border-box;
 }
 
-body{
-  margin:0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size:1rem;
-  font-weight:normal;
-  line-height:1.5;
-  color:#333;
-  overflow-x:hidden;
-}
-
 .v-header{
   height:100vh;
   display:flex;

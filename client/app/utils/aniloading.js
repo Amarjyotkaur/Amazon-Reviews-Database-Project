@@ -16,6 +16,7 @@ export default class Aniloading extends Component {
         }
         return (
             <FadeIn>
+                <br />
                 <div className="d-flex justify-content-center align-items-center">
                     <Lottie options={defaultOptions} height={120} width={120} />
                 </div>

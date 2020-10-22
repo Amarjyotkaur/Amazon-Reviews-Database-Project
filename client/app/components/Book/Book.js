@@ -103,6 +103,7 @@ export class Book extends Component {
         }
         return (
             <div>
+                <br/>
                 <MDBRow>
                     <MDBCol lg="5">
                         <a href={this.state.imUrl} target="_blank">

@@ -10,6 +10,7 @@ import { Link, link } from 'react-router-dom';
 import AniLoading from '../../utils/aniloading';
 import 'font-awesome/css/font-awesome.min.css';
 import Video from "../../../public/assets/img/readingbook.mp4";
+import "./background.css"
 
 export default class Home extends Component {
 
@@ -110,6 +111,8 @@ export default class Home extends Component {
     if (isLoading) {
       return (<div><AniLoading /></div>)
     }
+
+    // style={{overflowY : 'hidden'}}
 
     // If not logged in
     if (!token) {
