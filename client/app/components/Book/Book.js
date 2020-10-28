@@ -4,9 +4,11 @@ import { getFromStorage } from '../../utils/storage';
 import "../../index.css";
 import axios from 'axios';
 import "mdbreact/dist/css/mdb.css";
-import { MDBMask, MDBView, MDBContainer, MDBRow, MDBCol, MDBBtn } from "mdbreact";
+import { MDBMask, MDBView, MDBContainer, MDBRow, MDBCol, MDBBtn, MDBModalBody  } from "mdbreact";
 import 'regenerator-runtime/runtime';
 import AniLoading from '../../utils/aniloading';
+import './book.css'
+
 
 export class Book extends Component {
 
@@ -19,6 +21,7 @@ export class Book extends Component {
             lastName: '',
             bookASIN: 0,
             dbload: true,
+            reviews: [],
         };
     }
 
@@ -39,6 +42,7 @@ export class Book extends Component {
                             lastName: obj.lastName
                         })
                         this.receivedData()
+                        this.receivedReviews()
                     } else {
                         this.setState({
                             isLoading: false,
@@ -52,6 +56,7 @@ export class Book extends Component {
         }
     }
 
+
     receivedData() {
         axios
             .get(`http://localhost:8080/api/book/getbook?asin=` + this.props.match.params.asin)
@@ -63,10 +68,46 @@ export class Book extends Component {
                     imUrl: data.imUrl,
                     related: data.related,
                     categories: data.categories,
-                    dbload: false,
+                    //dbload: false,
                 })
             });
     }
+
+    receivedReviews() {
+        axios
+            .get(`http://localhost:8080/getBookReviews/` + this.props.match.params.asin)
+            .then(res => {
+                const data = res.data;
+                console.log(data);
+                this.setState({
+                    reviews: data,
+                    dbload: false,
+                }
+                
+                )
+            });
+        
+    }
+
+    reviewsList() {
+        console.log(this.state.reviews);
+        return this.state.reviews.map(currentreview => {
+            console.log(currentreview);
+           // <Review review={currentreview} key={currentreview.reviewerID}/>
+            return <tr>
+            <td>{currentreview.helpful}</td>
+            <td>{currentreview.overall}</td>
+            <td>{currentreview.reviewText}</td>
+            <td>{currentreview.reviewTime}</td>
+            <td>{currentreview.reviewerName}</td>
+            <td>{currentreview.summary}</td>
+          </tr>
+          
+        //   return <Review review={currentreview} key={currentreview.reviewerID}/>;
+        })
+      }
+    
+
 
     render() {
         const {
@@ -101,9 +142,13 @@ export class Book extends Component {
                 </div>
             );
         }
+
+
+        
         return (
             <div>
                 <br/>
+                <MDBModalBody>
                 <MDBRow>
                     <MDBCol lg="5">
                         <a href={this.state.imUrl} target="_blank">
@@ -121,6 +166,27 @@ export class Book extends Component {
                         <MDBBtn color="success" size="md" className="waves-light ">Button</MDBBtn>
                     </MDBCol>
                 </MDBRow>
+                
+                <MDBRow>
+                    <h3 className="font-weight-bold mb-3 p-0"><strong>Community Reviews</strong></h3>
+                    <MDBBtn color="success" size="md" className="waves-light ">Add Review</MDBBtn>
+                    <table className="table">
+                        <thead className="thead-light">
+                            <tr>
+                                <th>helpful</th>
+                                <th>overall</th>
+                                <th>review</th>
+                                <th>time</th>
+                                <th>name</th>
+                                <th>summary</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            { this.reviewsList() }
+                        </tbody>
+                    </table>
+                </MDBRow>
+                </MDBModalBody>
             </div>
         )
     }

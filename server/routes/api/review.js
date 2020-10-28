@@ -11,7 +11,7 @@ module.exports = (app) => {
 
     // get book reviews of a particular book given asin
     app.get('/getBookReviews/:id', (req, res) => {
-        sql.query(`select * from kindle_reviews where asin = '${req.params.id}'`, (error, result) => {
+        sql.query(`select * from kindle_reviews where asin = '${req.params.id}' order by unixReviewTime desc`, (error, result) => {
             if (error) throw error; 
             res.send(result)
         })
