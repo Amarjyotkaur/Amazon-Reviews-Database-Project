@@ -11,6 +11,8 @@ import AniLoading from '../../utils/aniloading';
 import 'font-awesome/css/font-awesome.min.css';
 import Video from "../../../public/assets/img/readingbook.mp4";
 import "./background.css"
+import { v4 as uuidv4 } from 'uuid';
+
 
 export default class Home extends Component {
 
@@ -22,7 +24,7 @@ export default class Home extends Component {
   toggle = nr => () => {
     let modalNumber = 'modal' + nr
     this.setState({
-      [modalNumber]: !this.state[modalNumber]
+      [modalNumber]: !this.state[modalNumber],
     });
   }
 
@@ -38,7 +40,21 @@ export default class Home extends Component {
       perPage: 28,
       currentPage: 0,
       dbload: true,
+      title: '',
+      summary: '',
+      description: '', 
+      price: 0, 
+      imUrl: 'https://static5.depositphotos.com/1016154/451/i/450/depositphotos_4511462-stock-photo-blank-empty-3d-book-cover.jpg',
+      // related: {},
+      categories: []
     };
+
+     this.onChangeTitle = this.onChangeTitle.bind(this);
+     this.onChangeDescription = this.onChangeDescription.bind(this);
+     this.onChangePrice = this.onChangePrice.bind(this);
+    //  this.onChangeImUrl = this.onChangeImUrl.bind(this);
+    //  this.onChangeSummary = this.onChangeSummary.bind(this);
+     this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -70,6 +86,69 @@ export default class Home extends Component {
       })
     }
   }
+
+  onChangeTitle(e) {
+    this.setState({
+        title: e.target.value
+    }) 
+ }
+
+ onChangeDescription(e) {
+     this.setState({
+         description: e.target.value
+     }) 
+  }
+
+  onChangePrice(e) {
+     this.setState({
+         price: e.target.value
+     }) 
+ }
+
+//  onChangeSummary(e) {
+//   this.setState({
+//       price: e.target.value
+//   }) 
+// }
+
+//  onChangeImUrl(date) {
+//      this.setState({
+//         imUrl: e.target.value 
+//      }) 
+//  }
+
+ onSubmit(e) {
+   e.preventDefault(); 
+
+   const asin = uuidv4()
+
+   const book = {
+     asin: asin,
+     description: this.state.description,
+     categories: this.state.categories,
+     price: this.state.price, 
+     imUrl: this.state.imUrl,
+    //  related: this.state.related,
+     categories: this.state.categories
+   }
+
+   axios.post('http://localhost:8080/api/book/addbook', book)
+      .then(res => {
+        this.setState({
+          description: '',
+          price: 0, 
+          title: '', 
+          summary: '',
+        })
+        
+        window.location.href = "./"
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+ }
+
 
   receivedData() {
     axios
@@ -169,21 +248,41 @@ export default class Home extends Component {
             {
               <div>
                 <form>
-                  <label htmlFor="materialContactFormName" className="grey-text">Book Name</label>
-                  <input type="text" id="bookName" className="form-control" />
+                  <label htmlFor="materialContactFormName" className="grey-text">Title</label>
+                  <input type="text" 
+                         className="form-control" 
+                         required
+                         value={this.state.title}
+                         onChange={this.onChangeTitle}
+                  />
                   <br />
-                  <label htmlFor="materialContactFormName" className="grey-text">Book Serial Number</label>
-                  <input type="text" id="bookName" className="form-control" />
+                  {/* <label htmlFor="materialContactFormName" className="grey-text">Summary</label>
+                  <input type="text" 
+                         className="form-control"
+                         required
+                         value={this.state.summary}
+                         onChange={this.onChangeSummary}
+                  />
+                  <br /> */}
+                  <label htmlFor="materialContactFormName" className="grey-text">Description</label>
+                  <textarea type="text" 
+                         rows="3"
+                         className="form-control"
+                         required
+                         value={this.state.description}
+                         onChange={this.onChangeDescription}
+                  />
                   <br />
-                  <label htmlFor="defaultFormContactMessageEx" className="grey-text">Upload Book Image</label>
-                  <br />
-                  <label htmlFor="defaultFormContactMessageEx" className="grey-text">Book Description</label>
-                  <textarea type="text" id="defaultFormContactMessageEx" className="form-control" rows="3" />
+                  <label htmlFor="materialContactFormName" className="grey-text">Price</label>
+                  <input type= "number"
+                         className="form-control"
+                         required
+                         value={this.state.price}
+                         onChange={this.onChangePrice}
+                  />
                   <br />
                   <div className="text-center mt-4">
-                    <MDBBtn color="warning" outline type="submit">
-                      Add Book
-                      </MDBBtn>
+                    <MDBBtn color="warning" onClick={this.onSubmit} outline type="submit">Add Book</MDBBtn>
                   </div>
                 </form>
               </div>
@@ -202,7 +301,6 @@ export default class Home extends Component {
           </div>
         }
         <div>
-
           <ReactPaginate
             previousLabel={"prev"}
             nextLabel={"next"}
