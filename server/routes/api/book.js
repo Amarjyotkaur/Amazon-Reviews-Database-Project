@@ -12,6 +12,22 @@ module.exports = (app) => {
             .catch(err => res.status(400).json('Error: ' + err))
     })
 
+    // filters queries 
+    app.get('/api/book/applyfilter', (req, res, next) => {
+        const filter = req.body.filter 
+        Metadata.find({
+            "categories": {
+              "$elemMatch": {
+                "$elemMatch": {
+                  "$in": filter
+                }
+              }
+            }
+          }).sort({$natural:-1}).limit(500)
+                .then(books => res.json(books))
+                .catch(err => res.status(400).json('Error: ' + err))
+    })
+
     // Retrieve a book by asin
     app.get('/api/book/getbook', (req, res, next) => {
         const { query } = req;
