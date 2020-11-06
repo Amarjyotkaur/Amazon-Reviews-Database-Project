@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo "Running on MongoDB Server..."
+echo "Setting Up MongoDB"
 
 # # For removing MongoDB
 # sudo service mongod stop
