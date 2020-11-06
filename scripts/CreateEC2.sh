@@ -103,8 +103,8 @@ echo Your WebServer Public IP is ${PUBLIC_IPS[2]}
 echo "Setting Up MongoDB"
 ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[0]} -i ./key.pem 'bash -s' < ./mongo_script/mongoDB.sh
 # FOR TESTING
-PUBLIC_IPS1='enterIPhere'
-ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS1} -i ./key.pem 'bash -s' < ./mongo_script/mongoDB.sh
+# PUBLIC_IPS1='54.234.50.180'
+# ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS1} -i ./key.pem 'bash -s' < ./mongo_script/mongoDB.sh
 
 # # Configure MYSQL
 # echo "Setting Up MYSQL"
