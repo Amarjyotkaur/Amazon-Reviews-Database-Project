@@ -28,24 +28,24 @@ while getopts ":uf" OPTION; do
     esac
 done
 
-if [ "$(uname)" == "Darwin" ]; then
-    # MacOS 
-    echo MacOS Detected, Running AWS CLI Installer
-    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-    python get-pip.py
-    curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
-    sudo installer -pkg AWSCLIV2.pkg -target /
-    pip install boto3
-elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
-    # LinuxOS
-    echo Linux Detected, Running AWS CLI Installer
-    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    unzip awscliv2.zip
-    sudo ./aws/install
-    sudo apt-get install install jq
-    sudo apt-get install python3-pip
-    python3 -m pip install boto3
-fi
+# if [ "$(uname)" == "Darwin" ]; then
+#     # MacOS 
+#     echo MacOS Detected, Running AWS CLI Installer
+#     curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+#     python get-pip.py
+#     curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+#     sudo installer -pkg AWSCLIV2.pkg -target /
+#     pip install boto3
+# elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+#     # LinuxOS
+#     echo Linux Detected, Running AWS CLI Installer
+#     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+#     unzip awscliv2.zip
+#     sudo ./aws/install
+#     sudo apt-get install install jq
+#     sudo apt-get install python3-pip
+#     python3 -m pip install boto3
+# fi
 
 echo "Configuring AWS-CLI"
 sudo /usr/local/bin/aws configure

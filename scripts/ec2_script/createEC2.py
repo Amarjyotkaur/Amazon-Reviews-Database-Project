@@ -2,8 +2,7 @@ import boto3, json
 import json
 
 stack_name = 'AmaNerdBookReview'
-template_file_location = "./cloudformation.json"
-
+template_file_location = "./ec2_script/cloudformation.json"
 
 with open(template_file_location, 'r') as content_file:
     content = json.load(content_file)
