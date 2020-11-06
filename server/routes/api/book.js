@@ -5,7 +5,13 @@ module.exports = (app) => {
 
     // retrieves random 500 books from mongodb 
     app.get('/api/book/getallbooks', (req, res, next) => {
+<<<<<<< HEAD
         Metadata.find().limit(500)
+=======
+        // Metadata.aggregate([{ $sample: { size: 500 } }])
+        // Metadata.find().limit(500)
+        Metadata.find().sort({$natural:-1}).limit(500)
+>>>>>>> af7b9d9f29f08572ce0bcba9ab50b944349aaed4
             .then(books => res.json(books))
             .catch(err => res.status(400).json('Error: ' + err))
     })
