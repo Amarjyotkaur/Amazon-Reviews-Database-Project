@@ -239,8 +239,13 @@ export default class Home extends Component {
 
     return (
       <div>
-        <div className="d-flex justify-content-end mr-5 mb-5">
-          <MDBBtn gradient="peach" onClick={this.toggle(8)}>Add Book</MDBBtn>
+        <div class="d-flex flex-row-reverse">
+          <div className="d-flex justify-content-end mr-5 mb-5">
+            <MDBBtn color="primary" onClick={this.toggle(8)}>Add Book</MDBBtn>
+          </div>
+          <div className="d-flex justify-content-end mr-5 mb-5">
+            <MDBBtn color="secondary" onClick={this.toggle(8)}>Add Book</MDBBtn>
+          </div>
         </div>
 
         <MDBModal isOpen={this.state.modal8} toggle={this.toggle(8)} fullHeight position="right">
@@ -257,14 +262,6 @@ export default class Home extends Component {
                          onChange={this.onChangeTitle}
                   />
                   <br />
-                  {/* <label htmlFor="materialContactFormName" className="grey-text">Summary</label>
-                  <input type="text" 
-                         className="form-control"
-                         required
-                         value={this.state.summary}
-                         onChange={this.onChangeSummary}
-                  />
-                  <br /> */}
                   <label htmlFor="materialContactFormName" className="grey-text">Description</label>
                   <textarea type="text" 
                          rows="3"

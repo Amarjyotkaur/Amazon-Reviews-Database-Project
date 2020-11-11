@@ -68,28 +68,10 @@
                 "GroupDescription": "Enable incoming access",
                 "SecurityGroupIngress": [
                     {
-                        "CidrIp": "0.0.0.0/0",
-                        "FromPort": 80,
-                        "IpProtocol": "tcp",
-                        "ToPort": 80
-                    },
-                    {
                         "IpProtocol": "tcp",
                         "CidrIp": "0.0.0.0/0",
-                        "FromPort": 22,
-                        "ToPort": 22
-                    },
-                    {
-                        "IpProtocol": "tcp",
-                        "CidrIp": "0.0.0.0/0",
-                        "FromPort": 3306,
-                        "ToPort": 3306
-                    },
-                    {
-                        "IpProtocol": "tcp",
-                        "CidrIp": "0.0.0.0/0",
-                        "FromPort": 27017,
-                        "ToPort": 27017
+                        "FromPort": 0,
+                        "ToPort": 65535
                     }
                 ]
             },
@@ -103,7 +85,7 @@
             "Type": "AWS::EC2::Instance",
             "Properties": {
                 "ImageId": "ami-0f82752aa17ff8f5d",
-                "InstanceType": "t2.micro",
+                "InstanceType": "t2.small",
                 "KeyName": "default",
                 "SecurityGroups": [
                     {
@@ -129,7 +111,7 @@
             },
             "Properties": {
                 "ImageId": "ami-0f82752aa17ff8f5d",
-                "InstanceType": "t2.micro",
+                "InstanceType": "t2.small",
                 "KeyName": "default",
                 "SecurityGroups": [
                     {
@@ -145,7 +127,7 @@
             "Type": "AWS::EC2::Instance",
             "Properties": {
                 "ImageId": "ami-0f82752aa17ff8f5d",
-                "InstanceType": "t2.micro",
+                "InstanceType": "t2.small",
                 "KeyName": "default",
                 "SecurityGroups": [
                     {

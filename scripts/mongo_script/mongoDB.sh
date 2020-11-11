@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo "Running on MongoDB Server..."
+echo "Setting Up MongoDB"
 
 # # For removing MongoDB
 # sudo service mongod stop
@@ -8,10 +9,13 @@ echo "Running on MongoDB Server..."
 # sudo rm -r /var/log/mongodb
 # sudo rm -r /var/lib/mongodb
 
+sudo apt-get update
 sudo apt install libcurl3
+sudo apt-get install zip unzip
 wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 sudo apt-get update
+sudo apt-get install zip unzip
 sudo apt-get install -y mongodb-org
 sudo service mongod start
 sudo systemctl enable mongod
@@ -19,7 +23,6 @@ sudo systemctl enable mongod
 echo "Downloading datasets..."
 wget https://istd50043.github.io/assets/scripts/get_data.sh
 chmod +x get_data.sh
-sudo apt-get install zip unzip
 ./get_data.sh
 sleep 3s
 

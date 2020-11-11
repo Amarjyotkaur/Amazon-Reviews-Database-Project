@@ -65,51 +65,59 @@ if [ "${#awsNewToken}" -ne 0 ]; then
     # sed -i '$d' ~/.aws/credentials
     echo "aws_session_token=$awsNewToken" >> ~/.aws/credentials
 fi
-# read -p "Enter AWS region for deployment? [us-east-1]:" region
-# region=${region:-us-east-1}
+read -p "Enter AWS region for deployment? [us-east-1]:" region
+region=${region:-us-east-1}
 
-# # Key
-# echo "Creating New Key..."
-# read -p "Enter unique key name: " keyName
-# sudo /usr/local/bin/aws ec2 create-key-pair --key-name $keyName --region $region --output json > keyData.json
-# cat keyData.json | jq -r ".KeyMaterial" > key.pem
-# chmod 400 key.pem
+# Key
+echo "Creating New Key..."
+read -p "Enter unique key name: " keyName
+sudo /usr/local/bin/aws ec2 create-key-pair --key-name $keyName --region $region --output json > keyData.json
+cat keyData.json | jq -r ".KeyMaterial" > key.pem
+chmod 400 key.pem
 
-# # echo "Spinning EC2 Instances"
-# mv ./ec2_script/cloudformation.json ./ec2_script/temp.json
-# jq -c --arg keyName "$keyName" -r '.Resources.MongoDB.Properties.KeyName |= $keyName' ./scripts/temp.json > ./scripts/cloudformation.json
-# rm ./ec2_script/temp.json
-# mv ./ec2_script/cloudformation.json ./ec2_script/temp.json
-# jq -c --arg keyName "$keyName" -r '.Resources.MYSQL.Properties.KeyName |= $keyName' ./scripts/temp.json > ./scripts/cloudformation.json
-# rm ./ec2_script/temp.json
-# mv ./ec2_script/cloudformation.json ./ec2_script/temp.json
-# jq -c --arg keyName "$keyName" -r '.Resources.WebServer.Properties.KeyName |= $keyName' ./scripts/temp.json > ./scripts/cloudformation.json
-# rm ./ec2_script/temp.json
-# python3 ./ec2_script/createEC2.py
-# echo "Waiting For Stack to be generated..."
+# echo "Spinning EC2 Instances"
+mv ./ec2_script/cloudformation.json ./ec2_script/temp.json
+jq -c --arg keyName "$keyName" -r '.Resources.MongoDB.Properties.KeyName |= $keyName' ./ec2_script/temp.json > ./ec2_script/cloudformation.json
+rm ./ec2_script/temp.json
+mv ./ec2_script/cloudformation.json ./ec2_script/temp.json
+jq -c --arg keyName "$keyName" -r '.Resources.MYSQL.Properties.KeyName |= $keyName' ./ec2_script/temp.json > ./ec2_script/cloudformation.json
+rm ./ec2_script/temp.json
+mv ./ec2_script/cloudformation.json ./ec2_script/temp.json
+jq -c --arg keyName "$keyName" -r '.Resources.WebServer.Properties.KeyName |= $keyName' ./ec2_script/temp.json > ./ec2_script/cloudformation.json
+rm ./ec2_script/temp.json
+python3 ./ec2_script/createEC2.py
+echo "Waiting For Stack to be generated..."
 
-# sleep 60s
+sleep 90s
 
-# echo "IP Address Generated..."
+echo "IP Address Generated..."
 
-# # IP1 = MongoIP IP2=MySQLIP IP3=WebServerIP
-# PUBLIC_IPS=($(python3 ./ec2_script/findOutput.py))
+# IP1 = MongoIP IP2=MySQLIP IP3=WebServerIP
+PUBLIC_IPS=($(python3 ./ec2_script/findOutput.py))
 
-# echo Your Mongo Public IP is ${PUBLIC_IPS[0]}
-# echo Your MySQL Public IP is ${PUBLIC_IPS[1]}
-# echo Your WebServer Public IP is ${PUBLIC_IPS[2]}
+echo Your Mongo Public IP is ${PUBLIC_IPS[0]}
+echo Your MySQL Public IP is ${PUBLIC_IPS[1]}
+echo Your WebServer Public IP is ${PUBLIC_IPS[2]}
 
-# # Configure MongoDB
+# Configure MongoDB
 echo "Setting Up MongoDB"
-PUBLIC_IPS='3.94.169.3'
-ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS} -i ./key.pem 'bash -s' < ./mongo_script/mongoDB.sh
+ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[0]} -i ./key.pem 'bash -s' < ./mongo_script/mongoDB.sh
+# FOR TESTING
+# PUBLIC_IPS1='IPHERE'
+# ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS1} -i ./key.pem 'bash -s' < ./mongo_script/mongoDB.sh
 
-# # Configure MYSQL
-# echo "Setting Up MYSQL"
-# PUBLIC_IPS2='   '
+# Configure MYSQL
+echo "Setting Up MYSQL"
+ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[1]} -i ./key.pem 'bash -s' < ./mysql_script/mysql.sh
+# FOR TESTING
+# PUBLIC_IPS2='enterIPhere'
 # ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS2} -i ./key.pem 'bash -s' < ./mysql_script/mysql.sh
 
-# # Configure WebServer
-# echo "Setting Up WebServer"
-# PUBLIC_IPS3='   '
-# ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS3} -i ./key.pem 'bash -s' < ./webserver_script/webserver.sh
+# Configure WebServer
+echo "Setting Up WebServer"
+ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[2]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' bash -s' < ./webserver_script/webserver.sh
+# FOR TESTING
+# PUBLIC_IPS3='IPHERE'
+# fakemongo='IPHERE'
+# fakesql='IPHERE'
+# ssh -o StrictHostKeyChecking=no ubuntu@{PUBLIC_IPS3} -i ./key.pem 'MONGOIP='$fakemongo' MYSQLIP='$fakesql' bash -s' < ./webserver_script/webserver.sh

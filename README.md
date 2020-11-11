@@ -6,19 +6,20 @@ This is a boilerplate project using the following technologies:
 - [Sass](http://sass-lang.com/) for styles (using the SCSS syntax)
 - [Webpack](https://webpack.github.io/) for compilation
 
-
 ## Requirements
 
 - [Node.js](https://nodejs.org/en/) 6+
+- [Python](https://www.python.org/) 3+
+- [Boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)
+- [AWS CLI](https://aws.amazon.com/cli/)
 
 ```shell
 npm install
 ```
 
-
 ## Running
 
-Make sure to add a `config.js` file in the `config` folder. See the example there for more details.
+Add a `config.js` & `dbconfig.js` file in the `config` folder.
 
 Production mode:
 
