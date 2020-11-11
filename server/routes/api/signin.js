@@ -66,7 +66,8 @@ module.exports = (app) => {
             newUser.lastName = lastName;
             newUser.password = newUser.generateHash(password);
             newUser.save().then(item => {
-                res.send({ success: true, message: "Signed Up" });
+                res.status(200).send({success: true})
+                // res.send({ success: true, message: "Signed Up", response:200, type: 'POST'});
             }).catch(err => {
                 res.status(400).send({ sucess: false, message: "Error: Server Error" })
             })
@@ -137,9 +138,9 @@ module.exports = (app) => {
                 return res.send({
                     success: true,
                     message: "Valid Sign In",
-                    token: doc._id,
+                    token: user._id,
                     firstName: user.firstName,
-                    lastName: user.lastName
+                    lastName: user.lastName, 
                 })
             })
         })

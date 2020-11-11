@@ -83,8 +83,12 @@ export class Book extends Component {
                             firstName: obj.firstName,
                             lastName: obj.lastName
                         })
+<<<<<<< HEAD
                         this.receivedData()
                         this.receivedReviews()
+=======
+                        this.receivedData(token)
+>>>>>>> cfb35aae3f7885fa370f7190ad173d60b6d0ba03
                     } else {
                         this.setState({
                             isLoading: false,
@@ -98,11 +102,21 @@ export class Book extends Component {
         }
     }
 
+<<<<<<< HEAD
 
     receivedData() {
+=======
+    receivedData(token) {
+>>>>>>> cfb35aae3f7885fa370f7190ad173d60b6d0ba03
         axios
             .get(`http://localhost:8080/api/book/getbook?asin=` + this.props.match.params.asin)
             .then(res => {
+                let log = {
+                    type: `GET api/book/getbook?asin=` + this.props.match.params.asin, 
+                    response: res.status
+                }
+                axios.post(`http://localhost:8080/api/book/addLog/${token}`, log) 
+                    .then(res => console.log(res.data));
                 const data = res.data;
                 this.setState({
                     description: data.description,
@@ -110,9 +124,14 @@ export class Book extends Component {
                     imUrl: data.imUrl,
                     related: data.related,
                     categories: data.categories,
+<<<<<<< HEAD
                     //dbload: false,
                 })
+=======
+                    dbload: false,
+>>>>>>> cfb35aae3f7885fa370f7190ad173d60b6d0ba03
             });
+        });
     }
 
     receivedReviews() {

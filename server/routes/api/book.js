@@ -2,13 +2,12 @@ const e = require('express');
 const Metadata = require('../../models/Metadata.js');
 
 module.exports = (app) => {
-
     // retrieves random 500 books from mongodb 
     app.get('/api/book/getallbooks', (req, res, next) => {
         // Metadata.aggregate([{ $sample: { size: 500 } }])
         // Metadata.find().limit(500)
         Metadata.find().sort({$natural:-1}).limit(500)
-            .then(books => res.json(books))
+            .then(books => {res.status(200).json(books)})
             .catch(err => res.status(400).json('Error: ' + err))
     })
 
