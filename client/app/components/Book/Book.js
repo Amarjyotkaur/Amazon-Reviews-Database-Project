@@ -34,8 +34,16 @@ export class Book extends Component {
             dbload: true,
             reviews: [],
             addOverall: 5,
+            addReviewText: '',
+            addReviewTime: 'insert time',
+            addReviwerID: 'test',
+            addReviwerName: 'test',
+            addSummary: '',
+            addReviewTime: 0,
         };
         this.onTextBoxChangeAddOverall = this.onTextBoxChangeAddOverall.bind(this);
+        this.onTextBoxChangeAddReviewText = this.onTextBoxChangeAddReviewText.bind(this);
+        this.onTextBoxChangeAddSummary = this.onTextBoxChangeAddSummary.bind(this);
         this.addReview = this.addReview.bind(this)
     }
 
@@ -45,6 +53,22 @@ export class Book extends Component {
           addOverall: event.target.value,
         })
       }
+
+    onTextBoxChangeAddReviewText(event) {
+        console.log(this.state.addReviewText);
+        this.setState({
+            addReviewText: event.taget.value,
+        })
+    }
+
+    
+    onTextBoxChangeAddSummary(event) {
+        console.log(this.state.addSummary);
+        this.setState({
+            addSummary: event.target.value,
+        })
+    }
+
 
     componentDidMount() {
         const obj = getFromStorage('AmaNerdBook');
@@ -110,11 +134,15 @@ export class Book extends Component {
         
     }
 
-    addReview() {
+    addReview(e) {
+        e.preventDefault()
         const {
-            addOverall
+            addOverall,
+            addReviewText,
+            addSummary,
         } = this.state;
         console.log(addOverall);
+        console.log(addReviewText)
         fetch('/addReview',
         {
         method: 'POST',
@@ -124,15 +152,16 @@ export class Book extends Component {
         body: JSON.stringify({
           asin: this.props.match.params.asin,
           helpful: '[0,0]',
-          overall: addOverall,
-          reviewText: 'test',
+          overall: parseInt(addOverall) ,
+          reviewText: addReviewText,
           reviewTime: 'test',
           reviewerID: 'test',
           reviewerName: 'test',
-          summary: 'test',
+          summary: addSummary,
           unixReviewTime: 1390780809,
         }),
       })
+      this.toggle;
     }
 
     reviewsList() {
@@ -163,6 +192,8 @@ export class Book extends Component {
             firstName,
             lastName,
             addOverall,
+            addReviewText,
+            addSummary,
         } = this.state;
 
         if (isLoading) {
@@ -234,13 +265,15 @@ export class Book extends Component {
                                 success="right" required value={this.state.addOverall} onChange={this.onTextBoxChangeAddOverall.bind(this)} />
                                 <br />
                                 <label htmlFor="materialContactFormName" className="grey-text">Summary</label>
-                                <input type="text" id="summary" className="form-control" />
+                                <MDBInput group type="text" validate error="wrong"
+                                success="right" required value={this.state.addReviewText} onChange={this.onTextBoxChangeAddReviewText.bind(this)} />
                                 <br />
                                 <label htmlFor="materialContactFormName" className="grey-text">Leave a Review</label>
-                                <input type="text" id="reviewText" className="form-control" />
+                                <MDBInput group type="text" validate error="wrong"
+                                success="right" required value={this.state.addSummary} onChange={this.onTextBoxChangeAddSummary.bind(this)} />
                                 <br />
                                 <div className="text-center mt-4">
-                                    <MDBBtn color="warning" outline type="submit" onClick={this.addReview()}>
+                                    <MDBBtn color="warning" outline type="submit" onClick={this.addReview}>
                                     Add Review
                                     </MDBBtn>
                                 </div>

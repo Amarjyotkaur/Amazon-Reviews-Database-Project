@@ -39,6 +39,8 @@ module.exports = (app) => {
         const summary = req.body.summary
         const unixReviewTime = req.body.unixReviewTime
 
+        console.log("overall" + overall);
+
         sql.query(`insert into kindle_reviews values ('${asin}', '${helpful}', '${overall}', '${reviewText}', '${reviewTime}', '${reviewerID}', '${reviewerName}', '${summary}', '${unixReviewTime}')`, (error, result) => {
             if (error) throw error;
             res.send(result)       
