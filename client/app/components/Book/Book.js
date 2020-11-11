@@ -38,7 +38,7 @@ export class Book extends Component {
                             firstName: obj.firstName,
                             lastName: obj.lastName
                         })
-                        this.receivedData()
+                        this.receivedData(token)
                     } else {
                         this.setState({
                             isLoading: false,
@@ -52,10 +52,16 @@ export class Book extends Component {
         }
     }
 
-    receivedData() {
+    receivedData(token) {
         axios
             .get(`http://localhost:8080/api/book/getbook?asin=` + this.props.match.params.asin)
             .then(res => {
+                let log = {
+                    type: `GET api/book/getbook?asin=` + this.props.match.params.asin, 
+                    response: res.status
+                }
+                axios.post(`http://localhost:8080/api/book/addLog/${token}`, log) 
+                    .then(res => console.log(res.data));
                 const data = res.data;
                 this.setState({
                     description: data.description,
@@ -64,8 +70,8 @@ export class Book extends Component {
                     related: data.related,
                     categories: data.categories,
                     dbload: false,
-                })
             });
+        });
     }
 
     render() {
