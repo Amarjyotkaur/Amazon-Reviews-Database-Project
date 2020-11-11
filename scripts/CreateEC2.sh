@@ -11,10 +11,8 @@ fi
 while getopts ":uf" OPTION; do
     case $OPTION in
     u)
-        echo Uninstalling All Dependencies
-        rm /usr/local/bin/aws
-        rm /usr/local/bin/aws_completer
-        rm -rf /usr/local/aws-cli
+        sudo chmod +x remove.sh
+        ./remove.sh
         exit
         ;;
     h)
