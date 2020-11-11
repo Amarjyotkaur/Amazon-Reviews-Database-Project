@@ -35,11 +35,11 @@ export class Book extends Component {
             reviews: [],
             addOverall: 5,
             addReviewText: '',
-            addReviewTime: 'insert time',
+            addReviewTimeConvert: '',
             addReviwerID: 'test',
             addReviwerName: 'test',
             addSummary: '',
-            addReviewTime: 0,
+            addReviewTime: (new Date()). getTime() / 1000,
         };
         this.onTextBoxChangeAddOverall = this.onTextBoxChangeAddOverall.bind(this);
         this.onTextBoxChangeAddReviewText = this.onTextBoxChangeAddReviewText.bind(this);
@@ -48,22 +48,19 @@ export class Book extends Component {
     }
 
     onTextBoxChangeAddOverall(event) {
-        console.log(this.state.addOverall);
         this.setState({
           addOverall: event.target.value,
         })
       }
 
     onTextBoxChangeAddReviewText(event) {
-        console.log(this.state.addReviewText);
         this.setState({
-            addReviewText: event.taget.value,
+            addReviewText: event.target.value,
         })
     }
 
     
     onTextBoxChangeAddSummary(event) {
-        console.log(this.state.addSummary);
         this.setState({
             addSummary: event.target.value,
         })
@@ -135,14 +132,17 @@ export class Book extends Component {
     }
 
     addReview(e) {
-        e.preventDefault()
+        e.preventDefault()       
         const {
             addOverall,
             addReviewText,
             addSummary,
+            addReviewTime,
         } = this.state;
-        console.log(addOverall);
-        console.log(addReviewText)
+        var todate = parseInt(new Date(addReviewTime*1000).getDate());
+        var tomonth = new Date(addReviewTime*1000).getMonth()+1;
+        var toyear = new Date(addReviewTime*1000).getFullYear();
+        var originaldate =tomonth+' '+todate+', '+toyear;
         fetch('/addReview',
         {
         method: 'POST',
@@ -154,14 +154,14 @@ export class Book extends Component {
           helpful: '[0,0]',
           overall: parseInt(addOverall) ,
           reviewText: addReviewText,
-          reviewTime: 'test',
+          reviewTime: originaldate,
           reviewerID: 'test',
           reviewerName: 'test',
           summary: addSummary,
-          unixReviewTime: 1390780809,
+          unixReviewTime: parseInt(addReviewTime),
         }),
-      })
-      this.toggle;
+      });
+      this.toggle(8);
     }
 
     reviewsList() {
@@ -264,11 +264,11 @@ export class Book extends Component {
                                 <MDBInput group type="number" validate error="wrong"
                                 success="right" required value={this.state.addOverall} onChange={this.onTextBoxChangeAddOverall.bind(this)} />
                                 <br />
-                                <label htmlFor="materialContactFormName" className="grey-text">Summary</label>
+                                <label htmlFor="materialContactFormName" className="grey-text">Leave a Review</label>
                                 <MDBInput group type="text" validate error="wrong"
                                 success="right" required value={this.state.addReviewText} onChange={this.onTextBoxChangeAddReviewText.bind(this)} />
                                 <br />
-                                <label htmlFor="materialContactFormName" className="grey-text">Leave a Review</label>
+                                <label htmlFor="materialContactFormName" className="grey-text">Summary</label>
                                 <MDBInput group type="text" validate error="wrong"
                                 success="right" required value={this.state.addSummary} onChange={this.onTextBoxChangeAddSummary.bind(this)} />
                                 <br />
