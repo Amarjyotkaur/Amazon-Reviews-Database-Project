@@ -8,6 +8,7 @@ import { MDBMask, MDBView, MDBInput, MDBRow, MDBCol, MDBBtn, MDBModalBody, MDBMo
 import 'regenerator-runtime/runtime';
 import AniLoading from '../../utils/aniloading';
 import './book.css'
+import { faWindowRestore } from '@fortawesome/free-solid-svg-icons';
 
 
 export class Book extends Component {
@@ -83,12 +84,8 @@ export class Book extends Component {
                             firstName: obj.firstName,
                             lastName: obj.lastName
                         })
-<<<<<<< HEAD
-                        this.receivedData()
                         this.receivedReviews()
-=======
                         this.receivedData(token)
->>>>>>> cfb35aae3f7885fa370f7190ad173d60b6d0ba03
                     } else {
                         this.setState({
                             isLoading: false,
@@ -102,12 +99,7 @@ export class Book extends Component {
         }
     }
 
-<<<<<<< HEAD
-
-    receivedData() {
-=======
     receivedData(token) {
->>>>>>> cfb35aae3f7885fa370f7190ad173d60b6d0ba03
         axios
             .get(`http://localhost:8080/api/book/getbook?asin=` + this.props.match.params.asin)
             .then(res => {
@@ -124,12 +116,7 @@ export class Book extends Component {
                     imUrl: data.imUrl,
                     related: data.related,
                     categories: data.categories,
-<<<<<<< HEAD
-                    //dbload: false,
-                })
-=======
                     dbload: false,
->>>>>>> cfb35aae3f7885fa370f7190ad173d60b6d0ba03
             });
         });
     }
@@ -150,7 +137,7 @@ export class Book extends Component {
         
     }
 
-    addReview(e) {
+    addReview(e, token) {
         e.preventDefault()       
         const {
             addOverall,
@@ -174,13 +161,14 @@ export class Book extends Component {
           overall: parseInt(addOverall) ,
           reviewText: addReviewText,
           reviewTime: originaldate,
-          reviewerID: 'test',
-          reviewerName: 'test',
+          reviewerID: this.state.token,
+          reviewerName: this.state.firstName,
           summary: addSummary,
           unixReviewTime: parseInt(addReviewTime),
         }),
       });
       this.toggle(8);
+      window.location.href = `./` + this.props.match.params.asin;
     }
 
     reviewsList() {
