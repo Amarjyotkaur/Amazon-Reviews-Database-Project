@@ -164,6 +164,7 @@ export default class Home extends Component {
         })
       });
   }
+  
   handlePageClick = (e) => {
     const selectedPage = e.selected;
     const offset = selectedPage * this.state.perPage;

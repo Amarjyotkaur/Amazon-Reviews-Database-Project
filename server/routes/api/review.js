@@ -11,7 +11,7 @@ module.exports = (app) => {
 
     // get book reviews of a particular book given asin
     app.get('/getBookReviews/:id', (req, res) => {
-        sql.query(`select * from kindle_reviews where asin = '${req.params.id}'`, (error, result) => {
+        sql.query(`select * from kindle_reviews where asin = '${req.params.id}' order by unixReviewTime desc`, (error, result) => {
             if (error) throw error; 
             res.send(result)
         })
@@ -39,7 +39,9 @@ module.exports = (app) => {
         const summary = req.body.summary
         const unixReviewTime = req.body.unixReviewTime
 
-        sql.query(`insert into kindle_reviews values ('${asin}', '${helpful}', '${overall}', '${reviewText}', '${reviewTime}', '${reviewerID}', '${reviewerName}', '${summary}, '${unixReviewTime}')`, (error, result) => {
+        console.log("overall" + overall);
+
+        sql.query(`insert into kindle_reviews values ('${asin}', '${helpful}', '${overall}', '${reviewText}', '${reviewTime}', '${reviewerID}', '${reviewerName}', '${summary}', '${unixReviewTime}')`, (error, result) => {
             if (error) throw error;
             res.send(result)       
         })

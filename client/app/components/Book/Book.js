@@ -4,11 +4,25 @@ import { getFromStorage } from '../../utils/storage';
 import "../../index.css";
 import axios from 'axios';
 import "mdbreact/dist/css/mdb.css";
-import { MDBMask, MDBView, MDBContainer, MDBRow, MDBCol, MDBBtn } from "mdbreact";
+import { MDBMask, MDBView, MDBInput, MDBRow, MDBCol, MDBBtn, MDBModalBody, MDBModal, MDBModalHeader, MDBModalFooter} from "mdbreact";
 import 'regenerator-runtime/runtime';
 import AniLoading from '../../utils/aniloading';
+import './book.css'
+import { faWindowRestore } from '@fortawesome/free-solid-svg-icons';
+
 
 export class Book extends Component {
+
+    state = {
+        modal8: false,
+      }
+    
+      toggle = nr => () => {
+        let modalNumber = 'modal' + nr
+        this.setState({
+          [modalNumber]: !this.state[modalNumber]
+        });
+      }
 
     constructor(props) {
         super(props);
@@ -19,8 +33,40 @@ export class Book extends Component {
             lastName: '',
             bookASIN: 0,
             dbload: true,
+            reviews: [],
+            addOverall: 5,
+            addReviewText: '',
+            addReviewTimeConvert: '',
+            addReviwerID: 'test',
+            addReviwerName: 'test',
+            addSummary: '',
+            addReviewTime: (new Date()). getTime() / 1000,
         };
+        this.onTextBoxChangeAddOverall = this.onTextBoxChangeAddOverall.bind(this);
+        this.onTextBoxChangeAddReviewText = this.onTextBoxChangeAddReviewText.bind(this);
+        this.onTextBoxChangeAddSummary = this.onTextBoxChangeAddSummary.bind(this);
+        this.addReview = this.addReview.bind(this)
     }
+
+    onTextBoxChangeAddOverall(event) {
+        this.setState({
+          addOverall: event.target.value,
+        })
+      }
+
+    onTextBoxChangeAddReviewText(event) {
+        this.setState({
+            addReviewText: event.target.value,
+        })
+    }
+
+    
+    onTextBoxChangeAddSummary(event) {
+        this.setState({
+            addSummary: event.target.value,
+        })
+    }
+
 
     componentDidMount() {
         const obj = getFromStorage('AmaNerdBook');
@@ -38,6 +84,7 @@ export class Book extends Component {
                             firstName: obj.firstName,
                             lastName: obj.lastName
                         })
+                        this.receivedReviews()
                         this.receivedData(token)
                     } else {
                         this.setState({
@@ -74,13 +121,86 @@ export class Book extends Component {
         });
     }
 
+    receivedReviews() {
+        axios
+            .get(`http://localhost:8080/getBookReviews/` + this.props.match.params.asin)
+            .then(res => {
+                const data = res.data;
+                console.log(data);
+                this.setState({
+                    reviews: data,
+                    dbload: false,
+                }
+                
+                )
+            });
+        
+    }
+
+    addReview(e, token) {
+        e.preventDefault()       
+        const {
+            addOverall,
+            addReviewText,
+            addSummary,
+            addReviewTime,
+        } = this.state;
+        var todate = parseInt(new Date(addReviewTime*1000).getDate());
+        var tomonth = new Date(addReviewTime*1000).getMonth()+1;
+        var toyear = new Date(addReviewTime*1000).getFullYear();
+        var originaldate =tomonth+' '+todate+', '+toyear;
+        fetch('/addReview',
+        {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          asin: this.props.match.params.asin,
+          helpful: '[0,0]',
+          overall: parseInt(addOverall) ,
+          reviewText: addReviewText,
+          reviewTime: originaldate,
+          reviewerID: this.state.token,
+          reviewerName: this.state.firstName,
+          summary: addSummary,
+          unixReviewTime: parseInt(addReviewTime),
+        }),
+      });
+      this.toggle(8);
+      window.location.href = `./` + this.props.match.params.asin;
+    }
+
+    reviewsList() {
+        console.log(this.state.reviews);
+        return this.state.reviews.map(currentreview => {
+            console.log(currentreview);
+           // <Review review={currentreview} key={currentreview.reviewerID}/>
+            return <tr>
+            <td>{currentreview.helpful}</td>
+            <td>{currentreview.overall}</td>
+            <td>{currentreview.reviewText}</td>
+            <td>{currentreview.reviewTime}</td>
+            <td>{currentreview.reviewerName}</td>
+            <td>{currentreview.summary}</td>
+          </tr>
+          
+        //   return <Review review={currentreview} key={currentreview.reviewerID}/>;
+        })
+      }
+    
+
+
     render() {
         const {
             isLoading,
             dbload,
             token,
             firstName,
-            lastName
+            lastName,
+            addOverall,
+            addReviewText,
+            addSummary,
         } = this.state;
 
         if (isLoading) {
@@ -107,9 +227,13 @@ export class Book extends Component {
                 </div>
             );
         }
+
+
+        
         return (
             <div>
                 <br/>
+                <MDBModalBody>
                 <MDBRow>
                     <MDBCol lg="5">
                         <a href={this.state.imUrl} target="_blank">
@@ -127,6 +251,65 @@ export class Book extends Component {
                         <MDBBtn color="success" size="md" className="waves-light ">Button</MDBBtn>
                     </MDBCol>
                 </MDBRow>
+                
+                <MDBRow>
+                    <h3 className="font-weight-bold mb-3 p-0"><strong>Community Reviews</strong></h3>
+                    <MDBBtn color="success" size="md" className="waves-light " onClick={this.toggle(8)}>Add Review</MDBBtn>
+
+                    <MDBModal isOpen={this.state.modal8} toggle={this.toggle(8)} fullHeight position="right">
+                        <MDBModalHeader toggle={this.toggle(8)}>Add A Review</MDBModalHeader>
+                        <MDBModalBody>
+                            {
+                            <div>
+                                <form>
+                                
+                                {/* <MDBInput label="Last Name" icon="user" group type="text" validate error="wrong"
+                                success="right" required value={signUpLastName} onChange={this.onTextBoxChangeSignUpLastName} />
+                                <MDBInput label="Your email" icon="envelope" group type="email" validate error="wrong"
+                                success="right" required value={signUpEmail} onChange={this.onTextBoxChangeSignUpEmail}/> */}
+                                <label htmlFor="materialContactFormName" className="grey-text">Rate this book out of 5</label>
+                                <MDBInput group type="number" validate error="wrong"
+                                success="right" required value={this.state.addOverall} onChange={this.onTextBoxChangeAddOverall.bind(this)} />
+                                <br />
+                                <label htmlFor="materialContactFormName" className="grey-text">Leave a Review</label>
+                                <MDBInput group type="text" validate error="wrong"
+                                success="right" required value={this.state.addReviewText} onChange={this.onTextBoxChangeAddReviewText.bind(this)} />
+                                <br />
+                                <label htmlFor="materialContactFormName" className="grey-text">Summary</label>
+                                <MDBInput group type="text" validate error="wrong"
+                                success="right" required value={this.state.addSummary} onChange={this.onTextBoxChangeAddSummary.bind(this)} />
+                                <br />
+                                <div className="text-center mt-4">
+                                    <MDBBtn color="warning" outline type="submit" onClick={this.addReview}>
+                                    Add Review
+                                    </MDBBtn>
+                                </div>
+                                </form>
+                            </div>
+                            }
+                        </MDBModalBody>
+
+          <MDBModalFooter>
+            <MDBBtn color="secondary" onClick={this.toggle(8)}>Close</MDBBtn>
+          </MDBModalFooter>
+        </MDBModal>
+                    <table className="table">
+                        <thead className="thead-light">
+                            <tr>
+                                <th>helpful</th>
+                                <th>overall</th>
+                                <th>review</th>
+                                <th>time</th>
+                                <th>name</th>
+                                <th>summary</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            { this.reviewsList() }
+                        </tbody>
+                    </table>
+                </MDBRow>
+                </MDBModalBody>
             </div>
         )
     }
