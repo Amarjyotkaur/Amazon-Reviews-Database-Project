@@ -81,6 +81,7 @@ module.exports = (app) => {
         const { body } = req;
         let {
             asin,
+            title,
             description,
             price,
             imUrl,
@@ -92,6 +93,13 @@ module.exports = (app) => {
             return res.status(400).end({
                 success: false,
                 message: 'Error: Asin cannot be blank.'
+            });
+        }
+
+        if(!title) {
+            return res.status(400).end({
+                success: false,
+                message: 'Error: title cannot be blank.'
             });
         }
 
@@ -137,6 +145,7 @@ module.exports = (app) => {
             // Save Book
             const newMetaData = new Metadata();
             newMetaData.asin = asin;
+            newMetaData.title = title;
             newMetaData.description = description;
             newMetaData.price = price;
             newMetaData.imUrl = imUrl;

@@ -5,6 +5,10 @@ const MetaDataSchema = new mongoose.Schema({
       type: String,
       default: ''
     },
+    title: {
+        type: String,
+        default: ''
+    },
     description:{
         type: String,
         default: ''

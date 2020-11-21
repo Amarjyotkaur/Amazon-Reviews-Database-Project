@@ -132,6 +132,7 @@ export default class Home extends Component {
 
    const book = {
      asin: asin,
+     title: this.state.title,
      description: this.state.description,
      categories: this.state.categories,
      price: this.state.price, 
@@ -248,7 +249,7 @@ export default class Home extends Component {
             <MDBView hover>
               <img className="card-img-top" src={book.imUrl} alt="Book Images" />
               <MDBMask className="flex-column flex-center" overlay="cyan-strong">
-                <p className="text-white">Book Title</p>
+      <h2 className="text-white">{book.title == null ? "Title" : book.title}</h2>
                 {
                   book.description == null ? <p></p> : <p>{(book.description).slice(0, 20)}...</p>
                 }
