@@ -107,12 +107,6 @@ export default class Home extends Component {
      }) 
  }
 
-//  onChangeSummary(e) {
-//   this.setState({
-//       price: e.target.value
-//   }) 
-// }
-
   onChangeimUrl(e) {
       this.setState({
           imUrl: e.target.value 
@@ -149,24 +143,25 @@ export default class Home extends Component {
 
    axios.post('/api/book/addbook', book)
       .then(res => {
+        console.log(res.status)
         log.response = res.status
         window.location.href = "./"
       })
       .catch((error) => {
         log.response = error.response.status
         console.log(error)
+      }).then((_) => {
+        axios.post(`/api/book/addLog/${this.state.token}`, log) 
+          .then((_) => {})
+          .catch(err => console.log(err))
       })
-
-      axios.post(`/api/book/addLog/${this.state.token}`, log) 
-        .then(res => console.log(res.status))
-        .catch(err => console.log(err))
  }
 
 
-  receivedData(token) {
+receivedData(token) {
     let log = {
       type: `GET api/book/getallbooks`, 
-      response: ""
+      response: 0
     }
     if (this.props.match.params.query == undefined) {
       this.props.match.params.query = "all"
@@ -174,6 +169,7 @@ export default class Home extends Component {
     axios
       .get(`/api/book/getallbooks/?query=` + this.props.match.params.query)
       .then(res => {
+        console.log(res.status)
         log.response = res.status
         const data = res.data;
         const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
@@ -184,11 +180,11 @@ export default class Home extends Component {
         })
       }).catch(err => {
         log.response = err.response.status
+      }).then((_) => {
+        axios.post(`/api/book/addLog/${token}`, log) 
+          .then((_) => {})
+          .catch(err => console.log(err))
       });
-
-      axios.post(`/api/book/addLog/${token}`, log) 
-        .then(res => console.log(res.status))
-        .catch(err => console.log(err))
   }
   
   handlePageClick = (e) => {

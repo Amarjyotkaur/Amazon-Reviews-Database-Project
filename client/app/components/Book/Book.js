@@ -100,11 +100,12 @@ export class Book extends Component {
     receivedData(token) {
         let log = {
             type: `GET api/book/getallbooks`, 
-            response: ""
+            response: 0
         }
         axios
             .get(`/api/book/getbook?asin=` + this.props.match.params.asin)
             .then(res => {
+                console.log(res.status)
                 log.response = res.status
                 const data = res.data;
                 this.setState({
@@ -117,23 +118,26 @@ export class Book extends Component {
             });
         }).catch (err => {
             log.response = err.response.status 
-            console.log(err)
-        })
-        axios.post(`/api/book/addLog/${token}`, log) 
-            .then(res => console.log(res.status))
-            .catch(err => console.log(err))
+            console.log(err.response.status)
+        }).then((_) => [
+            axios.post(`/api/book/addLog/${token}`, log) 
+                .then((_) => {})
+                .catch(err => console.log(err))
+        ])
     }
 
     receivedReviews(token) {
         let log = {
             type: `GET api/book/getBookReviews`, 
-            response: ""
+            response: 0
         }
         axios
             .get(`/getBookReviews/` + this.props.match.params.asin)
             .then(res => {
+                console.log(res.status)
+                log.response = res.status
                 const data = res.data;
-                console.log(data);
+                // console.log(data);
                 this.setState({
                     reviews: data,
                     dbload: false,
@@ -141,11 +145,11 @@ export class Book extends Component {
             }).catch(err => {
                 log.response = err.response.status 
                 console.log(err)
+            }).then((_) => {
+                axios.post(`/api/book/addLog/${token}`, log) 
+                    .then((_) => {})
+                    .catch(err => console.log(err))
             });
-        
-        axios.post(`/api/book/addLog/${token}`, log) 
-            .then(res => console.log(res.status))
-            .catch(err => console.log(err))
     }
 
     addReview(e, token) {
