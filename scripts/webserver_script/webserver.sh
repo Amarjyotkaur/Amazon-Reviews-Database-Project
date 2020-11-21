@@ -16,8 +16,8 @@ npm install
 
 sudo tee /home/ubuntu/AmaNerdBookReview/config/config.js << EOF
 module.exports = {
-    db: 'mongodb://admin:password@$MONGOIP:27017/project?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false',
-    db_dev: 'mongodb://admin:password@$MONGOIP:27017/project?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false',
+    db: 'mongodb://admin:password@$MONGOIP:27017/admin?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false',
+    db_dev: 'mongodb://admin:password@$MONGOIP:27017/admin?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false',
   };
 EOF
 
@@ -25,7 +25,7 @@ sudo tee /home/ubuntu/AmaNerdBookReview/config/dbconfig.js << EOF
 module.exports = {
     host: "$MYSQLIP",
     user: "admin",
-    password: 'password',
+    password: 'bookreviewer',
     port: 3306,
     database: "reviews"
 }
