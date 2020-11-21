@@ -25,7 +25,7 @@ sudo tee /home/ubuntu/AmaNerdBookReview/config/dbconfig.js << EOF
 module.exports = {
     host: "$MYSQLIP",
     user: "admin",
-    password: 'password',
+    password: 'bookreviewer',
     port: 3306,
     database: "reviews"
 }
