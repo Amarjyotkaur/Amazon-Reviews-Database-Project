@@ -52,6 +52,6 @@ sleep 3s
 sudo service mongod restart
 
 echo "Importing Dataset into MongoDB"
-mongoimport --db admin --collection metadatas --authenticationDatabase admin --username admin --password password --drop --file '/home/ubuntu/meta_Kindle_Store.json' --legacy
+mongoimport --db admin --collection metadatas --authenticationDatabase project --username admin --password password --drop --file '/home/ubuntu/meta_Kindle_Store.json' --legacy
 
 echo "MongoDB Setup Completed"
