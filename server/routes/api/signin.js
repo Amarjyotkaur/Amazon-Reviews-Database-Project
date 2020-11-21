@@ -14,28 +14,28 @@ module.exports = (app) => {
         } = body;
 
         if (!firstName) {
-            return res.end({
+            return res.status(400).end({
                 success: false,
                 message: 'Error: First Name cannot be blank.'
             });
         }
 
         if (!lastName) {
-            return res.end({
+            return res.status(400).end({
                 success: false,
                 message: 'Error: Last Name cannot be blank.'
             });
         }
 
         if (!email) {
-            return res.end({
+            return res.status(400).end({
                 success: false,
                 message: 'Error: Email cannot be blank.'
             });
         }
 
         if (!password) {
-            return res.end({
+            return res.status(400).end({
                 success: false,
                 message: 'Error: Password cannot be blank.'
             });
@@ -48,12 +48,12 @@ module.exports = (app) => {
             email: email
         }, (err, previousUsers) => {
             if (err) {
-                return res.send({
+                return res.status(404).send({
                     success: false,
                     message: "Error: Server Error"
                 });
             } else if (previousUsers.length > 0) {
-                return res.send({
+                return res.status(404).send({
                     success: false,
                     message: "Error: Account Already Existed"
                 });
@@ -66,7 +66,7 @@ module.exports = (app) => {
             newUser.lastName = lastName;
             newUser.password = newUser.generateHash(password);
             newUser.save().then(item => {
-                res.status(200).send({success: true})
+                res.status(200).send({success: true, message: "Sign up successful"})
                 // res.send({ success: true, message: "Signed Up", response:200, type: 'POST'});
             }).catch(err => {
                 res.status(400).send({ sucess: false, message: "Error: Server Error" })
@@ -84,14 +84,14 @@ module.exports = (app) => {
         } = body;
 
         if (!email) {
-            return res.end({
+            return res.status(400).end({
                 success: false,
                 message: 'Error: Email cannot be blank.'
             });
         }
 
         if (!password) {
-            return res.end({
+            return res.status(400).end({
                 success: false,
                 message: 'Error: Password cannot be blank.'
             });
@@ -103,13 +103,13 @@ module.exports = (app) => {
             email: email
         }, (err, users) => {
             if (err) {
-                return res.send({
+                return res.status(404).send({
                     success: false,
                     message: "Error: Server Error"
                 });
             }
             if (users.length != 1) {
-                return res.send({
+                return res.status(404).send({
                     success: false,
                     message: "Error: Invalid"
                 });
@@ -117,7 +117,7 @@ module.exports = (app) => {
 
             const user = users[0];
             if (!user.validPassword(password)) {
-                return res.send({
+                return res.status(404).send({
                     success: false,
                     message: "Error: Invalid"
                 });
@@ -129,13 +129,13 @@ module.exports = (app) => {
             
             userSession.save((err, doc) => {
                 if (err) {
-                    return res.send({
+                    return res.status(404).send({
                         success: false,
                         message: "Error: Server Error"
                     });
                 }
 
-                return res.send({
+                return res.status(200).send({
                     success: true,
                     message: "Valid Sign In",
                     token: user._id,

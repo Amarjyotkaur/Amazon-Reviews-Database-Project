@@ -13,8 +13,7 @@ const LogSession = new mongoose.Schema({
   response: {
       type: Number,
       required: true
-  }
-
+  }, 
 });
 
 module.exports = mongoose.model('LogSession', LogSession);

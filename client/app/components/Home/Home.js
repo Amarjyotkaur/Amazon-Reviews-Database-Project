@@ -45,6 +45,7 @@ export default class Home extends Component {
       description: '', 
       price: 0, 
       imUrl: 'https://static5.depositphotos.com/1016154/451/i/450/depositphotos_4511462-stock-photo-blank-empty-3d-book-cover.jpg',
+      author: '',
       // related: {},
       categories: []
     };
@@ -52,7 +53,8 @@ export default class Home extends Component {
      this.onChangeTitle = this.onChangeTitle.bind(this);
      this.onChangeDescription = this.onChangeDescription.bind(this);
      this.onChangePrice = this.onChangePrice.bind(this);
-    //  this.onChangeImUrl = this.onChangeImUrl.bind(this);
+     this.onChangeimUrl = this.onChangeimUrl.bind(this);
+     this.onChangeAuthor = this.onChangeAuthor.bind(this);
     //  this.onChangeSummary = this.onChangeSummary.bind(this);
      this.onSubmit = this.onSubmit.bind(this);
   }
@@ -73,7 +75,7 @@ export default class Home extends Component {
               firstName: obj.firstName,
               lastName: obj.lastName
             })
-            this.receivedData()
+            this.receivedData(token)
           } else {
             this.setState({
               isLoading: false,
@@ -111,11 +113,17 @@ export default class Home extends Component {
 //   }) 
 // }
 
-//  onChangeImUrl(date) {
-//      this.setState({
-//         imUrl: e.target.value 
-//      }) 
-//  }
+  onChangeimUrl(e) {
+      this.setState({
+          imUrl: e.target.value 
+      }) 
+  }
+
+  onChangeAuthor(e) {
+    this.setState({
+        author: e.target.value 
+    }) 
+  }
 
  onSubmit(e) {
    e.preventDefault(); 
@@ -128,33 +136,44 @@ export default class Home extends Component {
      categories: this.state.categories,
      price: this.state.price, 
      imUrl: this.state.imUrl,
+     author: this.state.author,
     //  related: this.state.related,
      categories: this.state.categories
    }
 
-   axios.post('http://localhost:8080/api/book/addbook', book)
+   let log = {
+    type: `GET /api/book/addbook`, 
+    response: ""
+  }
+
+   axios.post('/api/book/addbook', book)
       .then(res => {
-        this.setState({
-          description: '',
-          price: 0, 
-          title: '', 
-          summary: '',
-        })
-        
+        log.response = res.status
         window.location.href = "./"
-        console.log(res.data);
       })
       .catch((error) => {
+        log.response = error.response.status
         console.log(error)
       })
+
+      axios.post(`/api/book/addLog/${this.state.token}`, log) 
+        .then(res => console.log(res.status))
+        .catch(err => console.log(err))
  }
 
 
-  receivedData() {
+  receivedData(token) {
+    let log = {
+      type: `GET api/book/getallbooks`, 
+      response: ""
+    }
+    if (this.props.match.params.query == undefined) {
+      this.props.match.params.query = "all"
+    }
     axios
-      .get(`http://localhost:8080/api/book/getallbooks`)
+      .get(`/api/book/getallbooks/?query=` + this.props.match.params.query)
       .then(res => {
-        // const data = res.data;
+        log.response = res.status
         const data = res.data;
         const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
         this.setState({
@@ -162,7 +181,13 @@ export default class Home extends Component {
           book_data: slice,
           dbload: false,
         })
+      }).catch(err => {
+        log.response = err.response.status
       });
+
+      axios.post(`/api/book/addLog/${token}`, log) 
+        .then(res => console.log(res.status))
+        .catch(err => console.log(err))
   }
   
   handlePageClick = (e) => {
@@ -174,7 +199,7 @@ export default class Home extends Component {
       offset: offset,
       dbload: true,
     }, () => {
-      this.receivedData()
+      this.receivedData(this.state.token)
     });
 
   };
@@ -243,11 +268,7 @@ export default class Home extends Component {
           <div className="d-flex justify-content-end mr-5 mb-5">
             <MDBBtn color="primary" onClick={this.toggle(8)}>Add Book</MDBBtn>
           </div>
-          <div className="d-flex justify-content-end mr-5 mb-5">
-            <MDBBtn color="secondary" onClick={this.toggle(8)}>Add Book</MDBBtn>
-          </div>
         </div>
-
         <MDBModal isOpen={this.state.modal8} toggle={this.toggle(8)} fullHeight position="right">
           <MDBModalHeader toggle={this.toggle(8)}>Add A Book</MDBModalHeader>
           <MDBModalBody>
@@ -260,6 +281,22 @@ export default class Home extends Component {
                          required
                          value={this.state.title}
                          onChange={this.onChangeTitle}
+                  />
+                  <br />
+                  <label htmlFor="materialContactFormName" className="grey-text">Author</label>
+                  <input type="text" 
+                         className="form-control" 
+                         required
+                         value={this.state.author}
+                         onChange={this.onChangeAuthor}
+                  />
+                  <br />
+                  <label htmlFor="materialContactFormName" className="grey-text">Image URL</label>
+                  <input type="text" 
+                         className="form-control" 
+                         required
+                         value={this.state.imUrl}
+                         onChange={this.onChangeimUrl}
                   />
                   <br />
                   <label htmlFor="materialContactFormName" className="grey-text">Description</label>

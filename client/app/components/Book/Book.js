@@ -8,8 +8,6 @@ import { MDBMask, MDBView, MDBInput, MDBRow, MDBCol, MDBBtn, MDBModalBody, MDBMo
 import 'regenerator-runtime/runtime';
 import AniLoading from '../../utils/aniloading';
 import './book.css'
-import { faWindowRestore } from '@fortawesome/free-solid-svg-icons';
-
 
 export class Book extends Component {
 
@@ -84,7 +82,7 @@ export class Book extends Component {
                             firstName: obj.firstName,
                             lastName: obj.lastName
                         })
-                        this.receivedReviews()
+                        this.receivedReviews(token)
                         this.receivedData(token)
                     } else {
                         this.setState({
@@ -100,15 +98,14 @@ export class Book extends Component {
     }
 
     receivedData(token) {
+        let log = {
+            type: `GET api/book/getallbooks`, 
+            response: ""
+        }
         axios
-            .get(`http://localhost:8080/api/book/getbook?asin=` + this.props.match.params.asin)
+            .get(`/api/book/getbook?asin=` + this.props.match.params.asin)
             .then(res => {
-                let log = {
-                    type: `GET api/book/getbook?asin=` + this.props.match.params.asin, 
-                    response: res.status
-                }
-                axios.post(`http://localhost:8080/api/book/addLog/${token}`, log) 
-                    .then(res => console.log(res.data));
+                log.response = res.status
                 const data = res.data;
                 this.setState({
                     description: data.description,
@@ -118,23 +115,37 @@ export class Book extends Component {
                     categories: data.categories,
                     dbload: false,
             });
-        });
+        }).catch (err => {
+            log.response = err.response.status 
+            console.log(err)
+        })
+        axios.post(`/api/book/addLog/${token}`, log) 
+            .then(res => console.log(res.status))
+            .catch(err => console.log(err))
     }
 
-    receivedReviews() {
+    receivedReviews(token) {
+        let log = {
+            type: `GET api/book/getBookReviews`, 
+            response: ""
+        }
         axios
-            .get(`http://localhost:8080/getBookReviews/` + this.props.match.params.asin)
+            .get(`/getBookReviews/` + this.props.match.params.asin)
             .then(res => {
                 const data = res.data;
                 console.log(data);
                 this.setState({
                     reviews: data,
                     dbload: false,
-                }
-                
-                )
+                })
+            }).catch(err => {
+                log.response = err.response.status 
+                console.log(err)
             });
         
+        axios.post(`/api/book/addLog/${token}`, log) 
+            .then(res => console.log(res.status))
+            .catch(err => console.log(err))
     }
 
     addReview(e, token) {
@@ -184,8 +195,6 @@ export class Book extends Component {
             <td>{currentreview.reviewerName}</td>
             <td>{currentreview.summary}</td>
           </tr>
-          
-        //   return <Review review={currentreview} key={currentreview.reviewerID}/>;
         })
       }
     

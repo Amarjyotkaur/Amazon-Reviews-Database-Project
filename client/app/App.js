@@ -18,6 +18,7 @@ function App() {
         <div className="navbar-nav nav-fill w-100">
           <Navbar /> 
             <Route exact path="/" component={Home}/>
+            <Route path="/search/:query" component={Home}/>
             <Route path="/login" component={Login}/>
             <Route path="/signup" component={SignUp}/>
             <Route exact path="/book" component={Book}/>

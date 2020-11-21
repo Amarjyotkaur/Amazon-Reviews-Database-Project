@@ -124,11 +124,15 @@ export default class Login extends Component {
             token: json.token,
           });
         } else {
+          log.response = 
           this.setState({
             signInError: json.message,
             isLoading: false,
           })
         }
+      }).catch(err => {
+        log.response = err.response.status
+        console.log(err)
       });
   }
 

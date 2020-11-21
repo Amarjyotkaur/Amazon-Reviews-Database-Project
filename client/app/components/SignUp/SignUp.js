@@ -91,7 +91,6 @@ export default class Login extends Component {
       isLoading: true,
     })
 
-
     fetch('/api/account/signup',
       {
         method: 'POST',
@@ -105,8 +104,7 @@ export default class Login extends Component {
           password: signUpPassword,
         }),
       })
-      .then(res => {res.json()
-      })
+      .then(res => res.json())
       .then(json => {
         if (json.success) {
           this.setState({
@@ -123,17 +121,9 @@ export default class Login extends Component {
             isLoading: false,
           })
         }
+      }).catch(err =>{
+        console.log(err)
       });
-
-      // const log = {
-      //   datetime: Date.now(),
-      //   type: 'POST', 
-      //   response: 
-      // }
-      // axios.post('/api/request/addlog/', user)
-      // .then(res => console.log(res.data));
-
-    // window.location = '/login'
   }
 
   render() {

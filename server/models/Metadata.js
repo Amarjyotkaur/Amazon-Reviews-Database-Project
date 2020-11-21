@@ -15,7 +15,7 @@ const MetaDataSchema = new mongoose.Schema({
     },
     imUrl: {
         type: String,
-        default: ""
+        default: ''
     },
     related: {
         type: Object,

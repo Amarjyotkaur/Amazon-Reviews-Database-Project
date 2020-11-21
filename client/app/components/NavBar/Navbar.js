@@ -12,8 +12,11 @@ export class Navbar extends Component {
       token: '',
       firstName: '',
       lastName: '',
+      searchText: '',
     };
     this.logout = this.logout.bind(this)
+    this.onChangeSearchText = this.onChangeSearchText.bind(this);
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   logout() {
@@ -74,6 +77,18 @@ export class Navbar extends Component {
     }
   }
 
+  onChangeSearchText(event) {
+    this.setState({
+        searchText: event.target.value,
+    })
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+    window.location.href = `/search/${this.state.searchText}`
+  }
+
+
   render() {
     const {
       isLoading,
@@ -123,8 +138,8 @@ export class Navbar extends Component {
               <MDBBtn gradient="aqua" type="submit" size="sm" onClick={this.logout}>Logout</MDBBtn>
             </li>
             <form className="form-inline mt-2 mt-md-0 px-1">
-              <input className="form-control form-control-sm mr-sm-2" type="text" placeholder="Search" aria-label="Search" />
-              <button className="btn btn-outline-success btn-sm my-2 my-sm-0" type="submit">Search</button>
+              <input className="form-control form-control-sm mr-sm-2" value={this.searchText} onChange={this.onChangeSearchText}type="text" placeholder="Search" aria-label="Search" />
+              <button className="btn btn-outline-success btn-sm my-2 my-sm-0" type="submit" onClick={this.onSubmit}>Search</button>
             </form>
           </ul>
         </div>

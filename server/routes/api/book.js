@@ -1,14 +1,27 @@
+const { query } = require('express');
 const e = require('express');
 const Metadata = require('../../models/Metadata.js');
 
 module.exports = (app) => {
-    // retrieves random 500 books from mongodb 
+    // retrieves random 500 books from mongodb or search
     app.get('/api/book/getallbooks', (req, res, next) => {
+        let query = req.query.query
         // Metadata.aggregate([{ $sample: { size: 500 } }])
         // Metadata.find().limit(500)
-        Metadata.find().sort({$natural:-1}).limit(500)
-            .then(books => {res.status(200).json(books)})
+        if (query == "all") {
+            Metadata.find().sort({$natural:-1}).limit(500)
+                .then(books => {res.status(200).json(books)})
+                .catch(err => res.status(400).json('Error: ' + err))
+        } else {
+            Metadata.find({
+                "$or": [
+                    {"asin": query}, 
+                    {"title": query},
+                    {"author": query}
+                ]
+            }).then(books => res.status(200).json(books))
             .catch(err => res.status(400).json('Error: ' + err))
+        }
     })
 
     // filters queries 
@@ -23,7 +36,7 @@ module.exports = (app) => {
               }
             }
           }).sort({$natural:-1}).limit(500)
-                .then(books => res.json(books))
+                .then(books => res.status(200).json(books))
                 .catch(err => res.status(400).json('Error: ' + err))
     })
 
@@ -31,31 +44,27 @@ module.exports = (app) => {
     app.get('/api/book/getbook', (req, res, next) => {
         const { query } = req;
         const { asin } = query;
-
         Metadata.find({
             asin: asin
         }, (err, books) => {
             if (err) {
-                return res.send({
+                return res.status(404).send({
                     success: false,
                     message: "Error: Server Error"
                 });
             }
-            const book = books[0];
-            
-            const metaData = new Metadata();
-            metaData.asin = book.asin;
-
-
-            if (!book) {
-                return res.send({
-                    success: false,
-                    message: "Error: Invalid"
-                });
+            else if (books.length == 0) {
+                return res.status(400).send({
+                    success: false, 
+                    message: "Error: book does not exist"
+            })
             } else {
-                return res.send({
+                const book = books[0];
+                const metaData = new Metadata();
+                metaData.asin = book.asin;
+                return res.status(200).send({
                     success: true,
-                    message: "Verified",
+                    message: "Book found",
                     description: book.description,
                     price: book.price,
                     imUrl: book.imUrl,
@@ -80,28 +89,28 @@ module.exports = (app) => {
         } = body;
 
         if (!asin) {
-            return res.end({
+            return res.status(400).end({
                 success: false,
                 message: 'Error: Asin cannot be blank.'
             });
         }
 
         if (!description) {
-            return res.end({
+            return res.staus(400).end({
                 success: false,
                 message: 'Error: Description cannot be blank.'
             });
         }
 
         if (!price) {
-            return res.end({
+            return res.status(400).end({
                 success: false,
                 message: 'Error: Price cannot be blank.'
             });
         }
 
         if (!imUrl) {
-            return res.end({
+            return res.status(400).end({
                 success: false,
                 message: 'Error: ImageURL cannot be blank.'
             });
@@ -114,12 +123,12 @@ module.exports = (app) => {
             asin: asin
         }, (err, previousBooks) => {
             if (err) {
-                return res.send({
+                return res.status(404).send({
                     success: false,
                     message: "Error: Server Error"
                 });
             } else if (previousBooks.length > 0) {
-                return res.send({
+                return res.status(400).send({
                     success: false,
                     message: "Error: Book Already Exist"
                 });
@@ -134,7 +143,7 @@ module.exports = (app) => {
             newMetaData.related = related;
             newMetaData.categories = categories;
             newMetaData.save().then(item => {
-                res.send({ success: true, message: "Book Added" });
+                res.status(200).send({ success: true, message: "Book Added" });
             }).catch(err => {
                 res.status(400).send({ sucess: false, message: "Error: Server Error" })
             })
