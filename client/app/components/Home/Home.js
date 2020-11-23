@@ -160,7 +160,12 @@ export default class Home extends Component {
       })
  }
 
+<<<<<<< HEAD
 applyFilter(filter) {
+=======
+onFilter(e) {
+  e.preventDefault()
+>>>>>>> 8036b8dffcd1a81d4a75f3516ba900ca5fb418e2
   let filter1 = {
     "filter": ["Cookbooks, Food & Wine"]
   }
@@ -293,7 +298,7 @@ receivedData(token) {
           <MDBModalBody>
             {
                   <div className="text-center mt-4">
-                    <MDBBtn color="warning" onClick={this.applyFilter("Cookbooks, Food & Wine")} outline type="submit">test</MDBBtn>
+                    <MDBBtn color="warning" onClick={this.onFilter} outline type="submit">test</MDBBtn>
               </div>
             }
           </MDBModalBody>
@@ -350,7 +355,7 @@ receivedData(token) {
                   />
                   <br />
                   <div className="text-center mt-4">
-                    <MDBBtn color="warning" onClick={this.onFilter} outline type="submit">Add Book</MDBBtn>
+                    <MDBBtn color="warning" onClick={this.onSubmit} outline type="submit">Add Book</MDBBtn>
                   </div>
                 </form>
               </div>
