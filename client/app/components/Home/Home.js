@@ -13,6 +13,7 @@ import Video from "../../../public/assets/img/readingbook.mp4";
 import "./background.css"
 import { v4 as uuidv4 } from 'uuid';
 import Checkbox from './Checkbox'
+import { faShekelSign } from '@fortawesome/free-solid-svg-icons';
 
 
 export default class Home extends Component {
@@ -59,7 +60,12 @@ export default class Home extends Component {
      this.onChangeAuthor = this.onChangeAuthor.bind(this);
     //  this.onChangeSummary = this.onChangeSummary.bind(this);
      this.onSubmit = this.onSubmit.bind(this);
-     this.applyFilter = this.applyFilter.bind(this);
+     this.onFilter = this.onFilter.bind(this);
+     this.onChangeCFW = this.onChangeCFW.bind(this);
+     this.onChangeLF = this.onChangeLF.bind(this);
+     this.onChangeMST = this.onChangeMST.bind(this);
+     this.onChangeDT = this.onChangeDT.bind(this);
+     this.onChangeSF = this.onChangeSF.bind(this);
   }
 
   componentDidMount() {
@@ -122,6 +128,101 @@ export default class Home extends Component {
     }) 
   }
 
+  onChangeCFW(e) {
+    let tempcat = this.state.categories;
+    console.log(tempcat);
+    if (!tempcat.includes("Cookbooks, Food & Wine")) {
+      tempcat.push("Cookbooks, Food & Wine")
+      this.setState({
+        categories: tempcat
+      })
+    } else {
+      let index = tempcat.indexOf("Cookbooks, Food & Wine");
+      if (index > -1) {
+      tempcat.splice(index, 1);
+      this.setState({
+        categories: tempcat
+      })
+    }
+    }
+  }
+
+  onChangeLF(e) {
+    let tempcat = this.state.categories;
+    console.log(tempcat);
+    if (!tempcat.includes("Literature & Fiction")) {
+      tempcat.push("Literature & Fiction")
+      this.setState({
+        categories: tempcat
+      })
+    } else {
+      let index = tempcat.indexOf("Literature & Fiction");
+      if (index > -1) {
+      tempcat.splice(index, 1);
+      this.setState({
+        categories: tempcat
+      })
+    }
+    }
+  }
+
+  onChangeMST(e) {
+    let tempcat = this.state.categories;
+    console.log(tempcat);
+    if (!tempcat.includes("Mystery, Thriller & Suspense")) {
+      tempcat.push("Mystery, Thriller & Suspense")
+      this.setState({
+        categories: tempcat
+      })
+    } else {
+      let index = tempcat.indexOf("Mystery, Thriller & Suspense");
+      if (index > -1) {
+      tempcat.splice(index, 1);
+      this.setState({
+        categories: tempcat
+      })
+    }
+    }
+  }
+
+  onChangeDT(e) {
+    let tempcat = this.state.categories;
+    console.log(tempcat);
+    if (!tempcat.includes("Dictionaries & Thesauruses")) {
+      tempcat.push("Dictionaries & Thesauruses")
+      this.setState({
+        categories: tempcat
+      })
+    } else {
+      let index = tempcat.indexOf("Dictionaries & Thesauruses");
+      if (index > -1) {
+      tempcat.splice(index, 1);
+      this.setState({
+        categories: tempcat
+      })
+    }
+    }
+  }
+
+  onChangeSF(e) {
+    let tempcat = this.state.categories;
+    console.log(tempcat);
+    if (!tempcat.includes("Science Fiction")) {
+      tempcat.push("Science Fiction")
+      this.setState({
+        categories: tempcat
+      })
+    } else {
+      let index = tempcat.indexOf("Science Fiction");
+      if (index > -1) {
+      tempcat.splice(index, 1);
+      this.setState({
+        categories: tempcat
+      })
+    }
+    }
+  }
+
  onSubmit(e) {
    e.preventDefault(); 
 
@@ -160,14 +261,14 @@ export default class Home extends Component {
       })
  }
 
-<<<<<<< HEAD
-applyFilter(filter) {
-=======
 onFilter(e) {
+  this.setState({
+    isLoading: true,
+  })
   e.preventDefault()
->>>>>>> 8036b8dffcd1a81d4a75f3516ba900ca5fb418e2
+  console.log(this.state.categories)
   let filter1 = {
-    "filter": ["Cookbooks, Food & Wine"]
+    "filter": this.state.categories
   }
   axios
     .post('/api/book/applyfilter/', filter1)
@@ -179,7 +280,11 @@ onFilter(e) {
         book_data: slice,
         dbload: false,
       })
-    });
+    }).then(this.setState({
+      modal7: false,
+      categories: [],
+      isLoading: false,
+    }));
 
  }
 
@@ -297,8 +402,14 @@ receivedData(token) {
           <MDBModalHeader toggle={this.toggle(7)}>Choose a category</MDBModalHeader>
           <MDBModalBody>
             {
-                  <div className="text-center mt-4">
-                    <MDBBtn color="warning" onClick={this.onFilter} outline type="submit">test</MDBBtn>
+              
+                  <div>
+                    <MDBInput label="Cookbooks, Food & Wine" type="checkbox" id="checkbox1" onChange={this.onChangeCFW}/>
+                    <MDBInput label="Literature & Fiction" type="checkbox" id="checkbox2" onChange={this.onChangeLF}/>
+                    <MDBInput label="Mystery, Thriller & Suspense" type="checkbox" id="checkbox3" onChange={this.onChangeMST}/>
+                    <MDBInput label="Dictionaries & Thesauruses" type="checkbox" id="checkbox4" onChange={this.onChangeDT} />
+                    <MDBInput label="Science Fiction" type="checkbox" id="checkbox5" onChange={this.onChangeSF}/>
+                    <MDBBtn color="warning" onClick={this.onFilter} outline type="submit">APPLY FILTER</MDBBtn>
               </div>
             }
           </MDBModalBody>
