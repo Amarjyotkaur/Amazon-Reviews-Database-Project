@@ -59,7 +59,7 @@ export default class Home extends Component {
      this.onChangeAuthor = this.onChangeAuthor.bind(this);
     //  this.onChangeSummary = this.onChangeSummary.bind(this);
      this.onSubmit = this.onSubmit.bind(this);
-     this.onFilter = this.onFilter.bind(this);
+     this.applyFilter = this.applyFilter.bind(this);
   }
 
   componentDidMount() {
@@ -161,15 +161,11 @@ export default class Home extends Component {
  }
 
 applyFilter(filter) {
-  let filter1 = ["Cookbooks, Food & Wine"]
-  console.log(filter);
+  let filter1 = {
+    "filter": ["Cookbooks, Food & Wine"]
+  }
   axios
     .post('/api/book/applyfilter/', filter1)
-    .then(res => {
-      this.setState({
-        book_data: res,
-      })
-    })
     .then(res => {
       const data = res.data;
       const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
@@ -179,6 +175,7 @@ applyFilter(filter) {
         dbload: false,
       })
     });
+
  }
 
 
