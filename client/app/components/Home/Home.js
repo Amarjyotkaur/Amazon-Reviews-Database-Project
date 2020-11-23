@@ -160,16 +160,13 @@ export default class Home extends Component {
       })
  }
 
-applyFilter(filter) {
-  let filter1 = ["Cookbooks, Food & Wine"]
-  console.log(filter);
+onFilter(e) {
+  e.preventDefault()
+  let filter1 = {
+    "filter": ["Cookbooks, Food & Wine"]
+  }
   axios
     .post('/api/book/applyfilter/', filter1)
-    .then(res => {
-      this.setState({
-        book_data: res,
-      })
-    })
     .then(res => {
       const data = res.data;
       const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
@@ -296,7 +293,7 @@ receivedData(token) {
           <MDBModalBody>
             {
                   <div className="text-center mt-4">
-                    <MDBBtn color="warning" onClick={this.applyFilter("Cookbooks, Food & Wine")} outline type="submit">test</MDBBtn>
+                    <MDBBtn color="warning" onClick={this.onFilter} outline type="submit">test</MDBBtn>
               </div>
             }
           </MDBModalBody>
@@ -353,7 +350,7 @@ receivedData(token) {
                   />
                   <br />
                   <div className="text-center mt-4">
-                    <MDBBtn color="warning" onClick={this.onFilter} outline type="submit">Add Book</MDBBtn>
+                    <MDBBtn color="warning" onClick={this.onSubmit} outline type="submit">Add Book</MDBBtn>
                   </div>
                 </form>
               </div>
