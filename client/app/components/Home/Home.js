@@ -17,6 +17,7 @@ import { v4 as uuidv4 } from 'uuid';
 export default class Home extends Component {
 
   state = {
+    modal7: false,
     modal8: false,
     modal9: false
   }
@@ -157,6 +158,27 @@ export default class Home extends Component {
       })
  }
 
+applyFilter(filter) {
+  let filter1 = ["Cookbooks, Food & Wine"]
+  console.log(filter);
+  axios
+    .post('/api/book/applyfilter/', filter1)
+    .then(res => {
+      this.setState({
+        book_data: res,
+      })
+    })
+    .then(res => {
+      const data = res.data;
+      const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
+      this.setState({
+        pageCount: Math.ceil(data.length / this.state.perPage),
+        book_data: slice,
+        dbload: false,
+      })
+    });
+ }
+
 
 receivedData(token) {
     let log = {
@@ -264,8 +286,23 @@ receivedData(token) {
         <div class="d-flex flex-row-reverse">
           <div className="d-flex justify-content-end mr-5 mb-5">
             <MDBBtn color="primary" onClick={this.toggle(8)}>Add Book</MDBBtn>
+            <MDBBtn color="primary" onClick={this.toggle(7)}>Filter</MDBBtn>
           </div>
         </div>
+        <MDBModal isOpen={this.state.modal7} toggle={this.toggle(7)} fullHeight position="right">
+          <MDBModalHeader toggle={this.toggle(7)}>Choose a category</MDBModalHeader>
+          <MDBModalBody>
+            {
+                  <div className="text-center mt-4">
+                    <MDBBtn color="warning" onClick={this.applyFilter("Cookbooks, Food & Wine")} outline type="submit">test</MDBBtn>
+              </div>
+            }
+          </MDBModalBody>
+
+          <MDBModalFooter>
+            <MDBBtn color="secondary" onClick={this.toggle(7)}>Close</MDBBtn>
+          </MDBModalFooter>
+        </MDBModal>
         <MDBModal isOpen={this.state.modal8} toggle={this.toggle(8)} fullHeight position="right">
           <MDBModalHeader toggle={this.toggle(8)}>Add A Book</MDBModalHeader>
           <MDBModalBody>

@@ -25,8 +25,8 @@ module.exports = (app) => {
     })
 
     // filters queries 
-    app.get('/api/book/applyfilter', (req, res, next) => {
-        const filter = req.body.filter 
+    app.post('/api/book/applyfilter', (req, res, next) => {
+        const filter = req.body.filter; 
         Metadata.find({
             "categories": {
               "$elemMatch": {
