@@ -4,7 +4,7 @@ import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import "../../index.css";
 import "mdbreact/dist/css/mdb.css";
-import { MDBMask, MDBView, MDBCardBody, MDBRow, MDBCol, MDBBtn, MDBIcon } from "mdbreact";
+import { MDBMask, MDBView, MDBCardBody, MDBRow, MDBCol, MDBBtn, MDBIcon, MDBInput } from "mdbreact";
 import { MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
 import { Link, link } from 'react-router-dom';
 import AniLoading from '../../utils/aniloading';
@@ -12,13 +12,14 @@ import 'font-awesome/css/font-awesome.min.css';
 import Video from "../../../public/assets/img/readingbook.mp4";
 import "./background.css"
 import { v4 as uuidv4 } from 'uuid';
+import Checkbox from './Checkbox'
 
 
 export default class Home extends Component {
 
   state = {
     modal8: false,
-    modal9: false
+    modal9: false,
   }
 
   toggle = nr => () => {
@@ -57,6 +58,7 @@ export default class Home extends Component {
      this.onChangeAuthor = this.onChangeAuthor.bind(this);
     //  this.onChangeSummary = this.onChangeSummary.bind(this);
      this.onSubmit = this.onSubmit.bind(this);
+     this.onFilter = this.onFilter.bind(this);
   }
 
   componentDidMount() {
@@ -155,6 +157,21 @@ export default class Home extends Component {
           .then((_) => {})
           .catch(err => console.log(err))
       })
+ }
+
+ onFilter(e) {
+   e.preventDefault()
+   let categories = ["a", "b", "c"]
+   axios.get('/api/book/applyfilter', {
+     params: {
+       filter: categories  
+     }
+   })
+    .then(res => {
+      this.setState({
+        book_data: res,
+      })
+    })
  }
 
 
@@ -264,6 +281,7 @@ receivedData(token) {
         <div class="d-flex flex-row-reverse">
           <div className="d-flex justify-content-end mr-5 mb-5">
             <MDBBtn color="primary" onClick={this.toggle(8)}>Add Book</MDBBtn>
+            <MDBBtn color="secondary" onClick={this.toggle(9)}>Filter</MDBBtn>
           </div>
         </div>
         <MDBModal isOpen={this.state.modal8} toggle={this.toggle(8)} fullHeight position="right">
@@ -314,7 +332,7 @@ receivedData(token) {
                   />
                   <br />
                   <div className="text-center mt-4">
-                    <MDBBtn color="warning" onClick={this.onSubmit} outline type="submit">Add Book</MDBBtn>
+                    <MDBBtn color="warning" onClick={this.onFilter} outline type="submit">Add Book</MDBBtn>
                   </div>
                 </form>
               </div>
@@ -325,6 +343,23 @@ receivedData(token) {
             <MDBBtn color="secondary" onClick={this.toggle(8)}>Close</MDBBtn>
           </MDBModalFooter>
         </MDBModal>
+
+        
+        <MDBModal isOpen={this.state.modal9} toggle={this.toggle(9)} fullHeight position="right">
+          <MDBModalHeader toggle={this.toggle(9)}>Add A Book</MDBModalHeader>
+          <MDBModalBody>
+          <div>
+            {/* {Checkbox} */}
+            <p>To be filled by amarjyot</p>
+            <MDBBtn color="warning" onClick={this.onFilter} outline type="submit">Filter</MDBBtn>
+          </div>
+          </MDBModalBody>
+
+          <MDBModalFooter>
+            <MDBBtn color="secondary" onClick={this.toggle(9)}>Close</MDBBtn>
+          </MDBModalFooter>
+        </MDBModal>
+        
         {
           dbload == true ? <AniLoading /> : <div className="container-fluid">
             <div className="row">
