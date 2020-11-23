@@ -8,11 +8,13 @@ import { MDBMask, MDBView, MDBInput, MDBRow, MDBCol, MDBBtn, MDBModalBody, MDBMo
 import 'regenerator-runtime/runtime';
 import AniLoading from '../../utils/aniloading';
 import './book.css'
+import { update } from '../../../../server/models/Metadata';
 
 export class Book extends Component {
 
     state = {
         modal8: false,
+        modal9: false,
       }
     
       toggle = nr => () => {
@@ -39,11 +41,14 @@ export class Book extends Component {
             addReviwerName: 'test',
             addSummary: '',
             addReviewTime: (new Date()). getTime() / 1000,
+            avgRating: 0,
+            alrReviewed: false,
         };
         this.onTextBoxChangeAddOverall = this.onTextBoxChangeAddOverall.bind(this);
         this.onTextBoxChangeAddReviewText = this.onTextBoxChangeAddReviewText.bind(this);
         this.onTextBoxChangeAddSummary = this.onTextBoxChangeAddSummary.bind(this);
         this.addReview = this.addReview.bind(this)
+        this.checkAlrReviewed = this.checkAlrReviewed.bind(this)
     }
 
     onTextBoxChangeAddOverall(event) {
@@ -73,17 +78,18 @@ export class Book extends Component {
             fetch('/api/account/verify?token=' + token)
                 .then(res => res.json()).then(json => {
                     if (json.success) {
+                        this.receivedReviews(token)
+                        this.receivedData(token)
                         this.setState({
                             token: token,
-                            isLoading: false,
+                            
                         })
                         // Set Name
                         this.setState({
                             firstName: obj.firstName,
                             lastName: obj.lastName
                         })
-                        this.receivedReviews(token)
-                        this.receivedData(token)
+                        
                     } else {
                         this.setState({
                             isLoading: false,
@@ -137,10 +143,19 @@ export class Book extends Component {
                 console.log(res.status)
                 log.response = res.status
                 const data = res.data;
-                // console.log(data);
+                var totalRating = 0;
+                data.map(r => {
+                    totalRating += r.overall;
+                    if (r.reviewerID == this.state.token) {
+                        this.state.alrReviewed = true;
+                    }
+                })
+                this.state.avgRating = (totalRating / data.length).toFixed(1);
+                console.log(this.state.alrReviewed);
                 this.setState({
                     reviews: data,
                     dbload: false,
+                    isLoading: false,
                 })
             }).catch(err => {
                 log.response = err.response.status 
@@ -150,6 +165,19 @@ export class Book extends Component {
                     .then((_) => {})
                     .catch(err => console.log(err))
             });
+    }
+
+    checkAlrReviewed() {
+        if (this.state.alrReviewed == true) {
+            this.setState({
+                modal9: true
+            })
+        }
+        else {
+            this.setState({
+                modal8: true
+            })
+        }
     }
 
     addReview(e, token) {
@@ -189,7 +217,6 @@ export class Book extends Component {
     reviewsList() {
         console.log(this.state.reviews);
         return this.state.reviews.map(currentreview => {
-            console.log(currentreview);
            // <Review review={currentreview} key={currentreview.reviewerID}/>
             return <tr>
             <td>{currentreview.helpful}</td>
@@ -259,6 +286,7 @@ export class Book extends Component {
                         <a href="#!" className="green-text"><h6 className="font-weight-bold mb-3">Category</h6></a>
                         <h3 className="font-weight-bold mb-3 p-0"><strong>Book Title</strong></h3>
                         <h4 className="font-weight-bold mb-3 p-0"><strong>${this.state.price}</strong></h4>
+                        <h4 className="font-weight-bold mb-3 p-0"><strong>Average Rating: {this.state.avgRating}/5</strong></h4>
                         <p>Description: {this.state.description}</p>
                         <p>by<strong> Author</strong></p>
                         <MDBBtn color="success" size="md" className="waves-light ">Button</MDBBtn>
@@ -267,7 +295,7 @@ export class Book extends Component {
                 
                 <MDBRow>
                     <h3 className="font-weight-bold mb-3 p-0"><strong>Community Reviews</strong></h3>
-                    <MDBBtn color="success" size="md" className="waves-light " onClick={this.toggle(8)}>Add Review</MDBBtn>
+                    <MDBBtn color="success" size="md" className="waves-light " onClick={this.checkAlrReviewed}>Add Review</MDBBtn>
 
                     <MDBModal isOpen={this.state.modal8} toggle={this.toggle(8)} fullHeight position="right">
                         <MDBModalHeader toggle={this.toggle(8)}>Add A Review</MDBModalHeader>
@@ -275,13 +303,8 @@ export class Book extends Component {
                             {
                             <div>
                                 <form>
-                                
-                                {/* <MDBInput label="Last Name" icon="user" group type="text" validate error="wrong"
-                                success="right" required value={signUpLastName} onChange={this.onTextBoxChangeSignUpLastName} />
-                                <MDBInput label="Your email" icon="envelope" group type="email" validate error="wrong"
-                                success="right" required value={signUpEmail} onChange={this.onTextBoxChangeSignUpEmail}/> */}
                                 <label htmlFor="materialContactFormName" className="grey-text">Rate this book out of 5</label>
-                                <MDBInput group type="number" validate error="wrong"
+                                <MDBInput group type="number" min="0" max={5}  validate error="wrong"
                                 success="right" required value={this.state.addOverall} onChange={this.onTextBoxChangeAddOverall.bind(this)} />
                                 <br />
                                 <label htmlFor="materialContactFormName" className="grey-text">Leave a Review</label>
@@ -305,6 +328,16 @@ export class Book extends Component {
           <MDBModalFooter>
             <MDBBtn color="secondary" onClick={this.toggle(8)}>Close</MDBBtn>
           </MDBModalFooter>
+        </MDBModal>
+        <MDBModal isOpen={this.state.modal9} toggle={this.toggle(9)}>
+        <MDBModalHeader toggle={this.toggle(9)}>Error</MDBModalHeader>
+        <MDBModalBody>
+          You have already submitted a review for this book.
+        </MDBModalBody>
+        <MDBModalFooter>
+          <MDBBtn color="secondary" onClick={this.toggle(9)}>Close</MDBBtn>
+          
+        </MDBModalFooter>
         </MDBModal>
                     <table className="table">
                         <thead className="thead-light">
