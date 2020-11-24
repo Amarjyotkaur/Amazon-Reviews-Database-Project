@@ -65,6 +65,8 @@ module.exports = (app) => {
                 return res.status(200).send({
                     success: true,
                     message: "Book found",
+                    title: book.title,
+                    author: book.author,
                     description: book.description,
                     price: book.price,
                     imUrl: book.imUrl,

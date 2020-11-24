@@ -491,8 +491,6 @@ export default class Home extends Component {
             <MDBModalHeader toggle={this.toggle(9)}>Add A Book</MDBModalHeader>
             <MDBModalBody>
               <div>
-                {/* {Checkbox} */}
-                <p>To be filled by amarjyot</p>
                 <MDBBtn color="warning" onClick={this.onFilter} outline type="submit">Filter</MDBBtn>
               </div>
             </MDBModalBody>
