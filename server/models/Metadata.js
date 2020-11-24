@@ -21,6 +21,10 @@ const MetaDataSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
+    author: {
+        type: String, 
+        default: ''
+    },
     related: {
         type: Object,
         default: null

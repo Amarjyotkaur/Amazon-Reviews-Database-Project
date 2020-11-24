@@ -85,6 +85,7 @@ module.exports = (app) => {
             description,
             price,
             imUrl,
+            author,
             related,
             categories,
         } = body;
@@ -124,6 +125,13 @@ module.exports = (app) => {
             });
         }
 
+        if(!author) {
+            return res.status(400).end({
+                success: false,
+                message: 'Error: author cannot be blank.'
+            });
+        }
+
         // Related and catergories isit neccessary?
 
         // Verify book ASIN Does not exist then save
@@ -149,6 +157,7 @@ module.exports = (app) => {
             newMetaData.description = description;
             newMetaData.price = price;
             newMetaData.imUrl = imUrl;
+            newMetaData.author = author;
             newMetaData.related = related;
             newMetaData.categories = categories;
             newMetaData.save().then(item => {
