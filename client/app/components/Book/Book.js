@@ -295,11 +295,11 @@ export class Book extends Component {
                                     <p key={cat}>{cat}</p>
                                 ))}
                             </h5>
-                            <h3 style={{color: "green"}} className="font-weight-bold mb-3 p-0"><strong>{this.state.title}</strong></h3>
+                            <h3 style={{ color: "green" }} className="font-weight-bold mb-3 p-0"><strong>{this.state.title}</strong></h3>
                             <h4 className="font-weight-bold mb-3 p-0"><strong>${this.state.price == "0" | this.state.price === "" ? "-" : this.state.price}</strong></h4>
-                            <h4 className="font-weight-bold mb-3 p-0"><strong>Average Rating: {this.state.avgRating=='NaN' ? "-" : this.state.avgRating}/5</strong></h4>
-                            <p style={{fontFamily:"Times New Roman",fontSize:20}}>Description: {this.state.description}</p>
-                            <p>by<strong style={{fontFamily:"Times New Roman",fontSize:20}} >&emsp;{this.state.author==="" ? "No Author Specified": this.state.author}</strong></p>
+                            <h4 className="font-weight-bold mb-3 p-0"><strong>Average Rating: {this.state.avgRating == 'NaN' ? "-" : this.state.avgRating}/5</strong></h4>
+                            <p style={{ fontFamily: "Times New Roman", fontSize: 20 }}>Description: {this.state.description}</p>
+                            <p>by<strong style={{ fontFamily: "Times New Roman", fontSize: 20 }} >&emsp;{this.state.author === "" ? "No Author Specified" : this.state.author}</strong></p>
                         </MDBCol>
                     </MDBRow>
 
