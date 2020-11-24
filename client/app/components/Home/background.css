@@ -8,3 +8,12 @@ body{
     overflow-x:hidden;
     overflow-y: hidden;
 }
+
+.customControlInput{
+    padding-top: 5vh;
+}
+
+.MDBInput:checkbox{
+    right: 0;
+    padding: 50%;
+}

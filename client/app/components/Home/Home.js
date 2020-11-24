@@ -45,27 +45,27 @@ export default class Home extends Component {
       dbload: true,
       title: '',
       summary: '',
-      description: '', 
-      price: 0, 
+      description: '',
+      price: 0,
       imUrl: 'https://static5.depositphotos.com/1016154/451/i/450/depositphotos_4511462-stock-photo-blank-empty-3d-book-cover.jpg',
       author: '',
       // related: {},
       categories: []
     };
 
-     this.onChangeTitle = this.onChangeTitle.bind(this);
-     this.onChangeDescription = this.onChangeDescription.bind(this);
-     this.onChangePrice = this.onChangePrice.bind(this);
-     this.onChangeimUrl = this.onChangeimUrl.bind(this);
-     this.onChangeAuthor = this.onChangeAuthor.bind(this);
+    this.onChangeTitle = this.onChangeTitle.bind(this);
+    this.onChangeDescription = this.onChangeDescription.bind(this);
+    this.onChangePrice = this.onChangePrice.bind(this);
+    this.onChangeimUrl = this.onChangeimUrl.bind(this);
+    this.onChangeAuthor = this.onChangeAuthor.bind(this);
     //  this.onChangeSummary = this.onChangeSummary.bind(this);
-     this.onSubmit = this.onSubmit.bind(this);
-     this.onFilter = this.onFilter.bind(this);
-     this.onChangeCFW = this.onChangeCFW.bind(this);
-     this.onChangeLF = this.onChangeLF.bind(this);
-     this.onChangeMST = this.onChangeMST.bind(this);
-     this.onChangeDT = this.onChangeDT.bind(this);
-     this.onChangeSF = this.onChangeSF.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onFilter = this.onFilter.bind(this);
+    this.onChangeCFW = this.onChangeCFW.bind(this);
+    this.onChangeLF = this.onChangeLF.bind(this);
+    this.onChangeMST = this.onChangeMST.bind(this);
+    this.onChangeDT = this.onChangeDT.bind(this);
+    this.onChangeSF = this.onChangeSF.bind(this);
   }
 
   componentDidMount() {
@@ -100,32 +100,32 @@ export default class Home extends Component {
 
   onChangeTitle(e) {
     this.setState({
-        title: e.target.value
-    }) 
- }
+      title: e.target.value
+    })
+  }
 
- onChangeDescription(e) {
-     this.setState({
-         description: e.target.value
-     }) 
+  onChangeDescription(e) {
+    this.setState({
+      description: e.target.value
+    })
   }
 
   onChangePrice(e) {
-     this.setState({
-         price: e.target.value
-     }) 
- }
+    this.setState({
+      price: e.target.value
+    })
+  }
 
   onChangeimUrl(e) {
-      this.setState({
-          imUrl: e.target.value 
-      }) 
+    this.setState({
+      imUrl: e.target.value
+    })
   }
 
   onChangeAuthor(e) {
     this.setState({
-        author: e.target.value 
-    }) 
+      author: e.target.value
+    })
   }
 
   onChangeCFW(e) {
@@ -139,11 +139,11 @@ export default class Home extends Component {
     } else {
       let index = tempcat.indexOf("Cookbooks, Food & Wine");
       if (index > -1) {
-      tempcat.splice(index, 1);
-      this.setState({
-        categories: tempcat
-      })
-    }
+        tempcat.splice(index, 1);
+        this.setState({
+          categories: tempcat
+        })
+      }
     }
   }
 
@@ -158,11 +158,11 @@ export default class Home extends Component {
     } else {
       let index = tempcat.indexOf("Literature & Fiction");
       if (index > -1) {
-      tempcat.splice(index, 1);
-      this.setState({
-        categories: tempcat
-      })
-    }
+        tempcat.splice(index, 1);
+        this.setState({
+          categories: tempcat
+        })
+      }
     }
   }
 
@@ -177,11 +177,11 @@ export default class Home extends Component {
     } else {
       let index = tempcat.indexOf("Mystery, Thriller & Suspense");
       if (index > -1) {
-      tempcat.splice(index, 1);
-      this.setState({
-        categories: tempcat
-      })
-    }
+        tempcat.splice(index, 1);
+        this.setState({
+          categories: tempcat
+        })
+      }
     }
   }
 
@@ -196,11 +196,11 @@ export default class Home extends Component {
     } else {
       let index = tempcat.indexOf("Dictionaries & Thesauruses");
       if (index > -1) {
-      tempcat.splice(index, 1);
-      this.setState({
-        categories: tempcat
-      })
-    }
+        tempcat.splice(index, 1);
+        this.setState({
+          categories: tempcat
+        })
+      }
     }
   }
 
@@ -215,37 +215,37 @@ export default class Home extends Component {
     } else {
       let index = tempcat.indexOf("Science Fiction");
       if (index > -1) {
-      tempcat.splice(index, 1);
-      this.setState({
-        categories: tempcat
-      })
-    }
+        tempcat.splice(index, 1);
+        this.setState({
+          categories: tempcat
+        })
+      }
     }
   }
 
- onSubmit(e) {
-   e.preventDefault(); 
+  onSubmit(e) {
+    e.preventDefault();
 
-   const asin = uuidv4()
+    const asin = uuidv4()
 
-   const book = {
-     asin: asin,
-     title: this.state.title,
-     description: this.state.description,
-     categories: this.state.categories,
-     price: this.state.price, 
-     imUrl: this.state.imUrl,
-     author: this.state.author,
-    //  related: this.state.related,
-     categories: this.state.categories
-   }
+    const book = {
+      asin: asin,
+      title: this.state.title,
+      description: this.state.description,
+      categories: this.state.categories,
+      price: this.state.price,
+      imUrl: this.state.imUrl,
+      author: this.state.author,
+      //  related: this.state.related,
+      categories: this.state.categories
+    }
 
-   let log = {
-    type: `GET /api/book/addbook`, 
-    response: ""
-  }
+    let log = {
+      type: `GET /api/book/addbook`,
+      response: ""
+    }
 
-   axios.post('/api/book/addbook', book)
+    axios.post('/api/book/addbook', book)
       .then(res => {
         console.log(res.status)
         log.response = res.status
@@ -255,43 +255,42 @@ export default class Home extends Component {
         log.response = error.response.status
         console.log(error)
       }).then((_) => {
-        axios.post(`/api/book/addLog/${this.state.token}`, log) 
-          .then((_) => {})
+        axios.post(`/api/book/addLog/${this.state.token}`, log)
+          .then((_) => { })
           .catch(err => console.log(err))
       })
- }
-
-onFilter(e) {
-  this.setState({
-    isLoading: true,
-  })
-  e.preventDefault()
-  console.log(this.state.categories)
-  let filter1 = {
-    "filter": this.state.categories
   }
-  axios
-    .post('/api/book/applyfilter/', filter1)
-    .then(res => {
-      const data = res.data;
-      const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
-      this.setState({
-        pageCount: Math.ceil(data.length / this.state.perPage),
-        book_data: slice,
-        dbload: false,
-      })
-    }).then(this.setState({
-      modal7: false,
-      categories: [],
-      isLoading: false,
-    }));
 
- }
+  onFilter(e) {
+    this.setState({
+      dbload:true
+    })
+    e.preventDefault()
+    console.log(this.state.categories)
+    let filter1 = {
+      "filter": this.state.categories
+    }
+    axios
+      .post('/api/book/applyfilter/', filter1)
+      .then(res => {
+        const data = res.data;
+        const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
+        this.setState({
+          pageCount: Math.ceil(data.length / this.state.perPage),
+          book_data: slice,
+          dbload:false
+        })
+      }).then(this.setState({
+        modal7: false,
+        categories: [],
+      }));
+
+  }
 
 
-receivedData(token) {
+  receivedData(token) {
     let log = {
-      type: `GET api/book/getallbooks`, 
+      type: `GET api/book/getallbooks`,
       response: 0
     }
     if (this.props.match.params.query == undefined) {
@@ -312,12 +311,12 @@ receivedData(token) {
       }).catch(err => {
         log.response = err.response.status
       }).then((_) => {
-        axios.post(`/api/book/addLog/${token}`, log) 
-          .then((_) => {})
+        axios.post(`/api/book/addLog/${token}`, log)
+          .then((_) => { })
           .catch(err => console.log(err))
       });
   }
-  
+
   handlePageClick = (e) => {
     const selectedPage = e.selected;
     const offset = selectedPage * this.state.perPage;
@@ -376,7 +375,7 @@ receivedData(token) {
             <MDBView hover>
               <img className="card-img-top" src={book.imUrl} alt="Book Images" />
               <MDBMask className="flex-column flex-center" overlay="cyan-strong">
-      <h2 className="text-white">{book.title == null ? "Title" : book.title}</h2>
+                <h2 className="text-white">{book.title == null ? "Title" : book.title}</h2>
                 {
                   book.description == null ? <p></p> : <p>{(book.description).slice(0, 20)}...</p>
                 }
@@ -392,7 +391,7 @@ receivedData(token) {
 
     return (
       <div>
-        <div class="d-flex flex-row-reverse">
+        <div className="d-flex flex-row-reverse">
           <div className="d-flex justify-content-end mr-5 mb-5">
             <MDBBtn color="primary" onClick={this.toggle(8)}>Add Book</MDBBtn>
             <MDBBtn color="primary" onClick={this.toggle(7)}>Filter</MDBBtn>
@@ -402,14 +401,23 @@ receivedData(token) {
           <MDBModalHeader toggle={this.toggle(7)}>Choose a category</MDBModalHeader>
           <MDBModalBody>
             {
-              
-                  <div>
-                    <MDBInput label="Cookbooks, Food & Wine" type="checkbox" id="checkbox1" onChange={this.onChangeCFW}/>
-                    <MDBInput label="Literature & Fiction" type="checkbox" id="checkbox2" onChange={this.onChangeLF}/>
-                    <MDBInput label="Mystery, Thriller & Suspense" type="checkbox" id="checkbox3" onChange={this.onChangeMST}/>
-                    <MDBInput label="Dictionaries & Thesauruses" type="checkbox" id="checkbox4" onChange={this.onChangeDT} />
-                    <MDBInput label="Science Fiction" type="checkbox" id="checkbox5" onChange={this.onChangeSF}/>
-                    <MDBBtn color="warning" onClick={this.onFilter} outline type="submit">APPLY FILTER</MDBBtn>
+              <div>
+                <input type="checkbox" className="customControlInput" id="checkbox1" onChange={this.onChangeCFW}/>
+                <label className="customControlLabel" htmlFor="defaultUnchecked">&emsp;Cookbooks, Food & Wine</label>
+                <br></br>
+                <input type="checkbox" className="customControlInput" id="checkbox2" onChange={this.onChangeLF}/>
+                <label className="customControlLabel" htmlFor="defaultUnchecked">&emsp;Literature & Fiction</label>
+                <br></br>
+                <input type="checkbox" className="customControlInput" id="checkbox3" onChange={this.onChangeMST}/>
+                <label className="customControlLabel" htmlFor="defaultUnchecked">&emsp;Mystery, Thriller & Suspense</label>
+                <br></br>
+                <input type="checkbox" className="customControlInput" id="checkbox4" onChange={this.onChangeDT}/>
+                <label className="customControlLabel" htmlFor="defaultUnchecked">&emsp;Dictionaries & Thesauruses</label>
+                <br></br>
+                <input type="checkbox" className="customControlInput" id="checkbox5" onChange={this.onChangeSF}/>
+                <label className="customControlLabel" htmlFor="defaultUnchecked">&emsp;Science Fiction</label>
+                <br></br>
+                <MDBBtn style={{justifyContent: "center",marginTop: '1vh',float:"right"}} color="warning" onClick={this.onFilter} outline type="submit">APPLY FILTER</MDBBtn>
               </div>
             }
           </MDBModalBody>
@@ -418,103 +426,103 @@ receivedData(token) {
             <MDBBtn color="secondary" onClick={this.toggle(7)}>Close</MDBBtn>
           </MDBModalFooter>
         </MDBModal>
-        <MDBModal isOpen={this.state.modal8} toggle={this.toggle(8)} fullHeight position="right">
-          <MDBModalHeader toggle={this.toggle(8)}>Add A Book</MDBModalHeader>
-          <MDBModalBody>
-            {
+          <MDBModal isOpen={this.state.modal8} toggle={this.toggle(8)} fullHeight position="right">
+            <MDBModalHeader toggle={this.toggle(8)}>Add A Book</MDBModalHeader>
+            <MDBModalBody>
+              {
+                <div>
+                  <form>
+                    <label htmlFor="materialContactFormName" className="grey-text">Title</label>
+                    <input type="text"
+                      className="form-control"
+                      required
+                      value={this.state.title}
+                      onChange={this.onChangeTitle}
+                    />
+                    <br />
+                    <label htmlFor="materialContactFormName" className="grey-text">Author</label>
+                    <input type="text"
+                      className="form-control"
+                      required
+                      value={this.state.author}
+                      onChange={this.onChangeAuthor}
+                    />
+                    <br />
+                    <label htmlFor="materialContactFormName" className="grey-text">Image URL</label>
+                    <input type="text"
+                      className="form-control"
+                      required
+                      value={this.state.imUrl}
+                      onChange={this.onChangeimUrl}
+                    />
+                    <br />
+                    <label htmlFor="materialContactFormName" className="grey-text">Description</label>
+                    <textarea type="text"
+                      rows="3"
+                      className="form-control"
+                      required
+                      value={this.state.description}
+                      onChange={this.onChangeDescription}
+                    />
+                    <br />
+                    <label htmlFor="materialContactFormName" className="grey-text">Price</label>
+                    <input type="number"
+                      className="form-control"
+                      required
+                      value={this.state.price}
+                      onChange={this.onChangePrice}
+                    />
+                    <br />
+                    <div className="text-center mt-4">
+                      <MDBBtn color="warning" onClick={this.onSubmit} outline type="submit">Add Book</MDBBtn>
+                    </div>
+                  </form>
+                </div>
+              }
+            </MDBModalBody>
+
+            <MDBModalFooter>
+              <MDBBtn color="secondary" onClick={this.toggle(8)}>Close</MDBBtn>
+            </MDBModalFooter>
+          </MDBModal>
+
+
+          <MDBModal isOpen={this.state.modal9} toggle={this.toggle(9)} fullHeight position="right">
+            <MDBModalHeader toggle={this.toggle(9)}>Add A Book</MDBModalHeader>
+            <MDBModalBody>
               <div>
-                <form>
-                  <label htmlFor="materialContactFormName" className="grey-text">Title</label>
-                  <input type="text" 
-                         className="form-control" 
-                         required
-                         value={this.state.title}
-                         onChange={this.onChangeTitle}
-                  />
-                  <br />
-                  <label htmlFor="materialContactFormName" className="grey-text">Author</label>
-                  <input type="text" 
-                         className="form-control" 
-                         required
-                         value={this.state.author}
-                         onChange={this.onChangeAuthor}
-                  />
-                  <br />
-                  <label htmlFor="materialContactFormName" className="grey-text">Image URL</label>
-                  <input type="text" 
-                         className="form-control" 
-                         required
-                         value={this.state.imUrl}
-                         onChange={this.onChangeimUrl}
-                  />
-                  <br />
-                  <label htmlFor="materialContactFormName" className="grey-text">Description</label>
-                  <textarea type="text" 
-                         rows="3"
-                         className="form-control"
-                         required
-                         value={this.state.description}
-                         onChange={this.onChangeDescription}
-                  />
-                  <br />
-                  <label htmlFor="materialContactFormName" className="grey-text">Price</label>
-                  <input type= "number"
-                         className="form-control"
-                         required
-                         value={this.state.price}
-                         onChange={this.onChangePrice}
-                  />
-                  <br />
-                  <div className="text-center mt-4">
-                    <MDBBtn color="warning" onClick={this.onSubmit} outline type="submit">Add Book</MDBBtn>
-                  </div>
-                </form>
+                {/* {Checkbox} */}
+                <p>To be filled by amarjyot</p>
+                <MDBBtn color="warning" onClick={this.onFilter} outline type="submit">Filter</MDBBtn>
               </div>
-            }
-          </MDBModalBody>
+            </MDBModalBody>
 
-          <MDBModalFooter>
-            <MDBBtn color="secondary" onClick={this.toggle(8)}>Close</MDBBtn>
-          </MDBModalFooter>
-        </MDBModal>
+            <MDBModalFooter>
+              <MDBBtn color="secondary" onClick={this.toggle(9)}>Close</MDBBtn>
+            </MDBModalFooter>
+          </MDBModal>
 
-        
-        <MDBModal isOpen={this.state.modal9} toggle={this.toggle(9)} fullHeight position="right">
-          <MDBModalHeader toggle={this.toggle(9)}>Add A Book</MDBModalHeader>
-          <MDBModalBody>
-          <div>
-            {/* {Checkbox} */}
-            <p>To be filled by amarjyot</p>
-            <MDBBtn color="warning" onClick={this.onFilter} outline type="submit">Filter</MDBBtn>
-          </div>
-          </MDBModalBody>
-
-          <MDBModalFooter>
-            <MDBBtn color="secondary" onClick={this.toggle(9)}>Close</MDBBtn>
-          </MDBModalFooter>
-        </MDBModal>
-        
-        {
-          dbload == true ? <AniLoading /> : <div className="container-fluid">
-            <div className="row">
-              {book}
+          {
+            dbload == true ? <AniLoading /> : <div className="container-fluid">
+              <div className="row">
+                {book}
+              </div>
             </div>
+          }
+          <div>
+            <ReactPaginate
+              previousLabel={"prev"}
+              nextLabel={"next"}
+              breakLabel={"..."}
+              breakClassName={"break-me"}
+              pageCount={this.state.pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={this.handlePageClick}
+              containerClassName={"pagination"}
+              subContainerClassName={"pages pagination"}
+              activeClassName={"active"} />
           </div>
-        }
-        <div>
-          <ReactPaginate
-            previousLabel={"prev"}
-            nextLabel={"next"}
-            breakLabel={"..."}
-            breakClassName={"break-me"}
-            pageCount={this.state.pageCount}
-            marginPagesDisplayed={2}
-            pageRangeDisplayed={5}
-            onPageChange={this.handlePageClick}
-            containerClassName={"pagination"}
-            subContainerClassName={"pages pagination"}
-            activeClassName={"active"} />
-        </div>
       </div>
     )
   }
