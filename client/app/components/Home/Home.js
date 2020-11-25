@@ -263,7 +263,7 @@ export default class Home extends Component {
 
   onFilter(e) {
     this.setState({
-      dbload:true
+      dbload: true
     })
     e.preventDefault()
     console.log(this.state.categories)
@@ -278,7 +278,7 @@ export default class Home extends Component {
         this.setState({
           pageCount: Math.ceil(data.length / this.state.perPage),
           book_data: slice,
-          dbload:false
+          dbload: false
         })
       }).then(this.setState({
         modal7: false,
@@ -402,22 +402,22 @@ export default class Home extends Component {
           <MDBModalBody>
             {
               <div>
-                <input type="checkbox" className="customControlInput" id="checkbox1" onChange={this.onChangeCFW}/>
+                <input type="checkbox" className="customControlInput" id="checkbox1" onChange={this.onChangeCFW} />
                 <label className="customControlLabel" htmlFor="defaultUnchecked">&emsp;Cookbooks, Food & Wine</label>
                 <br></br>
-                <input type="checkbox" className="customControlInput" id="checkbox2" onChange={this.onChangeLF}/>
+                <input type="checkbox" className="customControlInput" id="checkbox2" onChange={this.onChangeLF} />
                 <label className="customControlLabel" htmlFor="defaultUnchecked">&emsp;Literature & Fiction</label>
                 <br></br>
-                <input type="checkbox" className="customControlInput" id="checkbox3" onChange={this.onChangeMST}/>
+                <input type="checkbox" className="customControlInput" id="checkbox3" onChange={this.onChangeMST} />
                 <label className="customControlLabel" htmlFor="defaultUnchecked">&emsp;Mystery, Thriller & Suspense</label>
                 <br></br>
-                <input type="checkbox" className="customControlInput" id="checkbox4" onChange={this.onChangeDT}/>
+                <input type="checkbox" className="customControlInput" id="checkbox4" onChange={this.onChangeDT} />
                 <label className="customControlLabel" htmlFor="defaultUnchecked">&emsp;Dictionaries & Thesauruses</label>
                 <br></br>
-                <input type="checkbox" className="customControlInput" id="checkbox5" onChange={this.onChangeSF}/>
+                <input type="checkbox" className="customControlInput" id="checkbox5" onChange={this.onChangeSF} />
                 <label className="customControlLabel" htmlFor="defaultUnchecked">&emsp;Science Fiction</label>
                 <br></br>
-                <MDBBtn style={{justifyContent: "center",marginTop: '1vh',float:"right"}} color="warning" onClick={this.onFilter} outline type="submit">APPLY FILTER</MDBBtn>
+                <MDBBtn style={{ justifyContent: "center", marginTop: '1vh', float: "right" }} color="warning" onClick={this.onFilter} outline type="submit">APPLY FILTER</MDBBtn>
               </div>
             }
           </MDBModalBody>
@@ -426,103 +426,101 @@ export default class Home extends Component {
             <MDBBtn color="secondary" onClick={this.toggle(7)}>Close</MDBBtn>
           </MDBModalFooter>
         </MDBModal>
-          <MDBModal isOpen={this.state.modal8} toggle={this.toggle(8)} fullHeight position="right">
-            <MDBModalHeader toggle={this.toggle(8)}>Add A Book</MDBModalHeader>
-            <MDBModalBody>
-              {
-                <div>
-                  <form>
-                    <label htmlFor="materialContactFormName" className="grey-text">Title</label>
-                    <input type="text"
-                      className="form-control"
-                      required
-                      value={this.state.title}
-                      onChange={this.onChangeTitle}
-                    />
-                    <br />
-                    <label htmlFor="materialContactFormName" className="grey-text">Author</label>
-                    <input type="text"
-                      className="form-control"
-                      required
-                      value={this.state.author}
-                      onChange={this.onChangeAuthor}
-                    />
-                    <br />
-                    <label htmlFor="materialContactFormName" className="grey-text">Image URL</label>
-                    <input type="text"
-                      className="form-control"
-                      required
-                      value={this.state.imUrl}
-                      onChange={this.onChangeimUrl}
-                    />
-                    <br />
-                    <label htmlFor="materialContactFormName" className="grey-text">Description</label>
-                    <textarea type="text"
-                      rows="3"
-                      className="form-control"
-                      required
-                      value={this.state.description}
-                      onChange={this.onChangeDescription}
-                    />
-                    <br />
-                    <label htmlFor="materialContactFormName" className="grey-text">Price</label>
-                    <input type="number"
-                      className="form-control"
-                      required
-                      value={this.state.price}
-                      onChange={this.onChangePrice}
-                    />
-                    <br />
-                    <div className="text-center mt-4">
-                      <MDBBtn color="warning" onClick={this.onSubmit} outline type="submit">Add Book</MDBBtn>
-                    </div>
-                  </form>
-                </div>
-              }
-            </MDBModalBody>
-
-            <MDBModalFooter>
-              <MDBBtn color="secondary" onClick={this.toggle(8)}>Close</MDBBtn>
-            </MDBModalFooter>
-          </MDBModal>
-
-
-          <MDBModal isOpen={this.state.modal9} toggle={this.toggle(9)} fullHeight position="right">
-            <MDBModalHeader toggle={this.toggle(9)}>Add A Book</MDBModalHeader>
-            <MDBModalBody>
+        <MDBModal isOpen={this.state.modal8} toggle={this.toggle(8)} fullHeight position="right">
+          <MDBModalHeader toggle={this.toggle(8)}>Add A Book</MDBModalHeader>
+          <MDBModalBody>
+            {
               <div>
-                {/* {Checkbox} */}
-                <p>To be filled by amarjyot</p>
-                <MDBBtn color="warning" onClick={this.onFilter} outline type="submit">Filter</MDBBtn>
+                <form>
+                  <label htmlFor="materialContactFormName" className="grey-text">Title</label>
+                  <input type="text"
+                    className="form-control"
+                    required
+                    value={this.state.title}
+                    onChange={this.onChangeTitle}
+                  />
+                  <br />
+                  <label htmlFor="materialContactFormName" className="grey-text">Author</label>
+                  <input type="text"
+                    className="form-control"
+                    required
+                    value={this.state.author}
+                    onChange={this.onChangeAuthor}
+                  />
+                  <br />
+                  <label htmlFor="materialContactFormName" className="grey-text">Image URL</label>
+                  <input type="text"
+                    className="form-control"
+                    required
+                    value={this.state.imUrl}
+                    onChange={this.onChangeimUrl}
+                  />
+                  <br />
+                  <label htmlFor="materialContactFormName" className="grey-text">Description</label>
+                  <textarea type="text"
+                    rows="3"
+                    className="form-control"
+                    required
+                    value={this.state.description}
+                    onChange={this.onChangeDescription}
+                  />
+                  <br />
+                  <label htmlFor="materialContactFormName" className="grey-text">Price</label>
+                  <input type="number"
+                    className="form-control"
+                    required
+                    value={this.state.price}
+                    onChange={this.onChangePrice}
+                  />
+                  <br />
+                  <div className="text-center mt-4">
+                    <MDBBtn color="warning" onClick={this.onSubmit} outline type="submit">Add Book</MDBBtn>
+                  </div>
+                </form>
               </div>
-            </MDBModalBody>
+            }
+          </MDBModalBody>
 
-            <MDBModalFooter>
-              <MDBBtn color="secondary" onClick={this.toggle(9)}>Close</MDBBtn>
-            </MDBModalFooter>
-          </MDBModal>
+          <MDBModalFooter>
+            <MDBBtn color="secondary" onClick={this.toggle(8)}>Close</MDBBtn>
+          </MDBModalFooter>
+        </MDBModal>
 
-          {
-            dbload == true ? <AniLoading /> : <div className="container-fluid">
-              <div className="row">
-                {book}
-              </div>
+
+        <MDBModal isOpen={this.state.modal9} toggle={this.toggle(9)} fullHeight position="right">
+          <MDBModalHeader toggle={this.toggle(9)}>Add A Book</MDBModalHeader>
+          <MDBModalBody>
+            <div>
+              <MDBBtn color="warning" onClick={this.onFilter} outline type="submit">Filter</MDBBtn>
             </div>
-          }
-          <div>
-            <ReactPaginate
-              previousLabel={"prev"}
-              nextLabel={"next"}
-              breakLabel={"..."}
-              breakClassName={"break-me"}
-              pageCount={this.state.pageCount}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={this.handlePageClick}
-              containerClassName={"pagination"}
-              subContainerClassName={"pages pagination"}
-              activeClassName={"active"} />
+          </MDBModalBody>
+
+          <MDBModalFooter>
+            <MDBBtn color="secondary" onClick={this.toggle(9)}>Close</MDBBtn>
+          </MDBModalFooter>
+        </MDBModal>
+
+        {
+          dbload == true ? <AniLoading /> : <div className="container-fluid">
+            <div className="row">
+              {book}
+            </div>
           </div>
+        }
+        <div>
+          <ReactPaginate
+            previousLabel={"prev"}
+            nextLabel={"next"}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={this.state.pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={this.handlePageClick}
+            containerClassName={"pagination"}
+            subContainerClassName={"pages pagination"}
+            activeClassName={"active"} />
+        </div>
       </div>
     )
   }

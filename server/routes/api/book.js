@@ -9,18 +9,18 @@ module.exports = (app) => {
         // Metadata.aggregate([{ $sample: { size: 500 } }])
         // Metadata.find().limit(500)
         if (query == "all") {
-            Metadata.find().sort({$natural:-1}).limit(500)
-                .then(books => {res.status(200).json(books)})
+            Metadata.find().sort({ $natural: -1 }).limit(500)
+                .then(books => { res.status(200).json(books) })
                 .catch(err => res.status(400).json('Error: ' + err))
         } else {
             Metadata.find({
                 "$or": [
-                    {"asin": query}, 
-                    {"title": query},
-                    {"author": query}
+                    { "asin": query },
+                    { "title": query },
+                    { "author": query }
                 ]
             }).then(books => res.status(200).json(books))
-            .catch(err => res.status(400).json('Error: ' + err))
+                .catch(err => res.status(400).json('Error: ' + err))
         }
     })
 
@@ -29,15 +29,15 @@ module.exports = (app) => {
         const filter = req.body.filter;
         Metadata.find({
             "categories": {
-              "$elemMatch": {
                 "$elemMatch": {
-                  "$in": filter
+                    "$elemMatch": {
+                        "$in": filter
+                    }
                 }
-              }
             }
-          }).sort({$natural:-1}).limit(500)
-                .then(books => res.status(200).json(books))
-                .catch(err => res.status(400).json('Error: ' + err))
+        }).sort({ $natural: -1 }).limit(500)
+            .then(books => res.status(200).json(books))
+            .catch(err => res.status(400).json('Error: ' + err))
     })
 
     // Retrieve a book by asin
@@ -55,9 +55,9 @@ module.exports = (app) => {
             }
             else if (books.length == 0) {
                 return res.status(400).send({
-                    success: false, 
+                    success: false,
                     message: "Error: book does not exist"
-            })
+                })
             } else {
                 const book = books[0];
                 const metaData = new Metadata();
@@ -65,6 +65,8 @@ module.exports = (app) => {
                 return res.status(200).send({
                     success: true,
                     message: "Book found",
+                    title: book.title,
+                    author: book.author,
                     description: book.description,
                     price: book.price,
                     imUrl: book.imUrl,
@@ -97,7 +99,7 @@ module.exports = (app) => {
             });
         }
 
-        if(!title) {
+        if (!title) {
             return res.status(400).end({
                 success: false,
                 message: 'Error: title cannot be blank.'
@@ -125,7 +127,7 @@ module.exports = (app) => {
             });
         }
 
-        if(!author) {
+        if (!author) {
             return res.status(400).end({
                 success: false,
                 message: 'Error: author cannot be blank.'
