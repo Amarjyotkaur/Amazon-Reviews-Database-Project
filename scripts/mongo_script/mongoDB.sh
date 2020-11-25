@@ -21,10 +21,13 @@ sudo service mongod start
 sudo systemctl enable mongod
 
 echo "Downloading datasets..."
-wget https://istd50043.github.io/assets/scripts/get_data.sh
-chmod +x get_data.sh
-./get_data.sh
-sleep 3s
+
+wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1PtXR90YPDpapAyCpPllYLKUkJcjiSXXY' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1PtXR90YPDpapAyCpPllYLKUkJcjiSXXY" -O meta_Kindle_Store.json && rm -rf /tmp/cookies.txt
+
+# wget https://istd50043.github.io/assets/scripts/get_data.sh
+# chmod +x get_data.sh
+# ./get_data.sh
+# sleep 3s
 
 echo "Setting Permission Setting on MongoDB"
 sudo tee /etc/mongod.conf << EOF
@@ -44,6 +47,7 @@ processManagement:
 security:
   authorization: enabled
 EOF
+
 wget https://raw.githubusercontent.com/tengfone/AmaNerdBookReview/master/scripts/mongo_script/mongo_setup.js
 sudo service mongod restart
 sleep 3s
