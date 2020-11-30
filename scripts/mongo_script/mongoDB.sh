@@ -48,7 +48,11 @@ security:
   authorization: enabled
 EOF
 
-wget https://raw.githubusercontent.com/tengfone/AmaNerdBookReview/master/scripts/mongo_script/mongo_setup.js
+sudo tee ~/mongo_setup.js << EOF
+use admin
+db.createUser({ user: "admin", pwd: "password", roles: ["root"] })
+EOF
+
 sudo service mongod restart
 sleep 3s
 mongo < mongo_setup.js

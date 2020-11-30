@@ -16,6 +16,7 @@ else
     echo "Shutting Down and removing AmaNerdBookReview Stack from AWS"
     aws cloudformation delete-stack --stack-name AmaNerdBookReview
     echo "AmaNerdBookReview successfully removed! We are sad to see you go, they say a book a day, keep the Cs away!"
+    exit
 fi
 
 # rm /usr/local/bin/aws

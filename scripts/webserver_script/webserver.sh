@@ -31,5 +31,4 @@ module.exports = {
 }
 EOF
 
-echo "AmaNerdBookReview has successfully deployed: Visit at $WEBSERVERIP:8080"
-npm run start:dev
+exit

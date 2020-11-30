@@ -80,22 +80,27 @@ function installation {
     echo Your WebServer Public IP is ${PUBLIC_IPS[2]}
 
     # Configure MongoDB
-    echo "Setting Up MongoDB"
-    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[0]} -i ./key.pem 'bash -s' < ./mongo_script/mongoDB.sh
+    echo "Setting Up MongoDB" &
+    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[0]} -i ./key.pem 'bash -s' < ./mongo_script/mongoDB.sh &
     # # FOR TESTING
     # # PUBLIC_IPS1='IPHERE'
     # # ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS1} -i ./key.pem 'bash -s' < ./mongo_script/mongoDB.sh
 
     # Configure MYSQL
-    echo "Setting Up MYSQL"
-    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[1]} -i ./key.pem 'bash -s' < ./mysql_script/mysql.sh
+    echo "Setting Up MYSQL" &
+    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[1]} -i ./key.pem 'bash -s' < ./mysql_script/mysql.sh &
     # FOR TESTING
     # PUBLIC_IPS2='34.204.82.112'
     # ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS2} -i ./key.pem 'bash -s' < ./mysql_script/mysql.sh
 
     # Configure WebServer
-    echo "Setting Up WebServer"
-    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[2]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' bash -s' < ./webserver_script/webserver.sh
+    echo "Setting Up WebServer" &
+    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[2]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' bash -s' < ./webserver_script/webserver.sh &
+    
+    wait
+    sleep 1s
+    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[2]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' bash -s' < ./webserver_script/startserver.sh
+
     # FOR TESTING
     # PUBLIC_IPS3='IPHERE'
     # fakemongo='IPHERE'
