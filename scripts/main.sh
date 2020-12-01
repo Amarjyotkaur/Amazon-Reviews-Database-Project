@@ -47,7 +47,7 @@ function installation() {
         if [ "$(uname)" == "Darwin" ]; then
             # For MacOS
             # sed -i '' '$d' ~/.aws/credentials
-        elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+        else
             # For Linux
             sed -i '$d' ~/.aws/credentials
             echo "aws_session_token=$awsNewToken" >>~/.aws/credentials
