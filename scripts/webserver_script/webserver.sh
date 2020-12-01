@@ -10,7 +10,7 @@ curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 sudo apt-get install -y nodejs
 
 echo "Cloning Repo"
-git clone https://wontonloodle:Whatever0)@github.com/tengfone/AmaNerdBookReview.git
+git clone https://wontonloodle:'Whatever0)'@github.com/tengfone/AmaNerdBookReview.git
 cd AmaNerdBookReview
 npm install
 

@@ -10,13 +10,14 @@ fi
 function installation() {
     if [ "$(uname)" == "Darwin" ]; then
         # MacOS
-        # echo MacOS Detected, Running AWS CLI Installer
+        echo "MacOS Detected, Running AWS CLI Installer"
         # curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
         # python get-pip.py
         # curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
         # sudo installer -pkg AWSCLIV2.pkg -target /
         # pip install boto3
-        echo "MacOS Detected"
+        sudo rm ~/.aws/config 
+        sudo rm ~/.aws/credentials
     elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
         # LinuxOS
         echo Linux Detected, Running AWS CLI Installer
@@ -33,38 +34,38 @@ function installation() {
     fi
 
     echo "Configuring AWS-CLI"
-    sudo /usr/local/bin/aws configure
 
-    # Key Commands
-    # aws --region us-east-1 ec2 describe-key-pairs
-    # aws ec2 delete-key-pair --key-name my-aws-key
+    sudo /usr/local/bin/aws configure
 
     # Generate KeyPair
     awsToken=$(grep -n aws_session_token ~/.aws/credentials)
     awsToken="${awsToken#*=}"
     read -p "Enter AWS Session Token: [$awsToken]:" awsNewToken
     if [ "${#awsNewToken}" -ne 0 ]; then
-        if [ "$(uname)" == "Darwin" ]; then
-            # For MacOS
-            echo "MacOS Detected"
-            # sed -i '' '$d' ~/.aws/credentials
-        else
-            # For Linux
-            sed -i '$d' ~/.aws/credentials
-            echo "aws_session_token=$awsNewToken" >>~/.aws/credentials
-        fi
+        # For MacOS
+        # sed -i '' '$d' ~/.aws/credentials
+        # For Linux
+        # sed -i '$d' ~/.aws/credentials
+        echo "aws_session_token=$awsNewToken" >>~/.aws/credentials
     fi
-    read -p "Enter AWS region for deployment? [us-east-1]:" region
+
+    read -p "AWS region for deployment? Type in >> [us-east-1]:" region
     region=${region:-us-east-1}
 
     # Key
     echo "Creating New Key..."
     read -p "Enter unique key name: " keyName
-    sudo aws ec2 create-key-pair --key-name $keyName --region $region --output json >keyData.json
+
+    if [ "$(uname)" == "Darwin" ]; then
+        # MacOS
+        sudo /usr/local/bin/aws ec2 create-key-pair --key-name $keyName --region $region --output json >keyData.json
+    elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+        sudo aws ec2 create-key-pair --key-name $keyName --region $region --output json >keyData.json
+    fi
+
     cat keyData.json | jq -r ".KeyMaterial" >key.pem
     chmod 400 key.pem
 
-    # echo "Spinning EC2 Instances"
     mv ./ec2_script/cloudformation.json ./ec2_script/temp.json
     jq -c --arg keyName "$keyName" -r '.Resources.MongoDB.Properties.KeyName |= $keyName' ./ec2_script/temp.json >./ec2_script/cloudformation.json
     rm ./ec2_script/temp.json
@@ -75,12 +76,8 @@ function installation() {
     jq -c --arg keyName "$keyName" -r '.Resources.WebServer.Properties.KeyName |= $keyName' ./ec2_script/temp.json >./ec2_script/cloudformation.json
     rm ./ec2_script/temp.json
     python3 ./ec2_script/createEC2.py
-    echo "Waiting For Stack to be generated..."
 
-    sleep 90s
-
-    echo "IP Address Generated..."
-
+    echo "Spinning Up EC2 Instances..."
     # IP1 = MongoIP IP2=MySQLIP IP3=WebServerIP
     PUBLIC_IPS=($(python3 ./ec2_script/findOutput.py))
 
@@ -91,16 +88,10 @@ function installation() {
     # Configure MongoDB
     echo "Setting Up MongoDB" &
     ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[0]} -i ./key.pem 'bash -s' <./mongo_script/mongoDB.sh &
-    # # FOR TESTING
-    # # PUBLIC_IPS1='IPHERE'
-    # # ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS1} -i ./key.pem 'bash -s' < ./mongo_script/mongoDB.sh
 
     # Configure MYSQL
     echo "Setting Up MYSQL" &
     ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[1]} -i ./key.pem 'bash -s' <./mysql_script/mysql.sh &
-    # FOR TESTING
-    # PUBLIC_IPS2='34.204.82.112'
-    # ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS2} -i ./key.pem 'bash -s' < ./mysql_script/mysql.sh
 
     # Configure WebServer
     echo "Setting Up WebServer" &
@@ -110,11 +101,6 @@ function installation() {
     sleep 1s
     ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[2]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' bash -s' <./webserver_script/startserver.sh
 
-    # FOR TESTING
-    # PUBLIC_IPS3='IPHERE'
-    # fakemongo='IPHERE'
-    # fakesql='IPHERE'
-    # ssh -o StrictHostKeyChecking=no ubuntu@{PUBLIC_IPS3} -i ./key.pem 'MONGOIP='$fakemongo' MYSQLIP='$fakesql' bash -s' < ./webserver_script/webserver.sh
 }
 
 while getopts ":auhi" OPTION; do

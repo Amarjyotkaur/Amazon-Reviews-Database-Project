@@ -1,6 +1,8 @@
 import boto3
 from boto3 import NullHandler
 import sys
+import time
+
 
 def main():
     stack_name = "AmaNerdBookReview"
@@ -8,17 +10,25 @@ def main():
     MongoIP = "0.0.0.0"
     MySQLIP = "0.0.0.0"
     WebServerIP = "0.0.0.0"
-    
+
     cloud_formation_client = boto3.client('cloudformation')
 
-    response = cloud_formation_client.describe_stacks(
-        StackName=stack_name
-    )
+    while(True):
+        response = cloud_formation_client.describe_stacks(
+            StackName=stack_name
+        )
+        output = response['Stacks'][0]['StackStatus']
+        if (output == "CREATE_FAILED"):
+            sys.exit(0)
+        if (output == "CREATE_COMPLETE"):
+            break
+        else:
+            time.sleep(10)
 
     output = response['Stacks'][0]['Outputs']
 
     for i in output:
-        for key,value in i.items():
+        for key, value in i.items():
             if(value == "MongoIP"):
                 MongoIP = i["OutputValue"]
                 outlist.append(MongoIP)
@@ -33,6 +43,7 @@ def main():
     print(MySQLIP)
     print(WebServerIP)
     sys.exit(0)
+
 
 if __name__ == '__main__':
     main()

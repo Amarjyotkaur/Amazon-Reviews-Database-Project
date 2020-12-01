@@ -19,6 +19,10 @@ else
     exit
 fi
 
+# Key Commands
+# aws --region us-east-1 ec2 describe-key-pairs
+# aws ec2 delete-key-pair --key-name my-aws-key
+
 # rm /usr/local/bin/aws
 # rm /usr/local/bin/aws_completer
 # rm -rf /usr/local/aws-cli
