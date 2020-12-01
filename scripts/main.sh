@@ -46,6 +46,7 @@ function installation() {
     if [ "${#awsNewToken}" -ne 0 ]; then
         if [ "$(uname)" == "Darwin" ]; then
             # For MacOS
+            echo "MacOS Detected"
             # sed -i '' '$d' ~/.aws/credentials
         else
             # For Linux
