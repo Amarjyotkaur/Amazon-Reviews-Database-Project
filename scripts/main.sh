@@ -60,7 +60,7 @@ function installation() {
     # Key
     echo "Creating New Key..."
     read -p "Enter unique key name: " keyName
-    sudo /usr/local/bin/aws ec2 create-key-pair --key-name $keyName --region $region --output json >keyData.json
+    sudo aws ec2 create-key-pair --key-name $keyName --region $region --output json >keyData.json
     cat keyData.json | jq -r ".KeyMaterial" >key.pem
     chmod 400 key.pem
 
