@@ -7,22 +7,25 @@ if [[ $UID != 0 ]]; then
     exit 1
 fi
 
-function installation {
+function installation() {
     if [ "$(uname)" == "Darwin" ]; then
-        # MacOS 
-        echo MacOS Detected, Running AWS CLI Installer
-        curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-        python get-pip.py
-        curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
-        sudo installer -pkg AWSCLIV2.pkg -target /
-        pip install boto3
+        # MacOS
+        # echo MacOS Detected, Running AWS CLI Installer
+        # curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+        # python get-pip.py
+        # curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+        # sudo installer -pkg AWSCLIV2.pkg -target /
+        # pip install boto3
+        echo "MacOS Detected"
     elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
         # LinuxOS
         echo Linux Detected, Running AWS CLI Installer
         sudo apt-get update
         sudo apt-get -y install zip unzip
-        sudo apt-get install -y install jq
+        sudo apt-get -y install jq
         sudo apt-get install -y python3-pip
+        export LC_ALL="en_US.UTF-8"
+        export LC_CTYPE="en_US.UTF-8"
         python3 -m pip install boto3
         curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
         unzip awscliv2.zip
@@ -41,11 +44,14 @@ function installation {
     awsToken="${awsToken#*=}"
     read -p "Enter AWS Session Token: [$awsToken]:" awsNewToken
     if [ "${#awsNewToken}" -ne 0 ]; then
-        # For MacOS
-        # sed -i '' '$d' ~/.aws/credentials
-        # For Linux
-        sed -i '$d' ~/.aws/credentials
-        echo "aws_session_token=$awsNewToken" >> ~/.aws/credentials
+        if [ "$(uname)" == "Darwin" ]; then
+            # For MacOS
+            # sed -i '' '$d' ~/.aws/credentials
+        elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+            # For Linux
+            sed -i '$d' ~/.aws/credentials
+            echo "aws_session_token=$awsNewToken" >>~/.aws/credentials
+        fi
     fi
     read -p "Enter AWS region for deployment? [us-east-1]:" region
     region=${region:-us-east-1}
@@ -53,19 +59,19 @@ function installation {
     # Key
     echo "Creating New Key..."
     read -p "Enter unique key name: " keyName
-    sudo /usr/local/bin/aws ec2 create-key-pair --key-name $keyName --region $region --output json > keyData.json
-    cat keyData.json | jq -r ".KeyMaterial" > key.pem
+    sudo /usr/local/bin/aws ec2 create-key-pair --key-name $keyName --region $region --output json >keyData.json
+    cat keyData.json | jq -r ".KeyMaterial" >key.pem
     chmod 400 key.pem
 
     # echo "Spinning EC2 Instances"
     mv ./ec2_script/cloudformation.json ./ec2_script/temp.json
-    jq -c --arg keyName "$keyName" -r '.Resources.MongoDB.Properties.KeyName |= $keyName' ./ec2_script/temp.json > ./ec2_script/cloudformation.json
+    jq -c --arg keyName "$keyName" -r '.Resources.MongoDB.Properties.KeyName |= $keyName' ./ec2_script/temp.json >./ec2_script/cloudformation.json
     rm ./ec2_script/temp.json
     mv ./ec2_script/cloudformation.json ./ec2_script/temp.json
-    jq -c --arg keyName "$keyName" -r '.Resources.MYSQL.Properties.KeyName |= $keyName' ./ec2_script/temp.json > ./ec2_script/cloudformation.json
+    jq -c --arg keyName "$keyName" -r '.Resources.MYSQL.Properties.KeyName |= $keyName' ./ec2_script/temp.json >./ec2_script/cloudformation.json
     rm ./ec2_script/temp.json
     mv ./ec2_script/cloudformation.json ./ec2_script/temp.json
-    jq -c --arg keyName "$keyName" -r '.Resources.WebServer.Properties.KeyName |= $keyName' ./ec2_script/temp.json > ./ec2_script/cloudformation.json
+    jq -c --arg keyName "$keyName" -r '.Resources.WebServer.Properties.KeyName |= $keyName' ./ec2_script/temp.json >./ec2_script/cloudformation.json
     rm ./ec2_script/temp.json
     python3 ./ec2_script/createEC2.py
     echo "Waiting For Stack to be generated..."
@@ -83,25 +89,25 @@ function installation {
 
     # Configure MongoDB
     echo "Setting Up MongoDB" &
-    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[0]} -i ./key.pem 'bash -s' < ./mongo_script/mongoDB.sh &
+    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[0]} -i ./key.pem 'bash -s' <./mongo_script/mongoDB.sh &
     # # FOR TESTING
     # # PUBLIC_IPS1='IPHERE'
     # # ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS1} -i ./key.pem 'bash -s' < ./mongo_script/mongoDB.sh
 
     # Configure MYSQL
     echo "Setting Up MYSQL" &
-    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[1]} -i ./key.pem 'bash -s' < ./mysql_script/mysql.sh &
+    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[1]} -i ./key.pem 'bash -s' <./mysql_script/mysql.sh &
     # FOR TESTING
     # PUBLIC_IPS2='34.204.82.112'
     # ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS2} -i ./key.pem 'bash -s' < ./mysql_script/mysql.sh
 
     # Configure WebServer
     echo "Setting Up WebServer" &
-    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[2]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' bash -s' < ./webserver_script/webserver.sh &
-    
+    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[2]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' bash -s' <./webserver_script/webserver.sh &
+
     wait
     sleep 1s
-    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[2]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' bash -s' < ./webserver_script/startserver.sh
+    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[2]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' bash -s' <./webserver_script/startserver.sh
 
     # FOR TESTING
     # PUBLIC_IPS3='IPHERE'
@@ -112,22 +118,22 @@ function installation {
 
 while getopts ":auhi" OPTION; do
     case ${OPTION} in
-    a )
+    a)
         echo "Visit GitHub Page: https://github.com/tengfone/AmaNerdBookReview"
         exit
         ;;
-    u )
+    u)
         sudo chmod +x remove.sh
         ./remove.sh
         exit
         ;;
-    h )
+    h)
         echo "-i to install"
         echo "-u for uninstall"
         echo "-a for about"
         exit
         ;;
-    i )
+    i)
         echo "Starting..."
         installation
         exit

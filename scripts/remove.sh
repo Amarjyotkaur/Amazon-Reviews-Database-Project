@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Removing AmaNerdBookReview..."
-sudo apt-get install jq
+sudo apt-get -y install jq
 
 if [ ! -f ./keyData.json ]; then
     echo "keyData.json not found. No EC2 Instance has been spun. Exiting."
