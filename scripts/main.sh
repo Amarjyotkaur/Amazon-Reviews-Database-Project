@@ -19,12 +19,14 @@ function installation {
     elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
         # LinuxOS
         echo Linux Detected, Running AWS CLI Installer
+        sudo apt-get update
+        sudo apt-get -y install zip unzip
+        sudo apt-get install -y install jq
+        sudo apt-get install -y python3-pip
+        python3 -m pip install boto3
         curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
         unzip awscliv2.zip
         sudo ./aws/install
-        sudo apt-get install install jq
-        sudo apt-get install python3-pip
-        python3 -m pip install boto3
     fi
 
     echo "Configuring AWS-CLI"
@@ -40,9 +42,9 @@ function installation {
     read -p "Enter AWS Session Token: [$awsToken]:" awsNewToken
     if [ "${#awsNewToken}" -ne 0 ]; then
         # For MacOS
-        sed -i '' '$d' ~/.aws/credentials
+        # sed -i '' '$d' ~/.aws/credentials
         # For Linux
-        # sed -i '$d' ~/.aws/credentials
+        sed -i '$d' ~/.aws/credentials
         echo "aws_session_token=$awsNewToken" >> ~/.aws/credentials
     fi
     read -p "Enter AWS region for deployment? [us-east-1]:" region
