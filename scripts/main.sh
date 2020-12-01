@@ -42,10 +42,6 @@ function installation() {
     awsToken="${awsToken#*=}"
     read -p "Enter AWS Session Token: [$awsToken]:" awsNewToken
     if [ "${#awsNewToken}" -ne 0 ]; then
-        # For MacOS
-        # sed -i '' '$d' ~/.aws/credentials
-        # For Linux
-        # sed -i '$d' ~/.aws/credentials
         echo "aws_session_token=$awsNewToken" >>~/.aws/credentials
     fi
 
