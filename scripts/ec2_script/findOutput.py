@@ -6,7 +6,6 @@ import time
 
 def main():
     stack_name = "AmaNerdBookReview"
-    outlist = []
     MongoIP = "0.0.0.0"
     MySQLIP = "0.0.0.0"
     WebServerIP = "0.0.0.0"
@@ -14,6 +13,10 @@ def main():
     DataNode1 = "0.0.0.0"
     DataNode2 = "0.0.0.0"
     DataNode3 = "0.0.0.0"
+    NameNodeP = "0.0.0.0"
+    DataNode1P = "0.0.0.0"
+    DataNode2P = "0.0.0.0"
+    DataNode3P = "0.0.0.0"
 
     cloud_formation_client = boto3.client('cloudformation')
 
@@ -35,30 +38,27 @@ def main():
         for key, value in i.items():
             if(value == "MongoIP"):
                 MongoIP = i["OutputValue"]
-                outlist.append(MongoIP)
             if(value == "MySQLIP"):
                 MySQLIP = i["OutputValue"]
-                outlist.append(MySQLIP)
             if(value == "WebServerIP"):
                 WebServerIP = i["OutputValue"]
-                outlist.append(WebServerIP)
             if(value == "NameNode"):
                 NameNode = i["OutputValue"]
-                outlist.append(NameNode)
             if(value == "DataNode1"):
                 DataNode1 = i["OutputValue"]
-                outlist.append(DataNode1)
-            if(value == "DataNode1"):
-                DataNode1 = i["OutputValue"]
-                outlist.append(DataNode1)
             if(value == "DataNode2"):
                 DataNode2 = i["OutputValue"]
-                outlist.append(DataNode2)
             if(value == "DataNode3"):
                 DataNode3 = i["OutputValue"]
-                outlist.append(DataNode3)
+            if(value == "NameNodeP"):
+                NameNodeP = i["OutputValue"]
+            if(value == "DataNode1P"):
+                DataNode1P = i["OutputValue"]
+            if(value == "DataNode2P"):
+                DataNode2P = i["OutputValue"]  
+            if(value == "DataNode3P"):
+                DataNode3P = i["OutputValue"]  
             
-
     print(MongoIP)
     print(MySQLIP)
     print(WebServerIP)
@@ -66,6 +66,10 @@ def main():
     print(DataNode1)
     print(DataNode2)
     print(DataNode3)
+    print(NameNodeP)
+    print(DataNode1P)
+    print(DataNode2P)
+    print(DataNode3P)
     sys.exit(0)
 
 

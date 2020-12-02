@@ -192,6 +192,16 @@
                         "CidrIp": "0.0.0.0/0",
                         "FromPort": 3306,
                         "ToPort": 3306
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "CidrIp": "0.0.0.0/0",
+                        "FromPort": 0,
+                        "ToPort": 65535
+                    },
+                    {
+                        "IpProtocol": "-1",
+                        "CidrIp": "0.0.0.0/0"
                     }
                 ]
             },
@@ -446,6 +456,42 @@
                 "Fn::GetAtt": [
                     "DataNode3",
                     "PublicIp"
+                ]
+            }
+        },
+        "NameNodeP": {
+            "Description": "Private IP of NameNode",
+            "Value": {
+                "Fn::GetAtt": [
+                    "NameNode",
+                    "PrivateIp"
+                ]
+            }
+        },
+        "DataNode1P": {
+            "Description": "Private IP of DataNode1",
+            "Value": {
+                "Fn::GetAtt": [
+                    "DataNode1",
+                    "PrivateIp"
+                ]
+            }
+        },
+        "DataNode2P": {
+            "Description": "Private IP of DataNode2",
+            "Value": {
+                "Fn::GetAtt": [
+                    "DataNode2",
+                    "PrivateIp"
+                ]
+            }
+        },
+        "DataNode3P": {
+            "Description": "Private IP of DataNode3",
+            "Value": {
+                "Fn::GetAtt": [
+                    "DataNode3",
+                    "PrivateIp"
                 ]
             }
         }

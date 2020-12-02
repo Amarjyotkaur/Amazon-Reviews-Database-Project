@@ -54,7 +54,7 @@
                 },
                 "position": {
                     "x": 360,
-                    "y": 90
+                    "y": 110
                 },
                 "z": 1,
                 "embeds": []
@@ -65,25 +65,13 @@
         "EC2InstanceSecurityGroup": {
             "Type": "AWS::EC2::SecurityGroup",
             "Properties": {
-                "GroupDescription": "Enable access",
+                "GroupDescription": "Enable incoming access",
                 "SecurityGroupIngress": [
                     {
-                        "CidrIp": "0.0.0.0/0",
-                        "FromPort": 80,
-                        "IpProtocol": "tcp",
-                        "ToPort": 80
-                    },
-                    {
                         "IpProtocol": "tcp",
                         "CidrIp": "0.0.0.0/0",
-                        "FromPort": 22,
-                        "ToPort": 22
-                    },
-                    {
-                        "IpProtocol": "tcp",
-                        "CidrIp": "0.0.0.0/0",
-                        "FromPort": 3306,
-                        "ToPort": 3306
+                        "FromPort": 0,
+                        "ToPort": 65535
                     }
                 ]
             },
@@ -97,8 +85,8 @@
             "Type": "AWS::EC2::Instance",
             "Properties": {
                 "ImageId": "ami-0f82752aa17ff8f5d",
-                "InstanceType": "t2.micro",
-                "KeyName": "default",
+                "InstanceType": "t2.small",
+                "KeyName": "top",
                 "SecurityGroups": [
                     {
                         "Ref": "EC2InstanceSecurityGroup"
@@ -123,8 +111,8 @@
             },
             "Properties": {
                 "ImageId": "ami-0f82752aa17ff8f5d",
-                "InstanceType": "t2.micro",
-                "KeyName": "default",
+                "InstanceType": "t2.small",
+                "KeyName": "top",
                 "SecurityGroups": [
                     {
                         "Ref": "EC2InstanceSecurityGroup"
@@ -139,8 +127,8 @@
             "Type": "AWS::EC2::Instance",
             "Properties": {
                 "ImageId": "ami-0f82752aa17ff8f5d",
-                "InstanceType": "t2.micro",
-                "KeyName": "default",
+                "InstanceType": "t2.small",
+                "KeyName": "top",
                 "SecurityGroups": [
                     {
                         "Ref": "EC2InstanceSecurityGroup"
