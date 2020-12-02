@@ -65,12 +65,31 @@ function installation() {
     mv ./ec2_script/cloudformation.json ./ec2_script/temp.json
     jq -c --arg keyName "$keyName" -r '.Resources.MongoDB.Properties.KeyName |= $keyName' ./ec2_script/temp.json >./ec2_script/cloudformation.json
     rm ./ec2_script/temp.json
+
     mv ./ec2_script/cloudformation.json ./ec2_script/temp.json
     jq -c --arg keyName "$keyName" -r '.Resources.MYSQL.Properties.KeyName |= $keyName' ./ec2_script/temp.json >./ec2_script/cloudformation.json
     rm ./ec2_script/temp.json
+
     mv ./ec2_script/cloudformation.json ./ec2_script/temp.json
     jq -c --arg keyName "$keyName" -r '.Resources.WebServer.Properties.KeyName |= $keyName' ./ec2_script/temp.json >./ec2_script/cloudformation.json
     rm ./ec2_script/temp.json
+
+    mv ./ec2_script/cloudformation.json ./ec2_script/temp.json
+    jq -c --arg keyName "$keyName" -r '.Resources.NameNode.Properties.KeyName |= $keyName' ./ec2_script/temp.json >./ec2_script/cloudformation.json
+    rm ./ec2_script/temp.json
+
+    mv ./ec2_script/cloudformation.json ./ec2_script/temp.json
+    jq -c --arg keyName "$keyName" -r '.Resources.DataNode1.Properties.KeyName |= $keyName' ./ec2_script/temp.json >./ec2_script/cloudformation.json
+    rm ./ec2_script/temp.json
+
+    mv ./ec2_script/cloudformation.json ./ec2_script/temp.json
+    jq -c --arg keyName "$keyName" -r '.Resources.DataNode2.Properties.KeyName |= $keyName' ./ec2_script/temp.json >./ec2_script/cloudformation.json
+    rm ./ec2_script/temp.json
+
+    mv ./ec2_script/cloudformation.json ./ec2_script/temp.json
+    jq -c --arg keyName "$keyName" -r '.Resources.DataNode3.Properties.KeyName |= $keyName' ./ec2_script/temp.json >./ec2_script/cloudformation.json
+    rm ./ec2_script/temp.json
+
     python3 ./ec2_script/createEC2.py
 
     echo "Spinning Up EC2 Instances..."
@@ -80,6 +99,10 @@ function installation() {
     echo Your Mongo Public IP is ${PUBLIC_IPS[0]}
     echo Your MySQL Public IP is ${PUBLIC_IPS[1]}
     echo Your WebServer Public IP is ${PUBLIC_IPS[2]}
+    echo Your NameNode Public IP is ${PUBLIC_IPS[3]}
+    echo Your DataNode1 Public IP is ${PUBLIC_IPS[4]}
+    echo Your DataNode2 Public IP is ${PUBLIC_IPS[5]}
+    echo Your DataNode3 Public IP is ${PUBLIC_IPS[6]}
 
     # Configure MongoDB
     echo "Setting Up MongoDB" &
@@ -96,6 +119,16 @@ function installation() {
     wait
     sleep 1s
     ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[2]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' bash -s' <./webserver_script/startserver.sh
+
+    # Configure Analysis
+    echo "Setting Up NameNode"
+    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[3]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}'bash -s' <./analysis_script/namenode.sh
+    echo "Setting Up DataNode1"
+    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[4]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}'bash -s' <./analysis_script/datanode1.sh
+    echo "Setting Up DataNode2"
+    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[5]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}'bash -s' <./analysis_script/datanode2.sh
+    echo "Setting Up DataNode3"
+    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[6]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}'bash -s' <./analysis_script/datanode3.sh
 
 }
 
