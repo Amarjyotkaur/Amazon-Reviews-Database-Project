@@ -111,37 +111,37 @@ After hitting enter, the uninstall process will take an average of ```10 seconds
 > And don't forget, A Book A Day, Keeps The F's Away
 
 ## Preview
-Splash Page\
-<img src="./screenshots/splashpage.PNG" width="300" height="200">\
+**Splash Page**\
+<img src="./screenshots/splashpage.PNG" width="300" height="200">
 
-Sign Up Page\
-Sign Up Page enables users to sign up with their first name, last name and email. If the user is found to be existing in the database, he/she will be prompted to login instead.\ 
+**Sign Up Page**\
+Sign Up Page enables users to sign up with their first name, last name and email. If the user is found to be existing in the database, he/she will be prompted to login instead. 
 
-Main Page\
+**Main Page**\
 <img src="./screenshots/mainpage.PNG" width="300" height="200">
-Displays books paginated in books of 30 in a single page. Book objects are created in card view and an overlay is applied to each book that displays the the title and a short discription of the book.\
+Displays books paginated in books of 30 in a single page. Book objects are created in card view and an overlay is applied to each book that displays the the title and a short discription of the book.
 
-Reviews Page\
+**Reviews Page**\
 -- need add img --\
-Displays book title, summary, description, price, average rating and reviews of the book. Users are able to add a new review to the book. If user has previously added a review to the book, he/she will be disallowed a second review. \ 
+Displays book title, summary, description, price, average rating and reviews of the book. Users are able to add a new review to the book. If user has previously added a review to the book, he/she will be disallowed a second review. 
 
-Add Book/Add review Function\
+**Add Book/Add review Function**\
 -- need add img --\
-Pop-up modal that allows users to navigate between adding a new book/review and returning to the main page. Default book image is provided and maximum review of  a book is kept at 5.\
+Pop-up modal that allows users to navigate between adding a new book/review and returning to the main page. Default book image is provided and maximum review of  a book is kept at 5.
 
-Search Function\
+**Search Function**\
 -- need add img -\
-Search function allows users to do an exact search on books in the database for a given asin, title or author.\
+Search function allows users to do an exact search on books in the database for a given asin, title or author.
 
-Filter Function\
+**Filter Function**\
 -- need add img --\
-Filter books based on popular filters in the database; users may choose up to all or none.\ 
+Filter books based on popular filters in the database; users may choose up to all or none.
 
 ## FrontEnd
 
 ## BackEnd
 ### Database  
-**MongoDB**
+**MongoDB**\
 Retrieve Book metadata: 
 ```
 wget -c https://istd50043.s3-ap-southeast-1.amazonaws.com/kindle-reviews.zip -O kindle-reviews.zip
@@ -173,7 +173,7 @@ A typical book structure will like this:
 -price: number
 ``` 
 
-**SQL**
+**SQL**\
 Retrieve Kindle reviews: 
 ```
 wget -c https://istd50043.s3-ap-southeast-1.amazonaws.com/meta_kindle_store.zip -O meta_kindle_store.zip
@@ -198,7 +198,7 @@ load data local infile 'kindle_reviews.csv' ignore into table kindle_reviews fie
 ```
 
 ### APIs
-REST APIS of ```GET, POST, UPDATE, DELETE``` are implemented, front-end implements Axios library for making HTTP requests.\  
+REST APIS of ```GET, POST, UPDATE, DELETE``` are implemented, front-end implements Axios library for making HTTP requests.  
 
 Book APIs\ 
 GET ```/api/book/getallbooks``` - retrieves the last 500 books\
@@ -208,21 +208,21 @@ POST ```/api/book/addbook``` - adds a new book given **asin, title, description,
 
 Log API\ 
 POST ```/api/book/addlog/:id``` - adds to log for each returned ```res.status```:\  
-     -```200``` Success + success message\
-     -```400``` Syntax Error + error message\ 
-     -```404``` Server Error + error message\
+\t-```200``` Success + success message\
+\t-```400``` Syntax Error + error message\ 
+\t-```404``` Server Error + error message
 
 Reviews APIs\
 GET ```/getBookReviews/:id``` -  get book reviews of a particular book given **asin**\
 DELETE ```/deleteBookReview```- delete book review given **asin, reviewerID**\
 POST ```/addReview``` - add book review given **asin, helpful, overall, reviewText, reviewTime, reviewerID, reviewerName, summary, unixReviewTime**\
-POST ```/updateReview``` - update book review given **reviewText, reviewTime, summary, unixReviewTime, asin, reviewerID**\
+POST ```/updateReview``` - update book review given **reviewText, reviewTime, summary, unixReviewTime, asin, reviewerID**
 
 Authentication APIs\
 POST ```/api/account/signup``` - creates a new account given **email, firstname, lastName, password**\
 POST ```/api/account/signin``` - signs in to existing account given **email, password**\
 GET ```/api/account/verify``` - verfies account given **token**\
-GET ```/api/account/logout``` - logs out of account given **token**\
+GET ```/api/account/logout``` - logs out of account given **token**
 
 ## Reference
 I wish there was a reference. The only reference was the PDF in labs to set up Hadoop || Spark || Sqoop || StackOverFlow
