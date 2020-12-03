@@ -111,12 +111,118 @@ After hitting enter, the uninstall process will take an average of ```10 seconds
 > And don't forget, A Book A Day, Keeps The F's Away
 
 ## Preview
-Splash Page
-<img src="./screenshots/splashpage.PNG" width="640" height="512">
+Splash Page <br />
+<img src="./screenshots/splashpage.PNG" width="300" height="200">
 
-Main Page
-<img src="./screenshots/mainpage.PNG" width="640" height="512">
+Sign Up Page <br /> 
+Sign Up Page enables users to sign up with their first name, last name and email. If the user is found to be existing in the database, he/she will be prompted to login instead. 
 
+Main Page <br />
+<img src="./screenshots/mainpage.PNG" width="300" height="200">
+Displays books paginated in books of 30 in a single page. Book objects are created in card view and an overlay is applied to each book that displays the the title and a short discription of the book. 
+
+Reviews Page <br />
+-- need add img --
+Displays book title, summary, description, price, average rating and reviews of the book. Users are able to add a new review to the book. If user has previously added a review to the book, he/she will be disallowed a second review.  
+
+Add Book/Add review Function <br /> 
+-- need add img --
+Pop-up modal that allows users to navigate between adding a new book/review and returning to the main page. Default book image is provided and maximum review of  a book is kept at 5.
+
+Search Function <br />
+-- need add img --
+Search function allows users to do an exact search on books in the database for a given asin, title or author. 
+
+Filter Function <br />
+-- need add img --
+Filter books based on popular filters in the database; users may choose up to all or none. 
+
+## FrontEnd
+
+## BackEnd
+### Database  
+**MongoDB**
+Retrieve Book metadata: 
+```
+wget -c https://istd50043.s3-ap-southeast-1.amazonaws.com/kindle-reviews.zip -O kindle-reviews.zip
+unzip kindle-reviews.zip
+rm -rf kindle_reviews.json
+```
+MongoDB is setup to store books metadata, user details and user sessions. On top of the give books metadata, we ran a webscrape script using beautiful soup to scrape existing books' title and author stored in a csv file. The scrape function was being parallelized to increase throughput. 
+
+Appending the books's title and author directly onto mongoDB would result in it throwing a timeout error. Hence, the new information obtained is appeded to the existing books metadata in json format. Since the metadata file is not a valid json document, ```json.loads()``` would not work, instead ```ast.literal_eval()``` is used to evaluate the input expression. 
+
+To upload the modified data to mongoDB: 
+```mongoimport --db admin --collection metadatas --authenticationDatabase admin --username admin --password password --drop --file '/home/ubuntu/meta_Kindle_Store.json' --legacy```
+
+A typical book structure will like this: 
+```
+-_id: ObjectId
+-asin: String 
+-categories: Array 
+  -0: Array  
+    -0: String
+-description: String  
+-title: String
+-related: Object
+  -also_viewed: Array 
+    -0: String
+  -buy_after_viewing: Array 
+    -0: String
+-imUrl: String
+-price: number
+``` 
+
+**SQL**
+Retrieve Kindle reviews: 
+```
+wget -c https://istd50043.s3-ap-southeast-1.amazonaws.com/meta_kindle_store.zip -O meta_kindle_store.zip
+unzip meta_kindle_store.zip
+rm -rf kindle-reviews.zip meta_kindle_store.zip
+```
+
+SQL data is setup to store the books reviews. Uploading the SQL data to the server is fairly straightforward. Firstly, create a database followed by a table with: 
+```
+create database reviews; create table kindle_reviews (MyUnknownColumn int, asin text, helpful text, overall int, reviewText text, reviewTime text, reviewerID text, reviewerName text, summary text, unixReviewTime int);
+```
+
+The datatype for each field is recommended by SQL itself. MyUnknownColumn is not required for this project, you may choose to drop it: 
+```
+alter table kindle_reviews
+drop column MyUnknownColumn;
+```
+
+Next, upload kindle_reviews: 
+```
+load data local infile 'kindle_reviews.csv' ignore into table kindle_reviews fields terminated by ',' enclosed by '"' lines terminated by '\n' ignore 1 lines;
+```
+
+### APIs
+REST APIS of ```GET, POST, UPDATE, DELETE``` are implemented, front-end implements Axios library for making HTTP requests.  
+
+Book APIs 
+GET ```/api/book/getallbooks``` - retrieves the last 500 books
+POST ```/api/book/applyfilter``` - returns books given **filter** 
+GET ```/api/book/getbook``` - returns a book given book **asin**
+POST ```/api/book/addbook``` - adds a new book given **asin, title, description, price, imUrl, author, related, categories**
+
+Log API 
+POST ```/api/book/addlog/:id``` - adds to log for each returned ```res.status```:  
+     -```200``` Success + success message
+     -```400``` Syntax Error + error message 
+     -```404``` Server Error + error message
+
+Reviews APIs
+GET ```/getBookReviews/:id``` -  get book reviews of a particular book given **asin**
+DELETE ```/deleteBookReview```- delete book review given **asin, reviewerID**
+POST ```/addReview``` - add book review given **asin, helpful, overall, reviewText, reviewTime, reviewerID, reviewerName, summary, unixReviewTime**
+POST ```/updateReview``` - update book review given **reviewText, reviewTime, summary, unixReviewTime, asin, reviewerID**
+
+Authentication APIs
+POST ```/api/account/signup``` - creates a new account given **email, firstname, lastName, password**
+POST ```/api/account/signin``` - signs in to existing account given **email, password** 
+GET ```/api/account/verify``` - verfies account given **token**
+GET ```/api/account/logout``` - logs out of account given **token**
 
 ## Reference
 I wish there was a reference. The only reference was the PDF in labs to set up Hadoop || Spark || Sqoop || StackOverFlow
