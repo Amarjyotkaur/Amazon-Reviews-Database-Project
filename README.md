@@ -37,7 +37,7 @@ This project we have chosen uses the following technologies:
 
 ## Setup
 Run this command in the above AMI EC2 Instance: [Will change to public once the term ends (Remove Credientials)]
-```bash
+```shell
 git clone https://wontonloodle:'Whatever0)'@github.com/tengfone/AmaNerdBookReview.git
 ```
 Change the directory to scripts folder:
@@ -52,7 +52,7 @@ Run ```main.sh``` with ```sudo```:
 > Use ```sudo ./main.sh -u``` for Uninstalling
 
 On first launch, it will install ```unzip```,```jq```,```AWS-CLI``` and then prompt you for your AWS Credientials, follow the on-screen instruction. Do take note for any default region, it will be ```us-east-1```. Unique key name can be any user defined name.
-```shell
+```bash
 sudo ./main.sh -i
 ```
 ![CLI_Setup](./screenshots/cli_setup.jpg)
