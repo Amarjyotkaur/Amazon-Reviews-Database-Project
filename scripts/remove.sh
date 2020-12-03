@@ -15,7 +15,7 @@ else
     sudo rm keyData.json
     echo "Shutting Down and removing AmaNerdBookReview Stack from AWS"
     aws cloudformation delete-stack --stack-name AmaNerdBookReview
-    echo "AmaNerdBookReview successfully removed! We are sad to see you go, they say a book a day, keep the Cs away!"
+    echo "AmaNerdBookReview successfully removed! We are sad to see you go, they say a book a day, keep the Fs away!"
     exit
 fi
 
