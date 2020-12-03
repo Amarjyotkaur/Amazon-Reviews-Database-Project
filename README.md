@@ -118,7 +118,7 @@ After hitting enter, the uninstall process will take an average of ```10 seconds
 Sign Up Page enables users to sign up with their first name, last name and email. If the user is found to be existing in the database, he/she will be prompted to login instead. 
 
 **Main Page**\
-<img src="./screenshots/mainpage.PNG" width="300" height="200">
+<img src="./screenshots/mainpage.PNG" width="300" height="200">\
 Displays books paginated in books of 30 in a single page. Book objects are created in card view and an overlay is applied to each book that displays the the title and a short discription of the book.
 
 **Reviews Page**\
@@ -150,7 +150,7 @@ rm -rf kindle_reviews.json
 ```
 MongoDB is setup to store books metadata, user details and user sessions. On top of the give books metadata, we ran a webscrape script using beautiful soup to scrape existing books' title and author stored in a csv file. The scrape function was being parallelized to increase throughput. 
 
-Appending the books's title and author directly onto mongoDB would result in it throwing a timeout error. Hence, the new information obtained is appeded to the existing books metadata in json format. Since the metadata file is not a valid json document, ```json.loads()``` would not work, instead ```ast.literal_eval()``` is used to evaluate the input expression. 
+Appending the books' title and author directly onto mongoDB would result in it throwing a timeout error. Hence, the new information obtained is appeded to the existing books metadata in json format. Since the metadata file is not a valid json document, ```json.loads()``` would not work, instead ```ast.literal_eval()``` is used to evaluate the input expression. 
 
 To upload the modified data to mongoDB: 
 ```mongoimport --db admin --collection metadatas --authenticationDatabase admin --username admin --password password --drop --file '/home/ubuntu/meta_Kindle_Store.json' --legacy```
@@ -200,7 +200,7 @@ load data local infile 'kindle_reviews.csv' ignore into table kindle_reviews fie
 ### APIs
 REST APIS of ```GET, POST, UPDATE, DELETE``` are implemented, front-end implements Axios library for making HTTP requests.  
 
-Book APIs\ 
+Book APIs 
 GET ```/api/book/getallbooks``` - retrieves the last 500 books\
 POST ```/api/book/applyfilter``` - returns books given **filter**\ 
 GET ```/api/book/getbook``` - returns a book given book **asin**\
@@ -208,9 +208,9 @@ POST ```/api/book/addbook``` - adds a new book given **asin, title, description,
 
 Log API\ 
 POST ```/api/book/addlog/:id``` - adds to log for each returned ```res.status```:\  
-\t-```200``` Success + success message\
-\t-```400``` Syntax Error + error message\ 
-\t-```404``` Server Error + error message
+&nbsp-```200``` Success + success message\
+&nbsp-```400``` Syntax Error + error message\ 
+&nbsp-```404``` Server Error + error message
 
 Reviews APIs\
 GET ```/getBookReviews/:id``` -  get book reviews of a particular book given **asin**\
