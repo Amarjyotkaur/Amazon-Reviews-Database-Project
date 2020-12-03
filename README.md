@@ -115,6 +115,7 @@ After hitting enter, the uninstall process will take an average of ```10 seconds
 <img src="./screenshots/splashpage.PNG" width="300" height="200">
 
 **Sign Up Page**\
+-- need add img --\
 Sign Up Page enables users to sign up with their first name, last name and email. If the user is found to be existing in the database, he/she will be prompted to login instead. 
 
 **Main Page**\
@@ -201,16 +202,16 @@ load data local infile 'kindle_reviews.csv' ignore into table kindle_reviews fie
 REST APIS of ```GET, POST, UPDATE, DELETE``` are implemented, front-end implements Axios library for making HTTP requests.  
 
 Book APIs 
-GET ```/api/book/getallbooks``` - retrieves the last 500 books\
-POST ```/api/book/applyfilter``` - returns books given **filter**\ 
-GET ```/api/book/getbook``` - returns a book given book **asin**\
+GET ```/api/book/getallbooks``` - retrieves the last 500 books<br /> 
+POST ```/api/book/applyfilter``` - returns books given **filter**<br />  
+GET ```/api/book/getbook``` - returns a book given book **asin**<br /> 
 POST ```/api/book/addbook``` - adds a new book given **asin, title, description, price, imUrl, author, related, categories**\
 
-Log API\ 
-POST ```/api/book/addlog/:id``` - adds to log for each returned ```res.status```:\  
-&nbsp-```200``` Success + success message\
-&nbsp-```400``` Syntax Error + error message\ 
-&nbsp-```404``` Server Error + error message
+Log API<br /> 
+POST ```/api/book/addlog/:id``` - adds to log for each returned ```res.status```:<br />  
+&nbsp;-```200``` Success + success message<br /> 
+&nbsp;-```400``` Syntax Error + error message<br />  
+&nbsp;-```404``` Server Error + error message
 
 Reviews APIs\
 GET ```/getBookReviews/:id``` -  get book reviews of a particular book given **asin**\
