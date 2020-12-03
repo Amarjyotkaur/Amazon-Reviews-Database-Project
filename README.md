@@ -201,25 +201,25 @@ load data local infile 'kindle_reviews.csv' ignore into table kindle_reviews fie
 ### APIs
 REST APIS of ```GET, POST, UPDATE, DELETE``` are implemented, front-end implements Axios library for making HTTP requests.  
 
-Book APIs 
+**Book APIs**<br />  
 GET ```/api/book/getallbooks``` - retrieves the last 500 books<br /> 
 POST ```/api/book/applyfilter``` - returns books given **filter**<br />  
 GET ```/api/book/getbook``` - returns a book given book **asin**<br /> 
 POST ```/api/book/addbook``` - adds a new book given **asin, title, description, price, imUrl, author, related, categories**
 
-Log API<br /> 
+**Log API**<br /> 
 POST ```/api/book/addlog/:id``` - adds to log for each returned ```res.status```:<br />  
 -```200``` Success + success message<br /> 
 -```400``` Syntax Error + error message<br />  
 -```404``` Server Error + error message
 
-Reviews APIs\
+**Reviews APIs**\
 GET ```/getBookReviews/:id``` -  get book reviews of a particular book given **asin**\
 DELETE ```/deleteBookReview```- delete book review given **asin, reviewerID**\
 POST ```/addReview``` - add book review given **asin, helpful, overall, reviewText, reviewTime, reviewerID, reviewerName, summary, unixReviewTime**\
 POST ```/updateReview``` - update book review given **reviewText, reviewTime, summary, unixReviewTime, asin, reviewerID**
 
-Authentication APIs\
+**Authentication APIs**\
 POST ```/api/account/signup``` - creates a new account given **email, firstname, lastName, password**\
 POST ```/api/account/signin``` - signs in to existing account given **email, password**\
 GET ```/api/account/verify``` - verfies account given **token**\
