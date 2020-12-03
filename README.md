@@ -112,10 +112,11 @@ After hitting enter, the uninstall process will take an average of ```10 seconds
 
 ## Preview
 Splash Page
-<img src="./screenshots/splashpage.PNG" width="100" height="100">
+<img src="./screenshots/splashpage.PNG" width="640" height="512">
 
 Main Page
-<img src="./screenshots/mainpage.PNG" width="100" height="100">
+<img src="./screenshots/mainpage.PNG" width="640" height="512">
+
 
 ## Reference
 I wish there was a reference. The only reference was the PDF in labs to set up Hadoop || Spark || Sqoop || StackOverFlow
