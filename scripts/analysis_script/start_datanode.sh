@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Running on NameNode: $NAMENODE"
+echo "Running on DataNodes"
 
 export LC_ALL=C
 sudo apt-get update
