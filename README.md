@@ -221,7 +221,7 @@ REST APIS of ```GET, POST, UPDATE, DELETE``` are implemented, front-end implemen
 **Log API**<br /> 
 **POST** ```/api/book/addlog/:id``` - adds to log for each returned ```res.status```:<br />  
 -```200``` Success + success message<br /> 
--```400``` Syntax Error + error message<br />  
+-```400``` Syntax Error + error message<br />
 -```404``` Server Error + error message
 
 **Reviews APIs**\
@@ -240,10 +240,30 @@ REST APIS of ```GET, POST, UPDATE, DELETE``` are implemented, front-end implemen
 ### Pearson Correlation 
 ![pearson](./screenshots/pearson.png)\
 We used sqoop to implement SQL data in praquet format and mongoDB connector for spark to import mongoDB data. We then used pandas dataframes and implemented map reduce to calculate the pearson correlation value.  
+```
+n = df.count()
+rdd = df.rdd.map(list)
+sumx = rdd.map(lambda x: x[1]).sum()
+sumy = rdd.map(lambda x: x[2]).sum()
+sumxy = rdd.map(lambda x: x[1] * x[2]).sum()
+sumx_sq = rdd.map(lambda x: x[1]**2).sum()
+sumy_sq = rdd.map(lambda x: x[2]**2).sum()
+```
+The value of the pearson correlation can be found at the print statement of the automation script
 
 ### TF-IDF 
 We converted the SQL data into csv, installed dependencies such as pyarrow and pyspark. After running the TF-IDF function, there are 4 files being output. 
+```
+import pandas as pd
 
+df = pd.read_parquet("~/${kindleReviewFileName}")
+df.to_csv("output.csv")
+```
+The output of TF-IDF can be found on the NameNode by running the automation script. 
+
+```
+/opt/hadoop-3.3.0/bin/./hdfs dfs -ls /user/hadoop/output.csv
+```
 
 ## Reference
 I wish there was a reference. The only reference was the PDF in labs to set up Hadoop || Spark || Sqoop || StackOverFlow
