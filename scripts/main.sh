@@ -174,9 +174,10 @@ function analysis() {
     ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[5]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/install_dataSpark.sh &
     ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[6]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/install_dataSpark.sh &
     wait
-
     # # Start Spark
     ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[3]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/install_spark2.sh
+    # ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[3]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/install_spark3.sh
+    
 }
 
 while getopts ":auhid" OPTION; do
