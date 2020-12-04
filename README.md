@@ -213,9 +213,9 @@ load data local infile 'kindle_reviews.csv' ignore into table kindle_reviews fie
 REST APIS of ```GET, POST, UPDATE, DELETE``` are implemented, front-end implements Axios library for making HTTP requests.  
 
 **Book APIs**<br />  
-**GET** ```/api/book/getallbooks``` - retrieves the last 500 books<br /> 
-**POST** ```/api/book/applyfilter``` - returns books given **filter**<br />  
-**GET** ```/api/book/getbook``` - returns a book given book **asin**<br /> 
+**GET** ```/api/book/getallbooks``` - retrieves the last 500 books<br />
+**POST** ```/api/book/applyfilter``` - returns books given **filter**<br />
+**GET** ```/api/book/getbook``` - returns a book given book **asin**<br />
 **POST** ```/api/book/addbook``` - adds a new book given **asin, title, description, price, imUrl, author, related, categories**
 
 **Log API**<br /> 
