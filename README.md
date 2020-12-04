@@ -128,16 +128,12 @@ After hitting enter, the uninstall process will take an average of ```10 seconds
 **Splash Page**\
 <img src="./screenshots/splashpage.PNG" width="300" height="200">
 
-**Sign Up Page**\
--- need add img --\
-Sign Up Page enables users to sign up with their first name, last name and email. If the user is found to be existing in the database, he/she will be prompted to login instead. 
-
 **Main Page**\
 <img src="./screenshots/mainpage.PNG" width="300" height="200">\
 Displays books paginated in books of 30 in a single page. Book objects are created in card view and an overlay is applied to each book that displays the the title and a short discription of the book.
 
 **Reviews Page**\
--- need add img --\
+<img src="./screenshots/review.PNG" width="300" height="200">\
 Displays book title, summary, description, price, average rating and reviews of the book. Users are able to add a new review to the book. If user has previously added a review to the book, he/she will be disallowed a second review. 
 
 ## FrontEnd
@@ -147,8 +143,10 @@ We have implemented the following functions:<br />
 **Registration** - allows users to sign up with their first name, last name, email and password<br /> 
 **Log in** - allows users to to log in with their email and password<br /> 
 **Filter** - allows users to filter books based on common categories, users may choose up to all or none<br /> 
+![filterbook](./screenshots/filterbook.png)\
 **Search** - allows users to search books based on exact asin, title or author.<br />
 **Add Book** - pop-up modal that allows users to navigate between adding a new book and returning to the main page<br /> 
+![addbook](./screenshots/addbook.png)\
 **Add Review** - pop-up modal that allows users to navigate between adding a new review and returning to the main page<br /> 
 
 ## BackEnd
@@ -213,37 +211,59 @@ load data local infile 'kindle_reviews.csv' ignore into table kindle_reviews fie
 REST APIS of ```GET, POST, UPDATE, DELETE``` are implemented, front-end implements Axios library for making HTTP requests.  
 
 **Book APIs**<br />  
-GET ```/api/book/getallbooks``` - retrieves the last 500 books<br /> 
-POST ```/api/book/applyfilter``` - returns books given **filter**<br />  
-GET ```/api/book/getbook``` - returns a book given book **asin**<br /> 
-POST ```/api/book/addbook``` - adds a new book given **asin, title, description, price, imUrl, author, related, categories**
+**GET** ```/api/book/getallbooks``` - retrieves the last 500 books<br />
+**POST** ```/api/book/applyfilter``` - returns books given **filter**<br />
+**GET** ```/api/book/getbook``` - returns a book given book **asin**<br />
+**POST** ```/api/book/addbook``` - adds a new book given **asin, title, description, price, imUrl, author, related, categories**
 
 **Log API**<br /> 
-POST ```/api/book/addlog/:id``` - adds to log for each returned ```res.status```:<br />  
+**POST** ```/api/book/addlog/:id``` - adds to log for each returned ```res.status```:<br />  
 -```200``` Success + success message<br /> 
--```400``` Syntax Error + error message<br />  
+-```400``` Syntax Error + error message<br />
 -```404``` Server Error + error message
+The logs structure is as follow:
+![mongo](./screenshots/mongo.png)\
 
 **Reviews APIs**\
-GET ```/getBookReviews/:id``` -  get book reviews of a particular book given **asin**\
-DELETE ```/deleteBookReview```- delete book review given **asin, reviewerID**\
-POST ```/addReview``` - add book review given **asin, helpful, overall, reviewText, reviewTime, reviewerID, reviewerName, summary, unixReviewTime**\
-POST ```/updateReview``` - update book review given **reviewText, reviewTime, summary, unixReviewTime, asin, reviewerID**
+**GET** ```/getBookReviews/:id``` -  get book reviews of a particular book given **asin**\
+**DELETE** ```/deleteBookReview```- delete book review given **asin, reviewerID**\
+**POST** ```/addReview``` - add book review given **asin, helpful, overall, reviewText, reviewTime, reviewerID, reviewerName, summary, unixReviewTime**\
+**POST** ```/updateReview``` - update book review given **reviewText, reviewTime, summary, unixReviewTime, asin, reviewerID**
 
 **Authentication APIs**\
-POST ```/api/account/signup``` - creates a new account given **email, firstname, lastName, password**\
-POST ```/api/account/signin``` - signs in to existing account given **email, password**\
-GET ```/api/account/verify``` - verfies account given **token**\
-GET ```/api/account/logout``` - logs out of account given **token**
+**POST** ```/api/account/signup``` - creates a new account given **email, firstname, lastName, password**\
+**POST** ```/api/account/signin``` - signs in to existing account given **email, password**\
+**GET** ```/api/account/verify``` - verfies account given **token**\
+**GET** ```/api/account/logout``` - logs out of account given **token**
 
 ## Analytics 
 ### Pearson Correlation 
-![pearson](./screenshots/pearson.png)
+![pearson](./screenshots/pearson.png)\
 We used sqoop to implement SQL data in praquet format and mongoDB connector for spark to import mongoDB data. We then used pandas dataframes and implemented map reduce to calculate the pearson correlation value.  
+```
+n = df.count()
+rdd = df.rdd.map(list)
+sumx = rdd.map(lambda x: x[1]).sum()
+sumy = rdd.map(lambda x: x[2]).sum()
+sumxy = rdd.map(lambda x: x[1] * x[2]).sum()
+sumx_sq = rdd.map(lambda x: x[1]**2).sum()
+sumy_sq = rdd.map(lambda x: x[2]**2).sum()
+```
+The value of the pearson correlation can be found at the print statement of the automation script
 
 ### TF-IDF 
 We converted the SQL data into csv, installed dependencies such as pyarrow and pyspark. After running the TF-IDF function, there are 4 files being output. 
+```
+import pandas as pd
 
+df = pd.read_parquet("~/${kindleReviewFileName}")
+df.to_csv("output.csv")
+```
+The output of TF-IDF can be found on the NameNode by running the automation script. 
+
+```
+/opt/hadoop-3.3.0/bin/./hdfs dfs -ls /user/hadoop/output.csv
+```
 
 ## Reference
 I wish there was a reference. The only reference was the PDF in labs to set up Hadoop || Spark || Sqoop || StackOverFlow
