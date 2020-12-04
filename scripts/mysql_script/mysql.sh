@@ -56,8 +56,10 @@ create table kindle_reviews (MyUnknownColumn int, asin text, helpful text, overa
 load data local infile 'kindle_reviews.csv' ignore into table kindle_reviews fields terminated by ',' enclosed by '''' lines terminated by '\n' ignore 1 lines;
 CREATE USER 'admin'@'localhost' IDENTIFIED BY 'bookreviewer';
 GRANT ALL PRIVILEGES ON *.* TO 'admin'@'localhost' WITH GRANT OPTION;
-ALTER table kindle_reviews drop column MyUnknownColumn;
 FLUSH PRIVILEGES;
 CREATE USER 'admin'@'%' IDENTIFIED BY 'bookreviewer';
 GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;"
+
+
+#ALTER table kindle_reviews drop column MyUnknownColumn;
