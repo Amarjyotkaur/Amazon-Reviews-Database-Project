@@ -128,16 +128,12 @@ After hitting enter, the uninstall process will take an average of ```10 seconds
 **Splash Page**\
 <img src="./screenshots/splashpage.PNG" width="300" height="200">
 
-**Sign Up Page**\
--- need add img --\
-Sign Up Page enables users to sign up with their first name, last name and email. If the user is found to be existing in the database, he/she will be prompted to login instead. 
-
 **Main Page**\
 <img src="./screenshots/mainpage.PNG" width="300" height="200">\
 Displays books paginated in books of 30 in a single page. Book objects are created in card view and an overlay is applied to each book that displays the the title and a short discription of the book.
 
 **Reviews Page**\
--- need add img --\
+<img src="./screenshots/review.PNG" width="300" height="200">\
 Displays book title, summary, description, price, average rating and reviews of the book. Users are able to add a new review to the book. If user has previously added a review to the book, he/she will be disallowed a second review. 
 
 ## FrontEnd
@@ -147,8 +143,10 @@ We have implemented the following functions:<br />
 **Registration** - allows users to sign up with their first name, last name, email and password<br /> 
 **Log in** - allows users to to log in with their email and password<br /> 
 **Filter** - allows users to filter books based on common categories, users may choose up to all or none<br /> 
+![filterbook](./screenshots/filterbook.png)\
 **Search** - allows users to search books based on exact asin, title or author.<br />
 **Add Book** - pop-up modal that allows users to navigate between adding a new book and returning to the main page<br /> 
+![addbook](./screenshots/addbook.png)\
 **Add Review** - pop-up modal that allows users to navigate between adding a new review and returning to the main page<br /> 
 
 ## BackEnd
@@ -223,6 +221,8 @@ REST APIS of ```GET, POST, UPDATE, DELETE``` are implemented, front-end implemen
 -```200``` Success + success message<br /> 
 -```400``` Syntax Error + error message<br />
 -```404``` Server Error + error message
+The logs structure is as follow:
+![mongo](./screenshots/mongo.png)\
 
 **Reviews APIs**\
 **GET** ```/getBookReviews/:id``` -  get book reviews of a particular book given **asin**\
