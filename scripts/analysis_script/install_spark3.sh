@@ -21,7 +21,7 @@ df = spark.read.parquet("/user/hadoop/kindle_reviews/${kindleReviewFileName}")
 df.write.csv("output.csv")
 EOF
 
-cat ~/convert.py | ./pyspark --conf "spark.mongodb.input.uri=mongodb://${MONGO}/admin.metadatas?readPreference=primaryPreferred" --conf "spark.mongodb.output.uri=mongodb://${MONGO}/admin.metadatas" --packages org.mongodb.spark:mongo-spark-connector_2.12:3.0.0
+cat ~/convert.py | /opt/spark-3.0.1-bin-hadoop3.2/bin/pyspark --conf "spark.mongodb.input.uri=mongodb://${MONGO}/admin.metadatas?readPreference=primaryPreferred" --conf "spark.mongodb.output.uri=mongodb://${MONGO}/admin.metadatas" --packages org.mongodb.spark:mongo-spark-connector_2.12:3.0.0
 
 
 sudo tee ~/tf.py << EOF
