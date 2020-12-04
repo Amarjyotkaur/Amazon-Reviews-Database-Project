@@ -6,23 +6,26 @@ MONGO=$MONGOIP
 EOF
 
 sudo su hadoop
-
+export LC_ALL=C
 export PATH=$PATH:/opt/hadoop-3.3.0/bin/./
 sudo apt install -y python-pip
-pip install --upgrade setuptools
 python -m pip install --upgrade pip
+pip install --upgrade setuptools
 pip install pyarrow
 pip install pyspark
+sudo apt-get install python3-numpy
+sudo apt-get install python3-pandas
 
 kindleReviewFileName=$(hdfs dfs -stat "%n" /user/hadoop/kindle_reviews/*.parquet)
 
 sudo tee ~/convert.py << EOF
-df = spark.read.parquet("/user/hadoop/kindle_reviews/${kindleReviewFileName}")
-df.write.csv("output.csv")
+import pandas as pd
+
+df = pd.read_parquet("~/${kindleReviewFileName}")
+df.to_csv("output.csv")
 EOF
 
-cat ~/convert.py | /opt/spark-3.0.1-bin-hadoop3.2/bin/pyspark --conf "spark.mongodb.input.uri=mongodb://${MONGO}/admin.metadatas?readPreference=primaryPreferred" --conf "spark.mongodb.output.uri=mongodb://${MONGO}/admin.metadatas" --packages org.mongodb.spark:mongo-spark-connector_2.12:3.0.0
-
+cat ~/convert.py | /opt/spark-3.0.1-bin-hadoop3.2/bin/pyspark
 
 sudo tee ~/tf.py << EOF
 import os
@@ -63,7 +66,7 @@ def sparse2dict(vec, idx2word):
     return str({idx2word[i]:v for i,v in zip(idxs, vals)})
 
 def tfidf_review_text(df):
-    try: 
+    try:
         with Timer("TF-IDF for reviewText"):
             df = df.select(["reviewText"]).dropna()
 
@@ -84,8 +87,8 @@ def tfidf_review_text(df):
             my_udf_func = udf(lambda vector: sparse2dict(vector, idx2word), types.StringType())
             df = df.select("reviewText", my_udf_func("tfidf").alias("tfidf_final"))
         show_df(df, 10)
-    except Exception as e: 
-        print("Misalignment")
+    except Exception as e:
+        print("Timer")
     return df
 
 if __name__ == "__main__":
@@ -94,10 +97,9 @@ if __name__ == "__main__":
         print("Running spark_app.py")
         df_reviews = load_data("output.csv")
         df_tfidf = tfidf_review_text(df_reviews)
-        df_tfidf.write.format("csv").save("answer/")
+        df_tfidf.write.format("csv").save("answer2/")
 EOF
 
 /opt/spark-3.0.1-bin-hadoop3.2/bin/spark-submit --master yarn  ~/tf.py
 
-# hdfs dfs -get /user/hadoop/answer/part-00005-c785e4dd-06e5-4741-a94a-033b88dc14ed-c000.csv ~/
-# cat part-00005-c785e4dd-06e5-4741-a94a-033b88dc14ed-c000.csv | head -5
+# HDFS dfs -cat  <file name> | head -5
