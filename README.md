@@ -143,19 +143,16 @@ Displays books paginated in books of 30 in a single page. Book objects are creat
 -- need add img --\
 Displays book title, summary, description, price, average rating and reviews of the book. Users are able to add a new review to the book. If user has previously added a review to the book, he/she will be disallowed a second review. 
 
-**Add Book/Add review Function**\
--- need add img --\
-Pop-up modal that allows users to navigate between adding a new book/review and returning to the main page. Default book image is provided and maximum review of  a book is kept at 5.
-
-**Search Function**\
--- need add img -\
-Search function allows users to do an exact search on books in the database for a given asin, title or author.
-
-**Filter Function**\
--- need add img --\
-Filter books based on popular filters in the database; users may choose up to all or none.
-
 ## FrontEnd
+We have leveraged on React framework coupled with Bootstrap for the front-end design. We have also relied mostly on MDBreact components to help with forms, buttons and modal componenets. 
+
+We have implemented the following functions: 
+**Registration** - allows users to sign up with their first name, last name, email and password<br /> 
+**Log in** - allows users to to log in with their email and password<br /> 
+**Filter** - allows users to filter books based on common categories, users may choose up to all or none<br /> 
+**Search** - allows users to search books based on exact asin, title or author.
+**Add Book** - pop-up modal that allows users to navigate between adding a new book and returning to the main page<br /> 
+**Add Review** - pop-up modal that allows users to navigate between adding a new review and returning to the main page<br /> 
 
 ## BackEnd
 ### Database  
