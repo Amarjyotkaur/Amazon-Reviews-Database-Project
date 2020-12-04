@@ -216,6 +216,7 @@ done
 echo "-i to install immediately"
 echo "-u for uninstall"
 echo "-h for help"
+echo "-d for analytics"
 echo "Installation will run in 10seconds..."
 sleep 10s
 installation

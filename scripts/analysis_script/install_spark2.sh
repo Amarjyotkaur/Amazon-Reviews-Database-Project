@@ -15,6 +15,7 @@ kindleReviewFileName=$(hdfs dfs -stat "%n" /user/hadoop/kindle_reviews/*.parquet
 
 sudo tee ~/loader.py << EOF
 from pyspark.sql import SparkSession
+import os
 spark = SparkSession.builder.master("com.avg.fury").config("spark.mongodb.input.uri", "mongodb://admin:password@${MONGO}:27017/admin.metadatas?authSource=admin").config("spark.mongodb.output.uri", "mongodb://admin:password@${MONGO}:27017/admin.metadatas?authSource=admin").config('spark.jars.packages', 'org.mongodb.spark:mongo-spark-connector_2.12:3.0.0').config("spark.master", "local").getOrCreate()
 df = spark.read.format("mongo").option("uri","mongodb://admin:password@${MONGO}:27017/admin.metadatas?authSource=admin").load()
 df.write.save("/user/hadoop/kindle_metaData",format="json",mode="append")
@@ -65,14 +66,6 @@ cat ~/loader.py | ./pyspark --conf "spark.mongodb.input.uri=mongodb://${MONGO}/a
 
 # cd /opt/hadoop-3.3.0/bin/
 # ./hdfs dfs -ls /user/hadoop/kindle_reviews 
-
-# basename -s .parquet /opt/hadoop-3.3.0/bin/./hdfs dfs -ls /user/hadoop/kindle_reviews 
-
-# basename $(/opt/hadoop-3.3.0/bin/./hdfs dfs -ls /user/hadoop/kindle_reviews )
-
-
-# hdfs dfs -cat /your/path/in/hdfs > some_file_on_local_computer
-
 
 # ./pyspark --conf "spark.mongodb.input.uri=mongodb://34.237.245.166/admin.metadatas?readPreference=primaryPreferred" --conf "spark.mongodb.output.uri=mongodb://34.237.245.166/admin.metadatas" --packages org.mongodb.spark:mongo-spark-connector_2.12:3.0.0
 
