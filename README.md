@@ -14,7 +14,6 @@
   + [Approach](#Approach)
     - [Correlation](#)
     - [TF-IDF](#)
-* [Reference](#Reference)
 ## Prerequisites
 - [AWS Account](https://aws.amazon.com/account/) || [AWS EC2 Instance](https://aws.amazon.com/ec2/) || AWS EC2 AMI - `ami-0f82752aa17ff8f5d`
 
@@ -259,12 +258,8 @@ import pandas as pd
 df = pd.read_parquet("~/${kindleReviewFileName}")
 df.to_csv("output.csv")
 ```
-The output of TF-IDF can be found on the NameNode by running the automation script. 
+The output of TF-IDF can be found on the NameNode by running:
 
 ```
 /opt/hadoop-3.3.0/bin/./hdfs dfs -ls /user/hadoop/output.csv
 ```
-
-## Reference
-I wish there was a reference. The only reference was the PDF in labs to set up Hadoop || Spark || Sqoop || StackOverFlow
-
