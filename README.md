@@ -213,32 +213,32 @@ load data local infile 'kindle_reviews.csv' ignore into table kindle_reviews fie
 REST APIS of ```GET, POST, UPDATE, DELETE``` are implemented, front-end implements Axios library for making HTTP requests.  
 
 **Book APIs**<br />  
-GET ```/api/book/getallbooks``` - retrieves the last 500 books<br /> 
-POST ```/api/book/applyfilter``` - returns books given **filter**<br />  
-GET ```/api/book/getbook``` - returns a book given book **asin**<br /> 
-POST ```/api/book/addbook``` - adds a new book given **asin, title, description, price, imUrl, author, related, categories**
+**GET** ```/api/book/getallbooks``` - retrieves the last 500 books<br /> 
+**POST** ```/api/book/applyfilter``` - returns books given **filter**<br />  
+**GET** ```/api/book/getbook``` - returns a book given book **asin**<br /> 
+**POST** ```/api/book/addbook``` - adds a new book given **asin, title, description, price, imUrl, author, related, categories**
 
 **Log API**<br /> 
-POST ```/api/book/addlog/:id``` - adds to log for each returned ```res.status```:<br />  
+**POST** ```/api/book/addlog/:id``` - adds to log for each returned ```res.status```:<br />  
 -```200``` Success + success message<br /> 
 -```400``` Syntax Error + error message<br />  
 -```404``` Server Error + error message
 
 **Reviews APIs**\
-GET ```/getBookReviews/:id``` -  get book reviews of a particular book given **asin**\
-DELETE ```/deleteBookReview```- delete book review given **asin, reviewerID**\
-POST ```/addReview``` - add book review given **asin, helpful, overall, reviewText, reviewTime, reviewerID, reviewerName, summary, unixReviewTime**\
-POST ```/updateReview``` - update book review given **reviewText, reviewTime, summary, unixReviewTime, asin, reviewerID**
+**GET** ```/getBookReviews/:id``` -  get book reviews of a particular book given **asin**\
+**DELETE** ```/deleteBookReview```- delete book review given **asin, reviewerID**\
+**POST** ```/addReview``` - add book review given **asin, helpful, overall, reviewText, reviewTime, reviewerID, reviewerName, summary, unixReviewTime**\
+**POST** ```/updateReview``` - update book review given **reviewText, reviewTime, summary, unixReviewTime, asin, reviewerID**
 
 **Authentication APIs**\
-POST ```/api/account/signup``` - creates a new account given **email, firstname, lastName, password**\
-POST ```/api/account/signin``` - signs in to existing account given **email, password**\
-GET ```/api/account/verify``` - verfies account given **token**\
-GET ```/api/account/logout``` - logs out of account given **token**
+**POST** ```/api/account/signup``` - creates a new account given **email, firstname, lastName, password**\
+**POST** ```/api/account/signin``` - signs in to existing account given **email, password**\
+**GET** ```/api/account/verify``` - verfies account given **token**\
+**GET** ```/api/account/logout``` - logs out of account given **token**
 
 ## Analytics 
 ### Pearson Correlation 
-![pearson](./screenshots/pearson.png)
+![pearson](./screenshots/pearson.png)\
 We used sqoop to implement SQL data in praquet format and mongoDB connector for spark to import mongoDB data. We then used pandas dataframes and implemented map reduce to calculate the pearson correlation value.  
 
 ### TF-IDF 
