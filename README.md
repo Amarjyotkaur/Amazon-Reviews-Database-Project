@@ -222,7 +222,7 @@ REST APIS of ```GET, POST, UPDATE, DELETE``` are implemented, front-end implemen
 -```400``` Syntax Error + error message<br />
 -```404``` Server Error + error message
 The logs structure is as follow:
-![mongo](./screenshots/mongo.png)\
+<img src="./screenshots/mongo.png" width="300" height="200">\
 
 **Reviews APIs**\
 **GET** ```/getBookReviews/:id``` -  get book reviews of a particular book given **asin**\
@@ -238,7 +238,7 @@ The logs structure is as follow:
 
 ## Analytics 
 ### Pearson Correlation 
-<img src="./screenshots/pearson.png" width="300" height="200">\
+<img src="./screenshots/pearson.png" width="200" height="200">\
 We used sqoop to implement SQL data in praquet format and mongoDB connector for spark to import mongoDB data. We then used pandas dataframes and implemented map reduce to calculate the pearson correlation value.  
 ```
 n = df.count()
