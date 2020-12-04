@@ -66,15 +66,22 @@ After entering the key name, it will automatically spin up 7 EC2 Instances and 1
 ![CloudFormation_Template](./screenshots/cloudformation.PNG)
 
 > 1x MongoDB Server
+>
 > 1x MySQL Server
+>
 > 1x WebServer Server
+>
 > 1x NameNode Server
+>
 > 3x DataNode Server
+>
 > 1x Security Group (TCP Port Access)
 
 The scripts for the MongoDB, MySQL and WebServer will run in parallel for efficient deployment. The total run time is dependent on how fast the CloudFormation spins these 7 + 1 assets. I have pinged the Cloudformation status every 10 seconds to check on the creation of assets. On average, the time taken to deploy the FrontEnd + BackEnd takes about ```7 minutes```.
 > [MongoDB](./scripts/mongo_script) -- Download a scrapped version of metadatas with Title and Authors from Google Drive. The scrapped version was ran on a multi-threaded BS4 script. Refer [here](./scripts/webscrape_script/). An admin user was created with a collection called "admin" to store the metadatas
+>
 > [MySQL](./scripts/mysql_script) -- Download the original version and store it into the SQL server. An admin user was created with a table of "kindle_reviews"
+>
 > [WebServer](./scripts/webserver_script) -- Cloning of GitHub Repo and launching with NodeJS
 
 The output of the web address can be found a little above the Node Deployment at:
