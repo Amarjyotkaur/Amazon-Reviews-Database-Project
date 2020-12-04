@@ -133,7 +133,7 @@ After hitting enter, the uninstall process will take an average of ```10 seconds
 Displays books paginated in books of 30 in a single page. Book objects are created in card view and an overlay is applied to each book that displays the the title and a short discription of the book.
 
 **Reviews Page**\
-<img src="./screenshots/review.PNG" width="300" height="200">\
+<img src="./screenshots/review.png" width="300" height="200">\
 Displays book title, summary, description, price, average rating and reviews of the book. Users are able to add a new review to the book. If user has previously added a review to the book, he/she will be disallowed a second review. 
 
 ## FrontEnd
@@ -143,10 +143,10 @@ We have implemented the following functions:<br />
 **Registration** - allows users to sign up with their first name, last name, email and password<br /> 
 **Log in** - allows users to to log in with their email and password<br /> 
 **Filter** - allows users to filter books based on common categories, users may choose up to all or none<br /> 
-![filterbook](./screenshots/filterbook.png)\
+<img src="./screenshots/filterbook.png" width="200" height="300">\
 **Search** - allows users to search books based on exact asin, title or author.<br />
 **Add Book** - pop-up modal that allows users to navigate between adding a new book and returning to the main page<br /> 
-![addbook](./screenshots/addbook.png)\
+<img src="./screenshots/addbook.png" width="200" height="300">\
 **Add Review** - pop-up modal that allows users to navigate between adding a new review and returning to the main page<br /> 
 
 ## BackEnd
@@ -238,7 +238,7 @@ The logs structure is as follow:
 
 ## Analytics 
 ### Pearson Correlation 
-![pearson](./screenshots/pearson.png)\
+<img src="./screenshots/pearson.png" width="300" height="200">\
 We used sqoop to implement SQL data in praquet format and mongoDB connector for spark to import mongoDB data. We then used pandas dataframes and implemented map reduce to calculate the pearson correlation value.  
 ```
 n = df.count()
