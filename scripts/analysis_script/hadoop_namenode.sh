@@ -97,16 +97,11 @@ echo -e "<?xml version=\"1.0\"?>
 
 
 rm hadoop-3.3.0/etc/hadoop/workers
-echo $MASTER
-echo $WORKERS
 for ip in ${WORKERS}; do echo -e ${ip} >> hadoop-3.3.0/etc/hadoop/workers ; done
-# for ip in ${WORKERS}; do echo -e ${ip} >> hadoop-3.3.0/etc/hadoop/workers ; done
 tar czvf hadoop-3.3.0.tgz hadoop-3.3.0
-echo $WORKERS
 for h in $WORKERS ; do
 scp -o StrictHostKeyChecking=no hadoop-3.3.0.tgz $h:.;
 done;
-echo "Moving To Sudo MV HADOOP OPT"
 sudo mv hadoop-3.3.0 /opt/
 
 exit
