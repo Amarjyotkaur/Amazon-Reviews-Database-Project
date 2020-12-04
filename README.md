@@ -46,9 +46,13 @@ cd ~/AmaNerdBookReview/scripts/
 ```
 Run ```main.sh``` with ```sudo```:
 > Use ```sudo ./main.sh -h``` for Help
+>
 > Use ```sudo ./main.sh -i``` for Immediate Installation of FrontEnd + BackEnd
+>
 > Use ```sudo ./main.sh -a``` for About
+>
 > Use ```sudo ./main.sh -d``` for Analytics installation (Only Run After Getting EC2 Instance IPs from -i)
+>
 > Use ```sudo ./main.sh -u``` for Uninstalling
 
 On first launch, it will install ```unzip```,```jq```,```AWS-CLI``` and then prompt you for your AWS Credientials, follow the on-screen instruction. Do take note for any default region, it will be ```us-east-1```. Unique key name can be any user defined name.
@@ -88,7 +92,9 @@ sudo ./main.sh -d
 ```
 After hitting enter, the entire process will take an average of ```15 minutes```.
 > The analytics scripts can be found [here](./scripts/analysis_script).
+>
 > There are 1 NameNode(fury) and 3 DataNodes(hulk,ironman,capt). 
+>
 > The setting up of the namenode and datanodes starts off by installing and configuring all the required security settings for SSH and communication between the nodes. All nodes have a super user called ```hadoop``` where it will execute all the commands for file injestion and analytics. Once Hadoop(program) is installed and configured in all the nodes, the script will then install Sqoop for data injestion from the SQL data that was being spun. And finally Spark is installed for the export and analytics for the MongoDB data.
 
 
@@ -105,9 +111,13 @@ sudo ./main.sh -u
 After hitting enter, the uninstall process will take an average of ```10 seconds```.
 
 > The removal script can be found [here](./scripts/remove.sh).
+>
 > First it installs ```jq``` for detecting of the unique keyName used for the setting up of AmaNerdBookReview
+>
 > Then it will proceed to delete both the ***public and private key*** of the unique keyName from the local EC2 machine and AWS servers
+>
 > Finally it will delete the ***entire CloudFormation Stack***
+>
 > And don't forget, A Book A Day, Keeps The F's Away
 
 ## Preview
