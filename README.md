@@ -9,11 +9,10 @@
   + [Data Analytics](#data-analytics)
 * [Preview](#Preview)
 * [FrontEnd](#FrontEnd)
-* [BackEnd](#BackEnd)
-* [Analytics](#Analytics)
-  + [Approach](#Approach)
-    - [Correlation](#)
-    - [TF-IDF](#)
+* [BackEnd](#backend)
+* [Analytics](#analytics)
+    + [Correlation](#pearson-correlation)
+    + [TF-IDF](#tf-idf)
 ## Prerequisites
 - [AWS Account](https://aws.amazon.com/account/) || [AWS EC2 Instance](https://aws.amazon.com/ec2/) || AWS EC2 AMI - `ami-0f82752aa17ff8f5d`
 
@@ -219,9 +218,9 @@ REST APIS of ```GET, POST, UPDATE, DELETE``` are implemented, front-end implemen
 **POST** ```/api/book/addlog/:id``` - adds to log for each returned ```res.status```:<br />  
 -```200``` Success + success message<br /> 
 -```400``` Syntax Error + error message<br />
--```404``` Server Error + error message
-The logs structure is as follow:
-<img src="./screenshots/mongo.png" width="300" height="200">\
+-```404``` Server Error + error message\
+The logs structure is as follow:\
+<img src="./screenshots/mongo.png" width="300" height="200">
 
 **Reviews APIs**\
 **GET** ```/getBookReviews/:id``` -  get book reviews of a particular book given **asin**\
