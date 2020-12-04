@@ -10,9 +10,6 @@
 * [Preview](#Preview)
 * [FrontEnd](#FrontEnd)
 * [BackEnd](#BackEnd)
-* [Automation](#automation)
-  + [Design](#design-1)
-  + [Use Flow](#use-flow)
 * [Analytics](#Analytics)
   + [Approach](#Approach)
     - [Correlation](#)
@@ -146,11 +143,11 @@ Displays book title, summary, description, price, average rating and reviews of 
 ## FrontEnd
 We have leveraged on React framework coupled with Bootstrap for the front-end design. We have also relied mostly on MDBreact components to help with forms, buttons and modal componenets. 
 
-We have implemented the following functions: 
+We have implemented the following functions:<br />
 **Registration** - allows users to sign up with their first name, last name, email and password<br /> 
 **Log in** - allows users to to log in with their email and password<br /> 
 **Filter** - allows users to filter books based on common categories, users may choose up to all or none<br /> 
-**Search** - allows users to search books based on exact asin, title or author.
+**Search** - allows users to search books based on exact asin, title or author.<br />
 **Add Book** - pop-up modal that allows users to navigate between adding a new book and returning to the main page<br /> 
 **Add Review** - pop-up modal that allows users to navigate between adding a new review and returning to the main page<br /> 
 
@@ -238,6 +235,15 @@ POST ```/api/account/signup``` - creates a new account given **email, firstname,
 POST ```/api/account/signin``` - signs in to existing account given **email, password**\
 GET ```/api/account/verify``` - verfies account given **token**\
 GET ```/api/account/logout``` - logs out of account given **token**
+
+## Analytics 
+### Pearson Correlation 
+![pearson](./screenshots/pearson.png)
+We used sqoop to implement SQL data in praquet format and mongoDB connector for spark to import mongoDB data. We then used pandas dataframes and implemented map reduce to calculate the pearson correlation value.  
+
+### TF-IDF 
+We converted the SQL data into csv, installed dependencies such as pyarrow and pyspark. After running the TF-IDF function, there are 4 files being output. 
+
 
 ## Reference
 I wish there was a reference. The only reference was the PDF in labs to set up Hadoop || Spark || Sqoop || StackOverFlow
