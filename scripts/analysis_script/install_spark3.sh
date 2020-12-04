@@ -16,9 +16,13 @@ pip install pyspark
 
 kindleReviewFileName=$(hdfs dfs -stat "%n" /user/hadoop/kindle_reviews/*.parquet)
 
-
+sudo tee ~/convert.py << EOF
 df = spark.read.parquet("/user/hadoop/kindle_reviews/${kindleReviewFileName}")
 df.write.csv("output.csv")
+EOF
+
+cat ~/convert.py | ./pyspark --conf "spark.mongodb.input.uri=mongodb://${MONGO}/admin.metadatas?readPreference=primaryPreferred" --conf "spark.mongodb.output.uri=mongodb://${MONGO}/admin.metadatas" --packages org.mongodb.spark:mongo-spark-connector_2.12:3.0.0
+
 
 sudo tee ~/tf.py << EOF
 import os
