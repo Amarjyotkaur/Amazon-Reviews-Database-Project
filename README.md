@@ -222,7 +222,7 @@ REST APIS of ```GET, POST, UPDATE, DELETE``` are implemented, front-end implemen
 -```400``` Syntax Error + error message<br />
 -```404``` Server Error + error message\
 The logs structure is as follow:\
-<img src="./screenshots/mongo.png" width="300" height="200">
+<img src="./screenshots/mongo.png" width="300" height="400">
 
 **Reviews APIs**\
 **GET** ```/getBookReviews/:id``` -  get book reviews of a particular book given **asin**\
