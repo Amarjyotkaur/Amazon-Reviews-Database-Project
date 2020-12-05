@@ -123,59 +123,59 @@ function installation() {
 
 function analysis() {
     PUBLIC_IPS=($(python3 ./ec2_script/findOutput.py))
-    echo Your Mongo Public IP is ${PUBLIC_IPS[0]}
-    echo Your MySQL Public IP is ${PUBLIC_IPS[1]}
-    echo Your WebServer Public IP is ${PUBLIC_IPS[2]}
-    echo Your NameNode Public IP is ${PUBLIC_IPS[3]}
-    echo Your DataNode1 Public IP is ${PUBLIC_IPS[4]}
-    echo Your DataNode2 Public IP is ${PUBLIC_IPS[5]}
-    echo Your DataNode3 Public IP is ${PUBLIC_IPS[6]}
-    echo Your NameNodeP Public IP is ${PUBLIC_IPS[7]}
-    echo Your DataNode1P Public IP is ${PUBLIC_IPS[8]}
-    echo Your DataNode2P Public IP is ${PUBLIC_IPS[9]}
-    echo Your DataNode3P Public IP is ${PUBLIC_IPS[10]}
+    # echo Your Mongo Public IP is ${PUBLIC_IPS[0]}
+    # echo Your MySQL Public IP is ${PUBLIC_IPS[1]}
+    # echo Your WebServer Public IP is ${PUBLIC_IPS[2]}
+    # echo Your NameNode Public IP is ${PUBLIC_IPS[3]}
+    # echo Your DataNode1 Public IP is ${PUBLIC_IPS[4]}
+    # echo Your DataNode2 Public IP is ${PUBLIC_IPS[5]}
+    # echo Your DataNode3 Public IP is ${PUBLIC_IPS[6]}
+    # echo Your NameNodeP Public IP is ${PUBLIC_IPS[7]}
+    # echo Your DataNode1P Public IP is ${PUBLIC_IPS[8]}
+    # echo Your DataNode2P Public IP is ${PUBLIC_IPS[9]}
+    # echo Your DataNode3P Public IP is ${PUBLIC_IPS[10]}
 
-    # Configure Analysis
+    # # Configure Analysis
 
-    # Configure Hadoop User
-    echo "Setting Up NameNode"
-    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[3]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/start_namenode.sh
-    echo "Setting Up DataNode1"
-    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[4]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/start_datanode.sh &
-    echo "Setting Up DataNode2"
-    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[5]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/start_datanode.sh &
-    echo "Setting Up DataNode3"
-    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[6]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/start_datanode.sh &
-    
-    # ## Authorizing SSH
+    # # Configure Hadoop User
     # echo "Setting Up NameNode"
-    wait
-    ssh ubuntu@${PUBLIC_IPS[3]} -i ./key.pem "sudo cat /home/hadoop/.ssh/id_rsa.pub" | ssh ubuntu@${PUBLIC_IPS[3]} -i ./key.pem "sudo cat - | sudo tee -a /home/hadoop/.ssh/authorized_keys"
-    ssh ubuntu@${PUBLIC_IPS[3]} -i ./key.pem "sudo cat /home/hadoop/.ssh/id_rsa.pub" | ssh ubuntu@${PUBLIC_IPS[4]} -i ./key.pem "sudo cat - | sudo tee -a /home/hadoop/.ssh/authorized_keys"
-    ssh ubuntu@${PUBLIC_IPS[3]} -i ./key.pem "sudo cat /home/hadoop/.ssh/id_rsa.pub" | ssh ubuntu@${PUBLIC_IPS[5]} -i ./key.pem "sudo cat - | sudo tee -a /home/hadoop/.ssh/authorized_keys"
-    ssh ubuntu@${PUBLIC_IPS[3]} -i ./key.pem "sudo cat /home/hadoop/.ssh/id_rsa.pub" | ssh ubuntu@${PUBLIC_IPS[6]} -i ./key.pem "sudo cat - | sudo tee -a /home/hadoop/.ssh/authorized_keys"
+    # ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[3]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/start_namenode.sh
+    # echo "Setting Up DataNode1"
+    # ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[4]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/start_datanode.sh &
+    # echo "Setting Up DataNode2"
+    # ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[5]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/start_datanode.sh &
+    # echo "Setting Up DataNode3"
+    # ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[6]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/start_datanode.sh &
+    
+    # # ## Authorizing SSH
+    # # echo "Setting Up NameNode"
+    # wait
+    # ssh ubuntu@${PUBLIC_IPS[3]} -i ./key.pem "sudo cat /home/hadoop/.ssh/id_rsa.pub" | ssh ubuntu@${PUBLIC_IPS[3]} -i ./key.pem "sudo cat - | sudo tee -a /home/hadoop/.ssh/authorized_keys"
+    # ssh ubuntu@${PUBLIC_IPS[3]} -i ./key.pem "sudo cat /home/hadoop/.ssh/id_rsa.pub" | ssh ubuntu@${PUBLIC_IPS[4]} -i ./key.pem "sudo cat - | sudo tee -a /home/hadoop/.ssh/authorized_keys"
+    # ssh ubuntu@${PUBLIC_IPS[3]} -i ./key.pem "sudo cat /home/hadoop/.ssh/id_rsa.pub" | ssh ubuntu@${PUBLIC_IPS[5]} -i ./key.pem "sudo cat - | sudo tee -a /home/hadoop/.ssh/authorized_keys"
+    # ssh ubuntu@${PUBLIC_IPS[3]} -i ./key.pem "sudo cat /home/hadoop/.ssh/id_rsa.pub" | ssh ubuntu@${PUBLIC_IPS[6]} -i ./key.pem "sudo cat - | sudo tee -a /home/hadoop/.ssh/authorized_keys"
 
-    ## Configure Hadoop User
-    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[3]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/hadoop_namenode.sh
-    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[4]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/hadoop_datanode.sh &
-    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[5]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/hadoop_datanode.sh &
-    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[6]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/hadoop_datanode.sh &
-    wait
+    # ## Configure Hadoop User
+    # ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[3]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/hadoop_namenode.sh
+    # ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[4]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/hadoop_datanode.sh &
+    # ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[5]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/hadoop_datanode.sh &
+    # ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[6]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/hadoop_datanode.sh &
+    # wait
 
-    # Start Hadoop From NameNode
-    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[3]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/launch_hadoop.sh
+    # # Start Hadoop From NameNode
+    # ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[3]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/launch_hadoop.sh
 
-    # Install SQOOP
-    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[3]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/install_sqoop.sh
+    # # Install SQOOP
+    # ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[3]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/install_sqoop.sh
 
-    # Install Spark
-    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[3]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/install_spark.sh
-    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[4]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/install_dataSpark.sh &
-    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[5]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/install_dataSpark.sh &
-    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[6]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/install_dataSpark.sh &
-    wait
-    # # Start Spark
-    ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[3]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/install_spark2.sh
+    # # Install Spark
+    # ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[3]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/install_spark.sh
+    # ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[4]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/install_dataSpark.sh &
+    # ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[5]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/install_dataSpark.sh &
+    # ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[6]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/install_dataSpark.sh &
+    # wait
+    # # # Start Spark
+    # ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[3]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/install_spark2.sh
     ssh -o StrictHostKeyChecking=no ubuntu@${PUBLIC_IPS[3]} -i ./key.pem 'MONGOIP='${PUBLIC_IPS[0]}' MYSQLIP='${PUBLIC_IPS[1]}' WEBSERVERIP='${PUBLIC_IPS[2]}' NAMENODE='${PUBLIC_IPS[3]}' DATANODE1='${PUBLIC_IPS[4]}' DATANODE2='${PUBLIC_IPS[5]}' DATANODE3='${PUBLIC_IPS[6]}' NAMENODEP='${PUBLIC_IPS[7]}' DATANODE1P='${PUBLIC_IPS[8]}' DATANODE2P='${PUBLIC_IPS[9]}' DATANODE3P='${PUBLIC_IPS[10]}' bash -s' <./analysis_script/install_spark3.sh
 }
 
