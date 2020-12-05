@@ -3,6 +3,7 @@
 echo "Running on WebServer..."
 echo "Setting Up WebServer"
 echo "Installing NodeJS"
+sudo apt update
 sudo apt-get update
 sudo apt-get -y install npm
 curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -

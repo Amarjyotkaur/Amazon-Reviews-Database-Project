@@ -60,22 +60,22 @@ sudo ./main.sh -i
 After entering the key name, it will automatically spin up 7 EC2 Instances and 1 Security Group.
 ![CloudFormation_Template](./screenshots/cloudformation.PNG)
 
-> 1x MongoDB Server
+> 1x MongoDB Server (T2.medium)
 >
-> 1x MySQL Server
+> 1x MySQL Server (T2.medium)
 >
-> 1x WebServer Server
+> 1x WebServer Server (T2.medium)
 >
-> 1x NameNode Server
+> 1x NameNode Server (T2.xlarge)
 >
-> 3x DataNode Server
+> 3x DataNode Server (T2.xlarge)
 >
 > 1x Security Group (TCP Port Access)
 
 The scripts for the MongoDB, MySQL and WebServer will run in parallel for efficient deployment. The total run time is dependent on how fast the CloudFormation spins these 7 + 1 assets. I have pinged the Cloudformation status every 10 seconds to check on the creation of assets. On average, the time taken to deploy the FrontEnd + BackEnd takes about ```7 minutes```.
-> [MongoDB](./scripts/mongo_script) -- Download a scrapped version of metadatas with Title and Authors from Google Drive. The scrapped version was ran on a multi-threaded BS4 script. Refer [here](./scripts/webscrape_script/). An admin user was created with a collection called "admin" to store the metadatas
+> [MongoDB](./scripts/mongo_script/mongoDB.sh) -- Download a scrapped version of metadatas with Title and Authors from Google Drive. The scrapped version was ran on a multi-threaded BS4 script. Refer [here](./scripts/webscrape_script/multithread_scrape.py). An admin user was created with a collection called "admin" to store the metadatas
 >
-> [MySQL](./scripts/mysql_script) -- Download the original version and store it into the SQL server. An admin user was created with a table of "kindle_reviews"
+> [MySQL](./scripts/mysql_script/mysql.sh) -- Download the original version and store it into the SQL server. An admin user was created with a table of "kindle_reviews"
 >
 > [WebServer](./scripts/webserver_script) -- Cloning of GitHub Repo and launching with NodeJS
 
@@ -139,13 +139,17 @@ We have leveraged on React framework coupled with Bootstrap for the front-end de
 
 We have implemented the following functions:<br />
 **Registration** - allows users to sign up with their first name, last name, email and password<br /> 
+<img src="./screenshots/signup.png">\
 **Log in** - allows users to to log in with their email and password<br /> 
+<img src="./screenshots/signin.png">\
 **Filter** - allows users to filter books based on common categories, users may choose up to all or none<br /> 
 <img src="./screenshots/filterbook.png" width="200" height="300">\
 **Search** - allows users to search books based on exact asin, title or author.<br />
+<img src="./screenshots/search.png">\
 **Add Book** - pop-up modal that allows users to navigate between adding a new book and returning to the main page<br /> 
 <img src="./screenshots/addbook.png" width="200" height="300">\
 **Add Review** - pop-up modal that allows users to navigate between adding a new review and returning to the main page<br /> 
+<img src="./screenshots/addreview.png" width="200" height="300">\
 
 ## BackEnd
 ### Database  

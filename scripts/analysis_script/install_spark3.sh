@@ -13,8 +13,8 @@ python -m pip install --upgrade pip
 pip install --upgrade setuptools
 pip install pyarrow
 pip install pyspark
-sudo apt-get install python3-numpy
-sudo apt-get install python3-pandas
+sudo apt-get install -y python3-numpy
+sudo apt-get install -y python3-pandas
 
 kindleReviewFileName=$(hdfs dfs -stat "%n" /user/hadoop/kindle_reviews/*.parquet)
 
