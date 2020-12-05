@@ -152,11 +152,9 @@ We have implemented the following functions:<br />
 **MongoDB**\
 Retrieve Book metadata: 
 ```
-wget -c https://istd50043.s3-ap-southeast-1.amazonaws.com/kindle-reviews.zip -O kindle-reviews.zip
-unzip kindle-reviews.zip
-rm -rf kindle_reviews.json
+wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1PtXR90YPDpapAyCpPllYLKUkJcjiSXXY' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1PtXR90YPDpapAyCpPllYLKUkJcjiSXXY" -O meta_Kindle_Store.json && rm -rf /tmp/cookies.txt
 ```
-MongoDB is setup to store books metadata, user details and user sessions. On top of the give books metadata, we ran a webscrape script using beautiful soup to scrape existing books' title and author stored in a csv file. The scrape function was being parallelized to increase throughput. 
+MongoDB is setup to store books metadata, user details and user sessions. On top of the given books metadata, we ran a webscrape script using beautiful soup to scrape existing books' title and author stored in a csv file. The scrape function was being parallelized to increase throughput. The scrapped metadata is then stored onto a Google Drive for easy downloading.
 
 Appending the books' title and author directly onto mongoDB would result in it throwing a timeout error. Hence, the new information obtained is appeded to the existing books metadata in json format. Since the metadata file is not a valid json document, ```json.loads()``` would not work, instead ```ast.literal_eval()``` is used to evaluate the input expression. 
 
