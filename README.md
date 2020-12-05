@@ -9,12 +9,10 @@
   + [Data Analytics](#data-analytics)
 * [Preview](#Preview)
 * [FrontEnd](#FrontEnd)
-* [BackEnd](#BackEnd)
-* [Analytics](#Analytics)
-  + [Approach](#Approach)
-    - [Correlation](#)
-    - [TF-IDF](#)
-* [Reference](#Reference)
+* [BackEnd](#backend)
+* [Analytics](#analytics)
+    + [Correlation](#pearson-correlation)
+    + [TF-IDF](#tf-idf)
 ## Prerequisites
 - [AWS Account](https://aws.amazon.com/account/) || [AWS EC2 Instance](https://aws.amazon.com/ec2/) || AWS EC2 AMI - `ami-0f82752aa17ff8f5d`
 
@@ -133,7 +131,7 @@ After hitting enter, the uninstall process will take an average of ```10 seconds
 Displays books paginated in books of 30 in a single page. Book objects are created in card view and an overlay is applied to each book that displays the the title and a short discription of the book.
 
 **Reviews Page**\
-<img src="./screenshots/review.PNG" width="300" height="200">\
+<img src="./screenshots/review.png" width="300" height="200">\
 Displays book title, summary, description, price, average rating and reviews of the book. Users are able to add a new review to the book. If user has previously added a review to the book, he/she will be disallowed a second review. 
 
 ## FrontEnd
@@ -143,10 +141,10 @@ We have implemented the following functions:<br />
 **Registration** - allows users to sign up with their first name, last name, email and password<br /> 
 **Log in** - allows users to to log in with their email and password<br /> 
 **Filter** - allows users to filter books based on common categories, users may choose up to all or none<br /> 
-![filterbook](./screenshots/filterbook.png)\
+<img src="./screenshots/filterbook.png" width="200" height="300">\
 **Search** - allows users to search books based on exact asin, title or author.<br />
 **Add Book** - pop-up modal that allows users to navigate between adding a new book and returning to the main page<br /> 
-![addbook](./screenshots/addbook.png)\
+<img src="./screenshots/addbook.png" width="200" height="300">\
 **Add Review** - pop-up modal that allows users to navigate between adding a new review and returning to the main page<br /> 
 
 ## BackEnd
@@ -154,11 +152,9 @@ We have implemented the following functions:<br />
 **MongoDB**\
 Retrieve Book metadata: 
 ```
-wget -c https://istd50043.s3-ap-southeast-1.amazonaws.com/kindle-reviews.zip -O kindle-reviews.zip
-unzip kindle-reviews.zip
-rm -rf kindle_reviews.json
+wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1PtXR90YPDpapAyCpPllYLKUkJcjiSXXY' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1PtXR90YPDpapAyCpPllYLKUkJcjiSXXY" -O meta_Kindle_Store.json && rm -rf /tmp/cookies.txt
 ```
-MongoDB is setup to store books metadata, user details and user sessions. On top of the give books metadata, we ran a webscrape script using beautiful soup to scrape existing books' title and author stored in a csv file. The scrape function was being parallelized to increase throughput. 
+MongoDB is setup to store books metadata, user details and user sessions. On top of the given books metadata, we ran a webscrape script using beautiful soup to scrape existing books' title and author stored in a csv file. The scrape function was being parallelized to increase throughput. The scrapped metadata is then stored onto a Google Drive for easy downloading.
 
 Appending the books' title and author directly onto mongoDB would result in it throwing a timeout error. Hence, the new information obtained is appeded to the existing books metadata in json format. Since the metadata file is not a valid json document, ```json.loads()``` would not work, instead ```ast.literal_eval()``` is used to evaluate the input expression. 
 
@@ -220,9 +216,9 @@ REST APIS of ```GET, POST, UPDATE, DELETE``` are implemented, front-end implemen
 **POST** ```/api/book/addlog/:id``` - adds to log for each returned ```res.status```:<br />  
 -```200``` Success + success message<br /> 
 -```400``` Syntax Error + error message<br />
--```404``` Server Error + error message
-The logs structure is as follow:
-![mongo](./screenshots/mongo.png)\
+-```404``` Server Error + error message\
+The logs structure is as follow:\
+<img src="./screenshots/mongo.png" width="300" height="200">
 
 **Reviews APIs**\
 **GET** ```/getBookReviews/:id``` -  get book reviews of a particular book given **asin**\
@@ -238,7 +234,7 @@ The logs structure is as follow:
 
 ## Analytics 
 ### Pearson Correlation 
-![pearson](./screenshots/pearson.png)\
+<img src="./screenshots/pearson.png" width="200" height="200">\
 We used sqoop to implement SQL data in praquet format and mongoDB connector for spark to import mongoDB data. We then used pandas dataframes and implemented map reduce to calculate the pearson correlation value.  
 ```
 n = df.count()
@@ -259,12 +255,8 @@ import pandas as pd
 df = pd.read_parquet("~/${kindleReviewFileName}")
 df.to_csv("output.csv")
 ```
-The output of TF-IDF can be found on the NameNode by running the automation script. 
+The output of TF-IDF can be found on the NameNode by running:
 
 ```
 /opt/hadoop-3.3.0/bin/./hdfs dfs -ls /user/hadoop/output.csv
 ```
-
-## Reference
-I wish there was a reference. The only reference was the PDF in labs to set up Hadoop || Spark || Sqoop || StackOverFlow
-
