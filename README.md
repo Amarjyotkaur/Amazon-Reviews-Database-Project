@@ -238,7 +238,7 @@ The logs structure is as follow:\
 
 ## Analytics 
 ### Pearson Correlation 
-<img src="./screenshots/pearson.png" width="300" height="400">\
+<img src="./screenshots/pearson.png" width="400" height="400">\
 We used sqoop to implement SQL data in praquet format and mongoDB connector for spark to import mongoDB data. We then used pandas dataframes and implemented map reduce to calculate the pearson correlation value.  
 ```
 n = df.count()
