@@ -165,7 +165,7 @@ Appending the books' title and author directly onto mongoDB would result in it t
 To upload the modified data to mongoDB: 
 ```mongoimport --db admin --collection metadatas --authenticationDatabase admin --username admin --password password --drop --file '/home/ubuntu/meta_Kindle_Store.json' --legacy```
 
-A typical book structure will like this: 
+A typical book structure looks like this: 
 ```
 -_id: ObjectId
 -asin: String 
