@@ -149,7 +149,7 @@ We have implemented the following functions:<br />
 **Add Book** - pop-up modal that allows users to navigate between adding a new book and returning to the main page<br /> 
 <img src="./screenshots/addbook.png" width="200" height="300">\
 **Add Review** - pop-up modal that allows users to navigate between adding a new review and returning to the main page<br /> 
-<img src="./screenshots/addreview.png" width="200" height="300">\
+<img src="./screenshots/addreview.png" width="200" height="300">
 
 ## BackEnd
 ### Database  
@@ -238,7 +238,7 @@ The logs structure is as follow:\
 
 ## Analytics 
 ### Pearson Correlation 
-<img src="./screenshots/pearson.png" width="200" height="200">\
+<img src="./screenshots/pearson.png" width="300" height="400">\
 We used sqoop to implement SQL data in praquet format and mongoDB connector for spark to import mongoDB data. We then used pandas dataframes and implemented map reduce to calculate the pearson correlation value.  
 ```
 n = df.count()
