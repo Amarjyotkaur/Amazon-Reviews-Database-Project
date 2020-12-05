@@ -89,8 +89,7 @@ if __name__ == "__main__":
         print("Running spark_app.py")
         df_reviews = load_data("output.csv")
         df_tfidf = tfidf_review_text(df_reviews)
-        df_tfidf.write.csv('tfidf_output')
-        # df_tfidf.write.format("csv", sep=",").save("answer/")
+        df_tfidf.write.format("csv").save("answer/")
 EOF
 
 /opt/spark-3.0.1-bin-hadoop3.2/bin/spark-submit --master yarn  ~/tf.py
