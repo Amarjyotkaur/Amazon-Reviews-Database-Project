@@ -260,7 +260,7 @@ df = pd.read_parquet("~/${kindleReviewFileName}")
 df.to_csv("output.csv")
 ```
 The output of TF-IDF can be found on the NameNode by running:
-
+![tfidf](./screenshots/tfidf.jpg)
 ```
 /opt/hadoop-3.3.0/bin/./hdfs dfs -ls /user/hadoop/output.csv
 ```
