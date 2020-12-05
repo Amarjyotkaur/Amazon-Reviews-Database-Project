@@ -215,7 +215,7 @@
             "Type": "AWS::EC2::Instance",
             "Properties": {
                 "ImageId": "ami-0f82752aa17ff8f5d",
-                "InstanceType": "t2.micro",
+                "InstanceType": "t2.medium",
                 "KeyName": "default",
                 "SecurityGroups": [
                     {
@@ -241,7 +241,7 @@
             },
             "Properties": {
                 "ImageId": "ami-0f82752aa17ff8f5d",
-                "InstanceType": "t2.micro",
+                "InstanceType": "t2.medium",
                 "KeyName": "default",
                 "SecurityGroups": [
                     {
@@ -257,7 +257,7 @@
             "Type": "AWS::EC2::Instance",
             "Properties": {
                 "ImageId": "ami-0f82752aa17ff8f5d",
-                "InstanceType": "t2.micro",
+                "InstanceType": "t2.medium",
                 "KeyName": "default",
                 "SecurityGroups": [
                     {
@@ -278,7 +278,7 @@
             "Type": "AWS::EC2::Instance",
             "Properties": {
                 "ImageId": "ami-00ddb0e5626798373",
-                "InstanceType": "t2.medium",
+                "InstanceType": "t2.xlarge",
                 "KeyName": "default",
                 "BlockDeviceMappings": [
                     {
@@ -308,7 +308,7 @@
             "Type": "AWS::EC2::Instance",
             "Properties": {
                 "ImageId": "ami-00ddb0e5626798373",
-                "InstanceType": "t2.medium",
+                "InstanceType": "t2.xlarge",
                 "KeyName": "default",
                 "BlockDeviceMappings": [
                     {
@@ -338,7 +338,7 @@
             "Type": "AWS::EC2::Instance",
             "Properties": {
                 "ImageId": "ami-00ddb0e5626798373",
-                "InstanceType": "t2.medium",
+                "InstanceType": "t2.xlarge",
                 "KeyName": "default",
                 "BlockDeviceMappings": [
                     {
@@ -368,7 +368,7 @@
             "Type": "AWS::EC2::Instance",
             "Properties": {
                 "ImageId": "ami-00ddb0e5626798373",
-                "InstanceType": "t2.medium",
+                "InstanceType": "t2.xlarge",
                 "KeyName": "default",
                 "BlockDeviceMappings": [
                     {
