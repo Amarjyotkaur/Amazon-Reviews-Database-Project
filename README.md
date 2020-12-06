@@ -264,3 +264,4 @@ The output of TF-IDF can be found on the NameNode by running:
 ```
 /opt/hadoop-3.3.0/bin/./hdfs dfs -ls /user/hadoop/output.csv
 ```
+However, due to inefficient time, we are unable to generate the correct results for TF-IDF. The above screenshot is out final output thus far. We are still working on the correct results and will push the correct results in the near future.  
