@@ -31,9 +31,9 @@ This project we have chosen uses the following technologies:
 - [AWS Cloudformation](https://aws.amazon.com/cloudformation/) for creation of security group and instances
 
 ## Setup
-Run this command in the above AMI EC2 Instance: [Will change to public once the term ends (Remove Credientials)]
+Run this command in the above AMI EC2 Instance:
 ```shell
-git clone https://wontonloodle:'Whatever0)'@github.com/tengfone/AmaNerdBookReview.git
+git clone https://github.com/tengfone/AmaNerdBookReview.git
 ```
 Change the directory to scripts folder:
 ```shell
